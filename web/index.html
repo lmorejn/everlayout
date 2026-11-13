@@ -4114,6 +4114,9 @@ function onTextEdit(){
       else if(!(i in np)) np[i]=map[k];
     }); return np; };
   if(dc&&S.pov&&Object.keys(S.pov).length) S.pov=remap(S.pov);
+  // la selección de párrafos sigue a sus párrafos: si no, al insertar uno, los índices apuntarían a los de más abajo
+  if(dc&&S.selmode==='par'&&S.sel>=0){ const mv=i=>{ const P=po[i]; if(!P) return -1; if(P.start+P.text.length<=p) return i; if(P.start>=oEnd) return i+dc; return i; };
+    const ns=mv(S.sel); SELX=SELX.map(mv).filter(i=>i>=0&&i<pn.length&&i!==ns); S.sel=ns>=0&&ns<pn.length?ns:-1; }
   if(dc&&S.pstyleOf&&Object.keys(S.pstyleOf).length) S.pstyleOf=remap(S.pstyleOf);
 }
 
@@ -4300,7 +4303,7 @@ function startOnBlank(anchor){
   S.pbreaks=[...new Set([...(S.pbreaks||[]),start].concat(at<L?[after]:[]))];
   if(S.mode!=='edit'){ S.mode='edit'; syncMode(); }
   S.selmode='par'; syncMode(); setSel(start,start+ph.length,false);
-  changed(); setTimeout(()=>{ const ps=splitParasIdx(TA().value); S.sel=ps.findIndex(P=>P.start===start); changed(); },60);
+  SELX=[]; changed(); setTimeout(()=>{ const ps=splitParasIdx(TA().value); S.sel=ps.findIndex(P=>P.start===start); SELX=[]; changed(); },60);
   toast('Escribe tu párrafo: el texto seleccionado se reemplaza');
 }
 function zoomToSheet(sh,cy){

@@ -2,6 +2,7 @@
 
 ## Sin publicar
 
+- Arreglado: al escribir un párrafo en una página nueva y aplicarle un estilo, el estilo caía también en los párrafos de la página siguiente que estaban seleccionados antes. La selección de párrafos ahora sigue a sus párrafos cuando se insertan o borran otros.
 - Deshacer y Rehacer (Ctrl+Z, Ctrl+Mayús+Z o Ctrl+Y, y el menú Editar) abarcan ahora todo el documento: texto, estilos de párrafo y de página, plantillas, saltos y metadatos, no solo lo escrito.
 - El texto nace en la posición elegida en el estilo de página (por ejemplo, centrado en medio de la página para una portadilla) cuando la página no se llena: la última, la que termina en un salto de página o la que deja mucho blanco. También en la exportación.
 - Carátula: Borrador › Metadatos del texto › Carátula carga una imagen que sale en Previsualización › Libro como cubierta. El libro se abre y se cierra con cubierta, guardas y contracubierta.
