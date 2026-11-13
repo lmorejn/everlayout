@@ -1282,7 +1282,7 @@ const POVROWS=[
  {k:'maxHyph',label:'Guiones seguidos',min:1,max:6,step:1,fmt:v=>v>=6?'sin límite':v},
  {k:'minLast',label:'Última línea mínima',min:0,max:60,step:5,fmt:v=>v+' %'}];
 S.track=S.track||0;
-S.pinL=false; S.pinR=false; S.turn='focus'; S.stock='none'; S.pageSound=true; S.stockGsm=120; S.stockBulk=1.2; S.sigs=0; S.exSheet=''; S.exMarks={crop:true,cutfull:false,bleed:false,reg:true,color:true,gray:true,frame:false,info:true}; S.exSim=false;
+S.pinL=false; S.pinR=false; S.turn='focus'; S.stock='none'; S.pageSound=true; S.stockGsm=120; S.stockBulk=1.2; S.sigs=0; S.exSheet=''; S.exMarks={crop:true,cutfull:false,bleed:false,reg:true,color:true,gray:true,frame:false,info:true}; S.exSim=false; S.typeSound=false; S.typeVol=60; S.typeBellLine=true;
 S.hNames=['Capítulo','Sección','Subsección','Apartado','Inciso','Subinciso']; S.hPage=[true,false,false,false,false,false];
 const DEFAULTS=JSON.parse(JSON.stringify(S));
 let saved={}; try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
@@ -3511,7 +3511,7 @@ function unitMenu(){
 }
 
 /* ---- documentos guardados en este navegador ---- */
-const VIEW_KEYS=['exSim','exSheet','exMarks','pageSound','turn','pinL','pinR','stFold','prefOpen','splash','exFmt','exDpi','exQ','exRaster','pgSel','showKeys','screenDiag','ppiAdj','revBarOff','stSel','zoom','tx','ty','left','right','tabL','tabR','mode','selmode','sel','coin','coinX','coinY','coinSet','coinDoc','coinType','rulers','grid','runit','markers','blurOn','blur','view','layout','pair2','openFit','showTrace','showBind','pilc','noteSel','docId','docSavedSig','docOpen','askDel','noteId'];
+const VIEW_KEYS=['typeSound','typeVol','typeBellLine','exSim','exSheet','exMarks','pageSound','turn','pinL','pinR','stFold','prefOpen','splash','exFmt','exDpi','exQ','exRaster','pgSel','showKeys','screenDiag','ppiAdj','revBarOff','stSel','zoom','tx','ty','left','right','tabL','tabR','mode','selmode','sel','coin','coinX','coinY','coinSet','coinDoc','coinType','rulers','grid','runit','markers','blurOn','blur','view','layout','pair2','openFit','showTrace','showBind','pilc','noteSel','docId','docSavedSig','docOpen','askDel','noteId'];
 const DKEY='justify-lab-docs';
 function dstore(){ try{ const o=JSON.parse(localStorage.getItem(DKEY)||'{}'); o.docs=o.docs||{}; o.recent=(o.recent||[]).filter(id=>o.docs[id]); return o; }catch(e){ return null; } }
 function dstoreSave(o){ try{ localStorage.setItem(DKEY,JSON.stringify(o)); return true; }catch(e){ return false; } }
@@ -4050,6 +4050,42 @@ function pageSound(dur){ if(!S.pageSound) return; try{ ACX=ACX||new (window.Audi
   const mid=ctx.createBiquadFilter(); mid.type='peaking'; mid.frequency.value=1800; mid.Q.value=.8; mid.gain.value=/prensa|reciclado/.test(S.stock)?3:0; // papeles ásperos: más «arena»
   const g=ctx.createGain(); g.gain.value=clamp(Math.sqrt((P.gsm||75)/75),.65,1.35)*.9;
   src.connect(hi); hi.connect(lo); lo.connect(mid); mid.connect(g); g.connect(ctx.destination); src.start(t0); }
+/* ---- máquina de escribir: teclas, espacio, retroceso, retorno de carro y campanilla ---- */
+const TW={ buf:null };
+function twCtx(){ try{ ACX=ACX||new (window.AudioContext||window.webkitAudioContext)(); if(ACX.state==='suspended') ACX.resume(); }catch(e){ return null; }
+  if(!TW.buf){ const sr=ACX.sampleRate, b=ACX.createBuffer(1,sr,sr), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; TW.buf=b; } return ACX; }
+function twOut(ctx){ const g=ctx.createGain(); g.gain.value=Math.pow((S.typeVol??60)/100,1.4)*1.2; g.connect(ctx.destination); return g; }
+function twNoise(ctx,out,t,dur,type,f,q,peak,att,off){ const s=ctx.createBufferSource(); s.buffer=TW.buf; const fl=ctx.createBiquadFilter(); fl.type=type; fl.frequency.value=f; if(q) fl.Q.value=q;
+  const e=ctx.createGain(); e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(peak,t+(att||.0015)); e.gain.exponentialRampToValueAtTime(.0001,t+dur); s.connect(fl); fl.connect(e); e.connect(out); s.start(t,off??Math.random()*.8); s.stop(t+dur+.02); }
+function twTone(ctx,out,t,f,dur,peak){ const o=ctx.createOscillator(); o.type='sine'; o.frequency.value=f; const e=ctx.createGain(); e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(peak,t+.002); e.gain.exponentialRampToValueAtTime(.0001,t+dur); o.connect(e); e.connect(out); o.start(t); o.stop(t+dur+.02); }
+function twKey(kind){ const ctx=twCtx(); if(!ctx) return; const out=twOut(ctx), t=ctx.currentTime+.002, r=()=>.85+Math.random()*.3;
+  if(kind==='space'){ twNoise(ctx,out,t,.09,'lowpass',260*r(),.9,.55); twNoise(ctx,out,t+.004,.03,'bandpass',1400*r(),1.2,.18); twNoise(ctx,out,t+.05,.05,'lowpass',500,.7,.12); return; }
+  if(kind==='back'){ twNoise(ctx,out,t,.02,'highpass',3200,.7,.25); twNoise(ctx,out,t+.045,.02,'highpass',2800,.7,.18); twNoise(ctx,out,t,.06,'lowpass',380,.8,.25); return; }
+  // tecla: chasquido de la palanca, golpe del tipo contra el rodillo y un leve tintineo metálico
+  twNoise(ctx,out,t,.012,'highpass',2600*r(),.7,.35);
+  twNoise(ctx,out,t+.006,.07,'lowpass',420*r(),.9,.6);
+  twNoise(ctx,out,t+.006,.025,'bandpass',1900*r(),2.5,.22);
+  twTone(ctx,out,t+.008,2300+Math.random()*900,.05,.025);
+  twNoise(ctx,out,t+.05+Math.random()*.012,.03,'bandpass',900*r(),1.5,.08); // el tipo vuelve a su sitio
+}
+function twBell(soft){ const ctx=twCtx(); if(!ctx) return; const out=twOut(ctx), t=ctx.currentTime+.003, f=2650, k=soft?.55:1;
+  [[1,.32,1.9],[2.01,.12,1.1],[2.76,.1,.9],[4.1,.05,.5],[5.4,.035,.35]].forEach(([m,a,d])=>twTone(ctx,out,t,f*m,d*1.1,a*k)); twNoise(ctx,out,t,.01,'highpass',5000,.7,.12*k); }
+function twReturn(){ const ctx=twCtx(); if(!ctx) return; const out=twOut(ctx), t=ctx.currentTime+.06, dur=.38+Math.random()*.08;
+  // la palanca del carro: trinquete que se acelera, roce del carro y golpe final contra el tope
+  let x=0, i=0; while(x<dur*.82){ twNoise(ctx,out,t+x,.012,'bandpass',2100+Math.random()*500,3,.16); x+=.034-.018*(x/dur); i++; }
+  const s=ctx.createBufferSource(); s.buffer=TW.buf; const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.Q.value=.8; bp.frequency.setValueAtTime(700,t); bp.frequency.linearRampToValueAtTime(1500,t+dur);
+  const e=ctx.createGain(); e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(.12,t+.05); e.gain.linearRampToValueAtTime(.08,t+dur*.8); e.gain.linearRampToValueAtTime(0,t+dur); s.connect(bp); bp.connect(e); e.connect(out); s.start(t,.1); s.stop(t+dur+.05);
+  twNoise(ctx,out,t+dur,.12,'lowpass',300,.9,.75); twNoise(ctx,out,t+dur,.03,'highpass',2000,.7,.25);
+  twNoise(ctx,out,t+dur+.09,.02,'bandpass',1600,2,.1); }
+let TW_BELL=-1;
+function typewriterKey(e){ if(!S.typeSound||!isMS()||e.ctrlKey||e.metaKey||e.altKey||TA().readOnly) return;
+  if(e.key==='Enter'){ twBell(false); twReturn(); TW_BELL=-1; return; }
+  if(e.key==='Backspace'||e.key==='Delete'){ twKey('back'); return; }
+  if(e.key===' '){ twKey('space'); }
+  else if(e.key.length===1) twKey('key'); else return;
+  // como en la máquina real: la campanilla avisa cuando faltan pocos caracteres para el margen
+  if(S.typeBellLine) requestAnimationFrame(()=>setTimeout(()=>{ const ta=TA(), r=lineForOffset(allLines(),ta.selectionStart); if(!r||!LASTG) return; const l=r.l, cw=(l.px||16)*.6, left=(LASTG.W-(l.endX||0))/cw;
+    if(left<=7&&left>=0&&TW_BELL!==l.s){ TW_BELL=l.s; twBell(true); } },60)); }
 function pageSoundSynth(dur){ if(!S.pageSound) return; try{ ACX=ACX||new (window.AudioContext||window.webkitAudioContext)(); if(ACX.state==='suspended') ACX.resume(); }catch(e){ return; }
   const P=paperNow(), g=P.gsm||80, ctx=ACX, t0=ctx.currentTime+.01, d=dur/1000, sr=ctx.sampleRate;
   const buf=ctx.createBuffer(1,Math.ceil(sr*(d+.25)),sr), ch=buf.getChannelData(0); for(let i=0;i<ch.length;i++) ch[i]=Math.random()*2-1;
@@ -4403,6 +4439,7 @@ function initToolbar(){
     if(c==='-'){ putText(p-2,p,'\u2014'); keycast(['-','-'],'Raya'); return; }
     const before=p>=3?v0[p-3]:'', open=!before||/[\s(\[{\u2014\u00AB¿¡¶\u201C\u2018'-]/.test(before);
     putText(p-2,p,open?'\u00AB':'\u00BB'); keycast(['"','"'],open?'Comilla de apertura':'Comilla de cierre'); });
+  ta.addEventListener('keydown',e=>{ if(!e.repeat||e.key.length===1) typewriterKey(e); });
   ta.addEventListener('keydown',e=>{ if(e.key!=='Backspace'||e.ctrlKey||e.metaKey||e.altKey||e.shiftKey||ta.readOnly) return;
     const p=ta.selectionStart; if(p<1||ta.selectionEnd!==p) return; const r=REVERT[ta.value[p-1]]; if(!r) return;
     e.preventDefault(); putText(p-1,p,r); });
@@ -5033,6 +5070,11 @@ function prefsDialog(){
       <p class="dnote" style="grid-column:1/3;margin:0" id="prefCalNote"></p>
       <div class="calcard" id="prefCard" style="grid-column:1/3"><span>Tarjeta bancaria · 85,6 × 54 mm</span></div>
       <label for="prefCoin">Moneda de referencia</label><select id="prefCoin">${Object.keys(COINS).map(k=>`<option value="${k}">${COINS[k].short} · ${String(COINS[k].mm).replace('.',',')} mm</option>`).join('')}</select>
+    </div>`)+SEC('snd','Sonido',`<div class="dgrid">
+      <label for="prefTw">Máquina de escribir</label><label class="bchk"><input type="checkbox" id="prefTw"><i></i><span>Sonido de teclas en Borrador y Corrección, con campanilla y retorno de carro al pulsar Enter</span></label>
+      <label for="prefTwBell">Campanilla de margen</label><label class="bchk"><input type="checkbox" id="prefTwBell"><i></i><span>Avisar con la campanilla cuando falten pocos caracteres para el final del renglón, como en una máquina real</span></label>
+      <label>Volumen</label><div id="prefTwVol"></div>
+      <span></span><div class="btns" style="margin:0"><button type="button" class="tbtn" id="prefTwTry">Probar</button></div>
     </div>`)+SEC('keys','Atajos de teclado y ratón',`<div class="hklist">${hotkeysHTML()}</div>`));
   S.prefOpen=S.prefOpen||{};
   const secs=[...m.querySelectorAll('.psec')];
@@ -5041,6 +5083,13 @@ function prefsDialog(){
   m.querySelector('#pExpand').addEventListener('click',()=>{ secs.forEach(x=>setOpen(x,true)); persist(); });
   m.querySelector('#pCollapse').addEventListener('click',()=>{ secs.forEach(x=>setOpen(x,false)); persist(); });
   const sp=m.querySelector('#prefSplash'); sp.checked=S.splash!==false; sp.addEventListener('input',()=>{ S.splash=sp.checked; persist(); });
+  { const tw=m.querySelector('#prefTw'), tb=m.querySelector('#prefTwBell'); tw.checked=!!S.typeSound; tb.checked=S.typeBellLine!==false;
+    const syncTw=()=>{ tb.disabled=!tw.checked; m.querySelector('#prefTwTry').disabled=false; };
+    tw.addEventListener('input',()=>{ S.typeSound=tw.checked; persist(); syncTw(); if(tw.checked){ twKey('key'); setTimeout(()=>twKey('key'),120); } });
+    tb.addEventListener('input',()=>{ S.typeBellLine=tb.checked; persist(); });
+    const vs=makeSlider({min:0,max:100,step:5,fine:1,label:'Volumen de la máquina de escribir',get:()=>S.typeVol??60,set:v=>{ S.typeVol=v; persist(); twKey('key'); },fmt:v=>v+' %'}); m.querySelector('#prefTwVol').appendChild(vs.el);
+    m.querySelector('#prefTwTry').addEventListener('click',()=>{ const seq=['key','key','key','space','key','key','key','key']; seq.forEach((k,i)=>setTimeout(()=>twKey(k),i*115+Math.random()*30)); setTimeout(()=>{ twBell(false); twReturn(); },seq.length*115+200); });
+    syncTw(); }
   const pk=m.querySelector('#prefKeys'); pk.checked=!!S.showKeys; pk.addEventListener('input',()=>{ S.showKeys=pk.checked; persist(); if(S.showKeys) keycast([],'Comandos en pantalla activados'); });
   const pd=m.querySelector('#prefDiag'), card=m.querySelector('#prefCard');
   const calUp=()=>{ const r=realZoomInfo(), si=r.si;

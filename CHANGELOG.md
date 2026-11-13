@@ -1,5 +1,9 @@
 # Cambios
 
+## Sin publicar
+
+- Preferencias › Sonido: sonido de máquina de escribir en Borrador y Corrección (teclas, espacio, retroceso; campanilla y retorno de carro con Enter; campanilla de margen opcional; volumen).
+
 ## 0.9.0 «Calderón» — escritorio, primera compilación
 
 - La app web pasa a este repositorio (`web/`) y se empaqueta para Windows con Electron (`desktop/`).
