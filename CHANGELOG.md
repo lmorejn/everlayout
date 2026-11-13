@@ -1,5 +1,9 @@
 # Cambios
 
+## Sin publicar
+
+- El cursor ya no salta al principio del párrafo siguiente al escribir al final de un párrafo (ni con espacios al final).
+
 ## 0.9.0 «Calderón» — primera versión publicada
 
 - Licencia Apache 2.0: se muestra en el instalador y en Ayuda › Acerca de, con las licencias de Harper y de las fuentes incluidas.

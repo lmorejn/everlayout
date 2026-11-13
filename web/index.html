@@ -2185,8 +2185,8 @@ function allLines(){
   const h=panelHosts()[0]; return h&&h._lines?h._lines:[];
 }
 function lineForOffset(lines,off){
-  for(const r of lines) if(off<r.l.e) return r;
-  return lines.length?lines[lines.length-1]:null;
+  let best=null; for(const r of lines){ if(r.l.s<=off) best=r; else break; }
+  return best||(lines.length?lines[0]:null);
 }
 function hitTest(clientX,clientY){
   let best=null,bd=Infinity;
@@ -2225,17 +2225,16 @@ function drawCaret(){
       r.el.appendChild(d);
     });
     if(writable()||b>a){
-      let r=lineForOffset(lines,a), vy=0, vx=null;
-      if(r&&b===a&&(a<r.l.s||a>r.l.e)){ // el cursor está en un párrafo vacío (después de Enter)
-        let pr=null; for(const q of lines){ if(q.l.e<=a) pr=q; else break; }
-        const gap=pr?ta.value.slice(pr.l.e,a):'', nl=(gap.match(/[\n¶]/g)||[]).length, ind=isMS()?3*16:(S.indent*S.size*96/72);
-        if(pr&&nl&&pr.el){ r=pr; vy=nl*pr.l.lh; vx=ind; }
-        else if(!pr&&a<r.l.s&&r.el){ const up=(ta.value.slice(a,r.l.s).match(/\n/g)||[]).length; if(up){ vy=-up*r.l.lh; vx=ind; } }
-      }
+      // el renglón donde está el cursor: el último que empieza antes de él (al final de un párrafo, el mismo renglón, no el siguiente)
+      let r=lineForOffset(lines,a), vy=0, vx=null, dx=0;
+      if(r&&a<r.l.s){ const up=(ta.value.slice(a,r.l.s).match(/\n/g)||[]).length, ind=isMS()?3*16:(S.indent*S.size*96/72); if(up){ vy=-up*r.l.lh; vx=ind; } }
+      else if(r&&a>r.l.e){ const gap=ta.value.slice(r.l.e,a), nl=(gap.match(/[\n¶]/g)||[]).length, ind=isMS()?3*16:(S.indent*S.size*96/72);
+        if(nl){ vy=nl*r.l.lh; vx=ind; } // párrafo vacío después de Enter
+        else dx=(a-r.l.e)*(r.l.sw||4); } // espacios escritos al final del párrafo
       if(r&&r.el){
         const d=document.createElement('div'); d.className='caret';
         if(!writable()) d.style.opacity='0';
-        d.style.left=((vx!=null?vx:lineXAt(r.l,a))-0.8).toFixed(1)+'px'; if(vy) d.style.transform=`translateY(${vy.toFixed(1)}px)`;
+        d.style.left=((vx!=null?vx:lineXAt(r.l,Math.min(a,r.l.e))+dx)-0.8).toFixed(1)+'px'; if(vy) d.style.transform=`translateY(${vy.toFixed(1)}px)`;
         r.el.appendChild(d); if(!anchor) anchor=d;
       }
     }
