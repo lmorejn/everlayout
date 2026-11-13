@@ -1386,7 +1386,7 @@ const REFRESH=[];
 let timer=0;
 let PT=0, LAST_IN=0;
 const typingNow=()=>performance.now()-LAST_IN<700;
-function changed(){ clearTimeout(PT); PT=setTimeout(persist,typingNow()?600:0); clearTimeout(timer); timer=setTimeout(run,(typingNow()&&(S.mode==='draft'||S.mode==='review'))?0:(typingNow()?16:50)); scheduleLint(); }
+function changed(){ if(typeof histSchedule==='function') histSchedule(); clearTimeout(PT); PT=setTimeout(persist,typingNow()?600:0); clearTimeout(timer); timer=setTimeout(run,(typingNow()&&(S.mode==='draft'||S.mode==='review'))?0:(typingNow()?16:50)); scheduleLint(); }
 addEventListener('pagehide',()=>persist()); document.addEventListener('visibilitychange',()=>{ if(document.hidden) persist(); });
 /* ---- corrección con Harper (WebAssembly, sin red una vez descargado) ---- */
 const HARPER={state:'off',linter:null,mod:null,err:'',loadMs:0,lintMs:0,cache:new Map(),lints:[],ranges:[],busy:false,checked:0,skipped:0};
@@ -3877,7 +3877,7 @@ function refreshUI(){
   $('tMarks').checked=S.markers; $('tBlurOn').checked=S.blurOn; $('tView').value=S.view; $('tLayout').value=S.layout; $('tPilc').checked=S.pilc;
   $('startScr').hidden=!!S.docOpen; syncMode(); applyView(); renderNotes(); updateDocTitle();
 }
-function openDocument(after){ S.docOpen=true; S.sel=-1; S.noteSel=0; LASTTEXT=TA().value; AUTOFIT=true; refreshUI(); changed(); if(after) after(); }
+function openDocument(after){ S.docOpen=true; S.sel=-1; S.noteSel=0; LASTTEXT=TA().value; AUTOFIT=true; refreshUI(); changed(); if(after) after(); setTimeout(histReset,0); }
 function newDoc(){
   confirmDiscard(()=>{
     resetDocKeys(); TA().value=''; S.docId=''; S.docName='Sin título'; S.notes=[]; S.pov={};
@@ -5661,10 +5661,24 @@ const MENUS={
   view:[['Tema oscuro','vDark','',()=>isDark()],'-',['Regla','vRule','',()=>S.rulers],['Cuadrícula','vGrid','',()=>S.grid],['Marcadores','vMarks','',()=>S.markers],['Marcas de edición','vPilc','',()=>S.pilc],['Simular encuadernación','vBind','',()=>S.showBind],['Trazado de la plantilla','vTrace','',()=>S.showTrace],['Moneda de referencia (25 ¢)','vCoin','',()=>S.coin],'-',['Ajustar página actual a la vista','vFitP'],['Ajustar ancho a la vista','vFitW'],['Zoom a tamaño real','vReal'],'-',['Barra de controles','togL','T',()=>S.left],['Barra de estadísticas','togR','N',()=>S.right],'-',['Ver barra de estado','vStatus','',()=>!S.sbOff]],
   help:[['Atajos de teclado…','keys'],['Manual de usuario','manual'],'-',['Acerca de Skoxa\'s','about']]
 };
-function editHist(kind){ const ta=TA();
-  if(!ta||ta.readOnly){ toast(kind==='undo'?'No hay nada que deshacer en este modo':'No hay nada que rehacer en este modo'); return; }
-  ta.focus(); const before=ta.value; let ok=false; try{ ok=document.execCommand(kind); }catch(e){}
-  if(!ok||ta.value===before) toast(kind==='undo'?'No hay nada que deshacer':'No hay nada que rehacer'); else ta.dispatchEvent(new Event('input',{bubbles:true})); }
+/* ---- deshacer y rehacer de la aplicación: texto y estilos juntos (instantáneas del documento) ---- */
+const HIST={u:[],r:[],last:null,t:0};
+const HIST_SKIP=new Set(['sel','selmode','mode','tx','ty','zoom','tabL','tabR','left','right','noteSel','docOpen','docId','docSavedSig','selLine','openFit','pgSel']);
+function histSnap(){ const d={}; Object.keys(S).forEach(k=>{ if(!VIEW_KEYS.includes(k)&&!HIST_SKIP.has(k)) d[k]=S[k]; });
+  const img=S.cover&&S.cover.img||''; if(img) d.cover=Object.assign({},S.cover,{img:'#'}); const ta=TA();
+  return {j:JSON.stringify(d),txt:ta.value,img,a:ta.selectionStart,b:ta.selectionEnd}; }
+const histSame=(x,y)=>x&&y&&x.j===y.j&&x.txt===y.txt&&x.img===y.img;
+function histReset(){ clearTimeout(HIST.t); HIST.u=[]; HIST.r=[]; HIST.last=S.docOpen?histSnap():null; }
+function histRecord(){ clearTimeout(HIST.t); if(!S.docOpen) return; const sn=histSnap(); if(!HIST.last){ HIST.last=sn; return; } if(histSame(sn,HIST.last)){ HIST.last.a=sn.a; HIST.last.b=sn.b; return; }
+  HIST.u.push(HIST.last); if(HIST.u.length>200) HIST.u.shift(); HIST.r=[]; HIST.last=sn; }
+function histSchedule(){ clearTimeout(HIST.t); HIST.t=setTimeout(histRecord,typingNow()?600:250); }
+function histRestore(sn){ const d=JSON.parse(sn.j); if(d.cover&&d.cover.img==='#') d.cover.img=sn.img;
+  Object.keys(d).forEach(k=>{ S[k]=d[k]; });
+  const ta=TA(); ta.value=sn.txt; LASTTEXT=sn.txt; EDIT_FROM=-1; try{ ta.setSelectionRange(sn.a,sn.b); }catch(e){}
+  try{ refreshUI(); renderStyles(); renderPageStyles(); renderPageTemplates(); renderOutline&&renderOutline(); }catch(e){} changed(); }
+function editHist(kind){ histRecord(); const from=kind==='undo'?HIST.u:HIST.r, to=kind==='undo'?HIST.r:HIST.u;
+  if(!from.length||!HIST.last){ toast(kind==='undo'?'No hay nada que deshacer':'No hay nada que rehacer'); return; }
+  to.push(HIST.last); HIST.last=from.pop(); histRestore(HIST.last); }
 function applyStatusBar(){ const sb=$('sb'); if(!sb) return; const was=sb.hidden; sb.hidden=!!S.sbOff; if(was!==sb.hidden) dispatchEvent(new Event('resize')); }
 /* atajos definidos por el usuario: combinación → comando de los menús */
 const comboKey=ks=>ks.join('+');
@@ -5877,6 +5891,11 @@ function init(){
     r.onload=()=>{ confirmDiscard(()=>{ resetDocKeys(); TA().value=String(r.result||''); S.docId=''; S.docName=f.name.replace(/\.[^.]+$/,'')||'Sin título'; S.notes=[]; S.pov={}; S.docSavedSig=''; openDocument(); toast('Texto importado: '+f.name+' · aún sin guardar'); }); };
     r.readAsText(f); });
   document.addEventListener('keydown',userKeyDown,true);
+  document.addEventListener('keydown',e=>{ if(!(e.ctrlKey||e.metaKey)||e.altKey) return; const k=e.key.toLowerCase(); if(k!=='z'&&k!=='y') return;
+    const t=e.target; if(t!==TA()&&t&&t.matches&&t.matches('input[type=text],input[type=number],input:not([type]),textarea,[contenteditable]')) return;
+    if(document.querySelector('.modal:not(.float)')) return;
+    e.preventDefault(); e.stopPropagation(); editHist(k==='y'||e.shiftKey?'redo':'undo'); },true);
+  setTimeout(histReset,400);
   // comandos en pantalla para atajos que no anuncian nada por sí mismos
   document.addEventListener('keydown',e=>{
     if(!S.showKeys||e.repeat) return;

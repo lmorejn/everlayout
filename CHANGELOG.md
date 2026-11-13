@@ -2,6 +2,7 @@
 
 ## Sin publicar
 
+- Deshacer y Rehacer (Ctrl+Z, Ctrl+Mayús+Z o Ctrl+Y, y el menú Editar) abarcan ahora todo el documento: texto, estilos de párrafo y de página, plantillas, saltos y metadatos, no solo lo escrito.
 - El texto nace en la posición elegida en el estilo de página (por ejemplo, centrado en medio de la página para una portadilla) cuando la página no se llena: la última, la que termina en un salto de página o la que deja mucho blanco. También en la exportación.
 - Carátula: Borrador › Metadatos del texto › Carátula carga una imagen que sale en Previsualización › Libro como cubierta. El libro se abre y se cierra con cubierta, guardas y contracubierta.
 - Cubierta en Parámetros de encuadernación: material (autocubierta, cartulina estucada, kraft, cartón forrado, tela o guaflex, polipropileno) según la encuadernación, acabado (laminado mate o brillante, soft touch, UV selectivo, estampado dorado, esmerilado…) y color. La cubierta pasa con su propia rigidez.

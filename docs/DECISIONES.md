@@ -33,3 +33,6 @@
 - Una plantilla de página (`S.ptpls`) guarda el estilo de página de una página y la secuencia de estilos de los párrafos que empiezan en ella. Si el estilo de página se borró, se recrea desde la copia guardada en la plantilla.
 - Las cornisas aceptan {doc}, {author}, {chap} y {sec}; capítulo y sección son los títulos de nivel 1 y 2 vigentes al empezar la página.
 
+## Deshacer
+- La aplicación guarda instantáneas del documento (las claves de `S` que no son de vista, más el texto y el cursor) un momento después de cada cambio, hasta 200. Ctrl+Z / Ctrl+Mayús+Z / Ctrl+Y usan esa historia en lugar del deshacer nativo del área de texto, para que texto y estilos se deshagan en el mismo orden. La imagen de la carátula se guarda aparte para no repetirla en cada instantánea.
+
