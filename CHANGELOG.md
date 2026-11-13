@@ -5,6 +5,7 @@
 - El cursor ya no salta al principio del párrafo siguiente al escribir al final de un párrafo (ni con espacios al final).
 - Fuentes del sistema: los selectores de fuente tienen dos grupos, «Fuentes incluidas» y «Fuentes del sistema». La opción «Fuentes del sistema…» pide la lista al sistema (en la app de escritorio, sin preguntar); donde no se puede, deja añadir una fuente instalada por su nombre. El PDF vectorial las incrusta (TrueType y OpenType/CFF); las colecciones .ttc se exportan como imagen.
 - El sonido de máquina de escribir ahora es una grabación real: «Typewriter Sound Effect», de kave_msri, en Pixabay (crédito en Ayuda › Acerca de).
+- Los sonidos grabados (máquina de escribir y paso de página) sonaban con el sintetizado de respaldo cuando el entorno bloqueaba `fetch` de URL `data:`; ahora se decodifican directamente.
 - Tema oscuro: Preferencias › Vista › Tema (automático, claro u oscuro) y Ver › Tema oscuro.
 
 ## 0.9.0 «Calderón» — primera versión publicada
