@@ -489,6 +489,9 @@ figure.pg figcaption{margin:0 0 var(--spacing-2);color:var(--color-text-secondar
 .ln span.w{position:absolute;top:0;white-space:pre;z-index:1}
 .pilc{position:absolute;top:0;color:#b9b4a8;z-index:1}
 .pbmark{position:absolute;left:0;right:0;height:0;border-top:1px dashed #b9b4a8;margin-top:6px;z-index:1;pointer-events:none}
+.jmp{position:absolute;right:0;z-index:3;display:inline-flex;align-items:center;gap:4px;padding:1px 8px;border:1px solid color-mix(in srgb,var(--color-accent) 55%,transparent);border-radius:999px;background:color-mix(in srgb,var(--color-accent) 10%,#fff);color:var(--color-accent);font:500 10px/1.5 var(--font-body,system-ui);cursor:pointer;white-space:nowrap}
+.jmp.from{top:-20px}.jmp:hover{background:color-mix(in srgb,var(--color-accent) 18%,#fff)}
+.bk .jmp{display:none}
 .pbmark span{position:absolute;right:0;top:2px;font:500 9px/1 var(--font-family-sans,system-ui);letter-spacing:.06em;text-transform:uppercase;color:#a29d90}
 .statusbar[hidden]{display:none}
 .uklist{display:grid;gap:2px;max-height:min(46vh,420px);overflow:auto;margin-bottom:var(--spacing-4)}
@@ -702,6 +705,30 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
 .bk.b-cartone.closedF::before,.bk.b-cartone.closedB::before{display:none}
 .cvface,.cvblank{position:absolute;left:0;top:0;overflow:hidden}
 .cvface{background:var(--cvcol) center/cover no-repeat}
+.cvimg{position:absolute;inset:0;background:center/cover no-repeat}
+.uncoated .cvimg{filter:saturate(.82) contrast(.88) brightness(1.02)}
+.cv-papel .cvimg{filter:saturate(.78) contrast(.86);box-shadow:inset 0 0 0 999px color-mix(in srgb,var(--ptint,#fff) 14%,transparent)}
+.cv-natural:not(.cvin){background-color:color-mix(in srgb,var(--cvcol) 92%,#e8e0cc)}
+.cv-natural:not(.cvin)::after{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 60% 30%,rgba(0,0,0,.035) 0 1px,transparent 1px 4px);pointer-events:none}
+.fin-lino:not(.cvin)::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 1px,transparent 1px 3px);mix-blend-mode:overlay;pointer-events:none}
+.fin-barniz .cvfin{background:linear-gradient(112deg,transparent 32%,rgba(255,255,255,.14) 44%,transparent 58%)}
+.fin-holo .cvtitle{color:transparent;background:linear-gradient(100deg,#ff8aa8,#ffe48a 20%,#8affc1 40%,#8ac8ff 60%,#d38aff 80%,#ff8aa8);-webkit-background-clip:text;background-clip:text;filter:saturate(1.2)}
+.fin-holo .cvfin{background:linear-gradient(112deg,transparent 30%,rgba(255,180,220,.18) 40%,rgba(180,255,230,.18) 48%,rgba(180,200,255,.18) 56%,transparent 66%)}
+.fin-foil .cvtitle,.fin-estampado .cvtitle,.fin-foilmate .cvtitle{color:transparent!important;background:linear-gradient(100deg,var(--f1),var(--f2) 35%,var(--f3) 55%,var(--f4) 70%,var(--f1));-webkit-background-clip:text;background-clip:text}
+.fin-foilmate .cvtitle{filter:saturate(.6) brightness(.95) contrast(.85)}
+.fin-relieve .cvtitle{text-shadow:-1px -1px 0 rgba(255,255,255,.35),1.5px 1.5px 1.5px rgba(0,0,0,.45)}
+.fin-uvsel .cvtitle{text-shadow:0 0 1px rgba(255,255,255,.6);filter:contrast(1.15)}
+.cvimg~.cvtitle{text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.cvimg~.cvtitle b,.cvimg~.cvtitle span{filter:drop-shadow(0 1px 2px rgba(0,0,0,.55))}
+.bk>.spine{position:absolute;top:0;height:100%;background:color-mix(in srgb,var(--cvcol,#2f3d52) 82%,#000);box-shadow:inset 3px 0 6px rgba(255,255,255,.08),inset -4px 0 8px rgba(0,0,0,.35);display:grid;place-items:center;overflow:hidden}
+.bk>.spine.l{left:calc(var(--W) + var(--gap));transform:translateX(-100%)}
+.bk>.spine.r{left:var(--W)}
+.bk>.spine.fin-brillo,.bk>.spine.fin-barniz{background-image:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.22) 45%,rgba(255,255,255,.05))}
+.bk>.spine.cv-tela::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 1px,transparent 1px 3px);mix-blend-mode:overlay}
+.sptx{position:absolute;left:50%;top:50%;white-space:nowrap;color:rgba(255,255,255,.88);font-weight:600;letter-spacing:.06em;transform:translate(-50%,-50%) rotate(-90deg)}
+.sptx.down{transform:translate(-50%,-50%) rotate(90deg)}.sptx.horiz{top:12%;width:100%;transform:translateX(-50%);white-space:normal;text-align:center;font-size:11px!important;padding:4px;box-sizing:border-box}
+.cv-kraft .sptx,.cv-papel .sptx,.cv-natural .sptx{color:rgba(30,25,20,.85)}
+.spine.fin-foil .sptx,.spine.fin-estampado .sptx,.spine.fin-foilmate .sptx{color:transparent;background:linear-gradient(100deg,var(--f1),var(--f2) 35%,var(--f3) 55%,var(--f4) 70%,var(--f1));-webkit-background-clip:text;background-clip:text}
 .cvface.cvin{background:#f4f0e6}
 .cv-papel.cvin,.cv-cartulina.cvin,.cv-kraft.cvin{background:#f7f5ef}
 .cv-kraft{background-color:#a8835a}.cv-kraft.cvfront{background-blend-mode:multiply}
@@ -724,8 +751,8 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
 .cvrow{display:flex;gap:var(--spacing-3);align-items:flex-start}.cvrow .btns{display:flex;flex-direction:column;gap:6px;margin:0}
 .bk .slot{overflow:hidden}
 .bk .sL{left:0}.bk .sR{left:calc(var(--W) + var(--gap))}
-.bk .sL:not(.empty){box-shadow:0 12px 28px rgba(0,0,0,.35),calc(var(--stL)*-1) calc(var(--stL)*.35) 0 -1px #d9d3c7,calc(var(--stL)*-1) calc(var(--stL)*.35) 0 0 #b9b2a5}
-.bk .sR:not(.empty){box-shadow:0 12px 28px rgba(0,0,0,.35),var(--stR) calc(var(--stR)*.35) 0 -1px #d9d3c7,var(--stR) calc(var(--stR)*.35) 0 0 #b9b2a5}
+.bk .sL:not(.empty){box-shadow:0 12px 28px rgba(0,0,0,.35),calc(var(--stL)*-1) calc(var(--stL)*.35) 0 -1px var(--edge1,#d9d3c7),calc(var(--stL)*-1) calc(var(--stL)*.35) 0 0 var(--edge2,#b9b2a5)}
+.bk .sR:not(.empty){box-shadow:0 12px 28px rgba(0,0,0,.35),var(--stR) calc(var(--stR)*.35) 0 -1px var(--edge1,#d9d3c7),var(--stR) calc(var(--stR)*.35) 0 0 var(--edge2,#b9b2a5)}
 .bk .slot .sheet,.bk .leaf .sheet{box-shadow:none!important;outline:none!important}
 .bk .ln{background:none!important;box-shadow:none!important}.bk .ln::before,.bk .ln::after{display:none!important}
 .bk .ov,.bk .dot,.bk .tag,.bk .bind,.bk .trace,.bk .blanknote,.bk .blankph,.bk .caret,.bk .selrect{display:none!important}
@@ -1363,7 +1390,7 @@ const POVROWS=[
  {k:'minLast',label:'Última línea mínima',min:0,max:60,step:5,fmt:v=>v+' %'}];
 S.track=S.track||0;
 S.pinL=false; S.pinR=false; S.turn='focus'; S.stock='none'; S.pageSound=true; S.stockGsm=120; S.stockBulk=1.2; S.sigs=0; S.exSheet=''; S.exMarks={crop:true,cutfull:false,bleed:false,reg:true,color:true,gray:true,frame:false,info:true}; S.exSim=false; S.typeSound=false; S.typeVol=60; S.typeBellLine=true; S.theme='auto'; S.sysFonts=[];
-S.cover={on:true,img:'',mat:'cartulina',fin:'mate',color:'#2f3d52'}; S.ptpls=[]; S.pnOpen={}; S.userKeys={}; S.sbOff=false; S.uiLang='es';
+S.jumps=[]; S.cover={on:true,img:'',mat:'cartulina',fin:'mate',color:'#2f3d52'}; S.ptpls=[]; S.pnOpen={}; S.userKeys={}; S.sbOff=false; S.uiLang='es';
 S.hNames=['Capítulo','Sección','Subsección','Apartado','Inciso','Subinciso']; S.hPage=[true,false,false,false,false,false];
 const DEFAULTS=JSON.parse(JSON.stringify(S));
 let saved={}; try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
@@ -2065,8 +2092,12 @@ function flowCompose(mode,paras,spec,control){
   const pages=[], chunks=[]; let prev=null;
   const newPage=()=>{ const sp=spec(pages.length); const pg={slots:[],used:0,avail:sp.avail,W:sp.W}; pages.push(pg); return pg; };
   let cur=newPage(); const BRK=new Set(S.pbreaks||[]);
-  paras.forEach((P,i)=>{
-    let from=0, first=true, guard=0;
+  // saltos: una página nueva insertada a mitad de un párrafo tiene su propio texto (guardado justo después del párrafo); el párrafo sigue después de esa página
+  const J=(S.jumps||[]).map(j=>({a:j.a,idx:paras.map((P,i)=>i).filter(i=>paras[i].start>=j.s&&paras[i].start<=j.e),done:false})).filter(j=>j.idx.length);
+  const inJ=new Map(); J.forEach(j=>j.idx.forEach(i=>inJ.set(i,j)));
+  const brkPage=()=>{ if(cur.slots.length) cur=newPage(); };
+  const lay=(P,i)=>{
+    let from=0, first=true, guard=0; const jp=J.find(j=>!j.done&&!inJ.has(i)&&j.a>P.start&&j.a<P.start+P.text.length);
     const msCh=MSRUN&&hPage(levelOf(i));
     if((BRK.has(P.start)||msCh)&&cur.slots.length) cur=newPage();
     if(msCh&&!cur.slots.length) cur.used=Math.floor(cur.avail/3/MS_LH)*MS_LH;
@@ -2078,8 +2109,14 @@ function flowCompose(mode,paras,spec,control){
       chunks.push(it);
       const k=it.lines.length; let rest=it.lines.map((line,li)=>({line,pi:i,li,k})), recompose=false;
       while(rest.length){
+        if(jp&&!jp.done&&rest[0].line.s>=jp.a){ // el párrafo salta: la página nueva va en medio y el resto sigue después
+          jp.done=true; const fromPg=cur.slots.length?cur:(pages[pages.length-2]||cur), Wp=cur.W; brkPage(); jp.idx.forEach((ii,n)=>{ if(n===0) brkPage(); lay(paras[ii],ii); }); brkPage();
+          fromPg.jumpTo=cur; cur.jumpFrom=fromPg; prev={sid:styleOf(i),sa:0};
+          if(Math.abs(cur.W-Wp)>0.5){ from=rest[0].line.s-P.start; recompose=true; break; } }
         const g=(first&&rest.length===k)?((cur.slots.length?it.gap:0)+(it.blankH||0)):0;
-        let fit=0,h=cur.used+g; while(fit<rest.length&&h+rest[fit].line.lh<=cur.avail+0.02){ h+=rest[fit].line.lh; fit++; }
+        const stopAt=(jp&&!jp.done)?rest.findIndex(sl=>sl.line.s>=jp.a):-1;
+        let fit=0,h=cur.used+g; while(fit<rest.length&&(stopAt<0||fit<stopAt)&&h+rest[fit].line.lh<=cur.avail+0.02){ h+=rest[fit].line.lh; fit++; }
+        if(stopAt>0&&fit===stopAt){ cur.used+=g; rest.slice(0,fit).forEach(sl=>{ sl.y=cur.used; cur.used+=sl.line.lh; cur.slots.push(sl); }); rest=rest.slice(fit); first=false; continue; }
         if(fit>=rest.length){ cur.used+=g; rest.forEach(sl=>{ sl.y=cur.used; cur.used+=sl.line.lh; cur.slots.push(sl); }); rest=[]; break; }
         let take=fit;
         if(control&&k>1){ const fs=first&&(rest.length===k); if(fs&&take===1) take=0; else if(rest.length-take===1) take=take-1; if(fs&&take===1) take=0; }
@@ -2090,7 +2127,9 @@ function flowCompose(mode,paras,spec,control){
       }
       if(!recompose) break;
     }
-  });
+    if(jp&&!jp.done){ jp.done=true; brkPage(); jp.idx.forEach(ii=>lay(paras[ii],ii)); brkPage(); }
+  };
+  paras.forEach((P,i)=>{ const j=inJ.get(i); if(j&&j.done) return; if(j&&!j.done&&j.idx[0]===i){ brkPage(); } lay(P,i); });
   return {pages:pages.filter(pg=>pg.slots.length),chunks};
 }
 function composeAll(mode,paras,W){
@@ -2219,6 +2258,9 @@ function pageHTML(pg,pn,total,g0,fam,cls){
   const tsh=(TS.dx||TS.dy-voff)?`<div class="tsh" style="position:absolute;inset:0;transform:translate(${TS.dx.toFixed(2)}px,${(TS.dy-voff).toFixed(2)}px)">`:'';
   h+=tsh; h+=overlay(pg,g.W,pav);
   pg.slots.forEach(sl=>{ h+=lineHTML(sl,g.W); }); if(tsh) h+='</div>';
+  if(S.mode!=='preview'&&!MSRUN&&CUR_RES){ const ix=o=>CUR_RES.pages.indexOf(o);
+    if(pg.jumpTo&&ix(pg.jumpTo)>=0){ const last=pg.slots[pg.slots.length-1]; h+=`<button type="button" class="jmp to" style="top:${(last.y+last.line.lh+2).toFixed(1)}px" data-go="${ix(pg.jumpTo)}" title="El párrafo sigue después de la página insertada">\u21B7 Sigue en la pág. ${ix(pg.jumpTo)+1}</button>`; }
+    if(pg.jumpFrom&&ix(pg.jumpFrom)>=0) h+=`<button type="button" class="jmp from" data-go="${ix(pg.jumpFrom)}" title="Este texto continúa el párrafo de antes de la página insertada">\u21B6 Viene de la pág. ${ix(pg.jumpFrom)+1}</button>`; }
   if(S.pilc&&!pg.blank&&pg.slots.length&&S.pbreaks&&S.pbreaks.length&&CUR_RES&&CUR_RES.pages[pn+1]){ const nx=CUR_RES.pages[pn+1].slots[0], last=pg.slots[pg.slots.length-1];
     if(nx&&S.pbreaks.includes(nx.line.s)) h+=`<div class="pbmark" style="top:${(last.y+last.line.lh).toFixed(1)}px" aria-hidden="true"><span>Salto de página</span></div>`; }
   if(pg.blank) h+='</div>';
@@ -2552,8 +2594,19 @@ function buildBindPane(){
   c.innerHTML=`<div class="brow"><label for="cvOn">Cubierta</label><label class="bchk"><input type="checkbox" id="cvOn"><i></i><span>Mostrar la cubierta al pasar página como libro</span></label></div>
     <div class="brow"><label for="cvMat">Material</label><span class="bsel"><select id="cvMat"></select></span></div>
     <div class="brow"><label for="cvFin">Acabado</label><span class="bsel"><select id="cvFin"></select></span></div>
+    <p class="bhint" id="cvFinNote" style="margin-top:0"></p>
+    <div class="brow"><label for="cvFoil">Lámina</label><span class="bsel"><select id="cvFoil">${Object.keys(FOILS).map(k=>`<option value="${k}">${FOILS[k][0]}</option>`).join('')}</select></span></div>
+    <div class="brow"><label for="cvTitle">Título</label><label class="bchk"><input type="checkbox" id="cvTitle"><i></i><span>Aplicar el efecto al título sobre la carátula</span></label></div>
     <div class="brow"><label for="cvCol">Color del material</label><input type="color" id="cvCol" class="bnum" style="padding:2px;height:30px"></div>
+    <div class="brow"><label for="cvEdgeOn">Cantos</label><label class="bchk"><input type="checkbox" id="cvEdgeOn"><i></i><span>Cantos impresos de color</span></label></div>
+    <div class="brow cvedge"><label for="cvEdge">Color de los cantos</label><input type="color" id="cvEdge" class="bnum" style="padding:2px;height:30px"></div>
+    <div class="brow"><label for="cvSpine">Texto del lomo</label><span class="bsel"><select id="cvSpine"><option value="up">De abajo arriba (tradición hispana)</option><option value="down">De arriba abajo (tradición anglosajona)</option><option value="horiz">Horizontal (lomos anchos)</option></select></span></div>
     <p class="bhint" id="cvNote"></p>`;
+  c.querySelector('#cvFoil').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{foil:e.target.value}); coverChanged(); });
+  c.querySelector('#cvTitle').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{title:e.target.checked}); coverChanged(); });
+  c.querySelector('#cvEdgeOn').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{edge:e.target.checked?(c.querySelector('#cvEdge').value||'#8c1d2c'):''}); coverChanged(); });
+  c.querySelector('#cvEdge').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{edge:e.target.value}); coverChanged(); });
+  c.querySelector('#cvSpine').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{spineDir:e.target.value}); coverChanged(); });
   c.querySelector('#cvOn').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{on:e.target.checked}); coverChanged(); });
   c.querySelector('#cvMat').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{mat:e.target.value}); coverChanged(); });
   c.querySelector('#cvFin').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{fin:e.target.value}); coverChanged(); });
@@ -2565,8 +2618,15 @@ function syncCoverPane(){ const ms=$('cvMat'); if(!ms) return; const C=coverEff(
   ms.innerHTML=coverMats().map(k=>`<option value="${k}">${esc(COVER_MATS[k].name)}</option>`).join(''); ms.disabled=!C;
   const fs=$('cvFin'); fs.innerHTML=C?C.M.fins.map(k=>`<option value="${k}">${COVER_FINS[k]}</option>`).join(''):''; fs.disabled=!C||C.M.fins.length<2;
   if(C){ ms.value=C.mat; fs.value=C.fin; } $('cvCol').value=(S.cover&&S.cover.color)||'#2f3d52';
+  const metal=C&&['foil','foilmate','estampado'].includes(C.fin), fx=C&&['uvsel','foil','foilmate','relieve','holo','estampado'].includes(C.fin);
+  $('cvFoil').value=C?C.foil:'oro'; $('cvFoil').closest('.brow').hidden=!on||!metal; $('cvTitle').checked=!C||C.title; $('cvTitle').closest('.brow').hidden=!on||!fx||!(S.cover&&S.cover.img);
+  $('cvFinNote').textContent=C?COVER_FINNOTE[C.fin]||'':''; $('cvFinNote').hidden=!on||!C;
+  $('cvEdgeOn').checked=!!(C&&C.edge); if(C&&C.edge) $('cvEdge').value=C.edge; document.querySelectorAll('.bindpane .cvedge').forEach(r=>{ r.hidden=!on||!(C&&C.edge); }); $('cvEdgeOn').closest('.brow').hidden=!on||!C;
+  { const n=PRIMARY?PRIMARY.pages.length:0, BI=bindInfo(n), wmm=(BI.spine||0)+(C&&['tapadura','tela'].includes(C.mat)?5:.7); $('cvSpine').value=C?C.spineDir:'up'; $('cvSpine').closest('.brow').hidden=!on||!C;
+    $('cvSpine').title=`Lomo de unos ${String(Math.round(wmm*10)/10).replace('.',',')} mm`+(wmm<6?': demasiado estrecho para texto; las pequeñas variaciones de producción lo moverían a la cubierta.':''); }
   $('cvNote').textContent=!on?'Las hojas sueltas no llevan cubierta: elige un tipo de encuadernación.':(C?`Con ${(BINDINGS[S.binding]||{}).name} se usan: ${coverMats().map(k=>COVER_MATS[k].name.split(' (')[0].toLowerCase()).join(', ')}.${S.cover&&S.cover.img?'':' Sin carátula, la cubierta muestra el título y el autor sobre el color del material.'}`:'');
-  document.querySelectorAll('#cvMat,#cvFin,#cvCol').forEach(x=>{ const r=x.closest('.brow'); if(r) r.hidden=!on||!C; }); }
+  document.querySelectorAll('#cvMat,#cvFin,#cvCol').forEach(x=>{ const r=x.closest('.brow'); if(r) r.hidden=!on||!C; });
+  if(C){ const n=PRIMARY?PRIMARY.pages.length:0, wmm=(bindInfo(n).spine||0)+(['tapadura','tela'].includes(C.mat)?5:.7); $('cvNote').textContent+=` Lomo: unos ${String(Math.round(wmm*10)/10).replace('.',',')} mm${wmm<6?', sin texto: es demasiado estrecho para que el título no se corra a la cubierta':''}.`; } }
 function syncBindPane(){ try{ syncCoverPane(); }catch(e){} const b=$('enBind'); if(!b) return; const a=document.activeElement, set=(id,v)=>{ const x=$(id); if(x&&x!==a) x.value=v; };
   set('enBind',S.binding); set('enPages',S.pagesTotal||''); set('enPaper',S.stock); set('enGsm',S.stockGsm); set('enBulk',S.stockBulk); set('enSheet',S.sheetMm);
   document.querySelectorAll('.bindpane .encus').forEach(e=>{ e.hidden=S.stock!=='custom'; });
@@ -4097,6 +4157,11 @@ function onTextEdit(){
   EDIT_FROM=EDIT_FROM<0?p:Math.min(EDIT_FROM,p);
   if(S.lov&&Object.keys(S.lov).length){ const nl={}; Object.keys(S.lov).forEach(k=>{ const a=+k; if(a<=p) nl[a]=S.lov[k]; else if(a>=oEnd) nl[a+delta]=S.lov[k]; }); S.lov=nl; }
   if(Array.isArray(S.pbreaks)&&S.pbreaks.length){ S.pbreaks=[...new Set(S.pbreaks.map(a=>a>=oEnd?a+delta:(a>p?-1:a)).filter(a=>a>=0))]; }
+  if(Array.isArray(S.jumps)&&S.jumps.length){
+    const insNL=nEnd>p&&nw[nEnd-1]==='\n';
+    S.jumps=S.jumps.map(j=>{ const a=j.a>=oEnd?j.a+delta:(j.a>p?p:j.a), s0=j.s>p?(j.s>=oEnd?j.s+delta:p):j.s;
+      let e=j.e; if(p<=j.e) e=j.e>=oEnd?j.e+delta:Math.max(s0,nEnd-(insNL?1:0)); else if(p===j.e+1&&nEnd>p) e=nEnd-(insNL?1:0); // escribir justo al final de la página insertada sigue siendo suyo
+      return {a,s:s0,e}; }).filter(j=>j.e>j.s&&j.a<j.s); }
   if(Array.isArray(S.blanks)&&S.blanks.length){ const L=nw.length; S.blanks=S.blanks.map(a=>a>=oEnd?a+delta:(a>p?p:a)).map(a=>Math.min(a,L+1)); S.blanks=[...new Set(S.blanks)]; }
   if(Array.isArray(S.notes)&&S.notes.length){
     S.notes=S.notes.map(n=>{
@@ -4292,15 +4357,18 @@ const LOWZ=30;
 /* escribir en una página en blanco: se abre un párrafo nuevo con saltos de página antes y después */
 function startOnBlank(anchor){
   const ta=TA(), t=ta.value, L=t.length, ph='Nuevo párrafo';
-  let at=Math.min(anchor,L), ins, start;
-  if(at>=L){ ins=(t.endsWith('\n')||!t?'':'\n')+ph; start=L+ins.length-ph.length; }
+  let at=Math.min(anchor,L), ins, start, jump=null;
+  const cut=splitParasIdx(t).find(P=>P.start<at&&at<P.start+P.text.length);
+  if(cut){ const end=cut.start+cut.text.length; jump=at; at=end; ins='\n'+ph; start=end+1; }
+  else if(at>=L){ ins=(t.endsWith('\n')||!t?'':'\n')+ph; start=L+ins.length-ph.length; }
   else { ins=ph+'\n'; start=at; }
   S.blanks=(S.blanks||[]).filter(x=>x!==anchor);
   ta.readOnly=false; ta.focus({preventScroll:true}); ta.setSelectionRange(at,at);
   let ok=false; try{ ok=document.execCommand('insertText',false,ins); }catch(e){} if(!ok){ ta.setRangeText(ins,at,at,'end'); }
   onTextEdit();
   const after=start+ph.length+1;
-  S.pbreaks=[...new Set([...(S.pbreaks||[]),start].concat(at<L?[after]:[]))];
+  if(jump!=null) S.jumps=(S.jumps||[]).concat([{a:jump,s:start,e:start+ph.length}]);
+  else S.pbreaks=[...new Set([...(S.pbreaks||[]),start].concat(at<L?[after]:[]))];
   if(S.mode!=='edit'){ S.mode='edit'; syncMode(); }
   S.selmode='par'; syncMode(); setSel(start,start+ph.length,false);
   SELX=[]; changed(); setTimeout(()=>{ const ps=splitParasIdx(TA().value); S.sel=ps.findIndex(P=>P.start===start); SELX=[]; changed(); },60);
@@ -4435,15 +4503,18 @@ addEventListener('pointerdown',()=>{ try{ if(!ACX&&S.pageSound&&S.mode==='previe
 const BINDVIS={none:{gap:16,shade:0},grapa:{gap:0,shade:.16,staples:'c'},fresada:{gap:0,shade:.42,deep:1},cosida:{gap:0,shade:.24,stitch:1},wireo:{gap:30,shade:.05,rings:1},cartone:{gap:0,shade:.3,cover:1},japonesa:{gap:0,shade:.36,stitch:2},bodoniana:{gap:0,shade:.08},lateral:{gap:0,shade:.45,staples:'s'}};
 let BOOK=null;
 const COVER_MATS={
-  papel:{name:'Autocubierta (el mismo papel del interior)',b:['grapa','lateral','japonesa'],fins:['sin'],stiff:null},
-  cartulina:{name:'Cartulina estucada (250–350 g/m²)',b:['grapa','fresada','cosida','wireo','japonesa','bodoniana','lateral'],fins:['mate','brillo','soft','uvsel','sin'],stiff:.86},
-  kraft:{name:'Cartulina kraft',b:['grapa','cosida','fresada','wireo','japonesa'],fins:['sin'],stiff:.82},
-  tapadura:{name:'Cartón forrado con papel impreso',b:['cartone','wireo'],fins:['mate','brillo','soft','uvsel'],stiff:1},
-  tela:{name:'Tela o guaflex sobre cartón',b:['cartone'],fins:['sin','estampado'],stiff:1},
+  papel:{name:'Autocubierta (el mismo papel del interior)',b:['grapa','lateral','japonesa'],fins:['sin'],stiff:null,uncoated:1},
+  cartulina:{name:'Cartulina estucada (250–350 g/m²)',b:['grapa','fresada','cosida','wireo','japonesa','bodoniana','lateral'],fins:['mate','brillo','soft','barniz','uvsel','foil','foilmate','relieve','holo','lino','sin'],stiff:.86},
+  natural:{name:'Cartulina sin estucar (natural)',b:['grapa','fresada','cosida','wireo','japonesa','bodoniana','lateral'],fins:['sin','relieve','foil'],stiff:.84,uncoated:1},
+  kraft:{name:'Cartulina kraft',b:['grapa','cosida','fresada','wireo','japonesa'],fins:['sin','foil','relieve'],stiff:.82,uncoated:1},
+  tapadura:{name:'Cartón forrado con papel impreso',b:['cartone','wireo'],fins:['mate','brillo','soft','uvsel','foil','foilmate','relieve','lino'],stiff:1},
+  tela:{name:'Tela o guaflex sobre cartón',b:['cartone'],fins:['sin','estampado','relieve'],stiff:1},
   pp:{name:'Polipropileno translúcido',b:['wireo'],fins:['esmerilado','cristal'],stiff:.7}};
-const COVER_FINS={sin:'Sin laminar',mate:'Laminado mate',brillo:'Laminado brillante',soft:'Soft touch (tacto aterciopelado)',uvsel:'Mate con barniz UV selectivo',estampado:'Estampado dorado (hot stamping)',esmerilado:'Esmerilado',cristal:'Transparente'};
+const COVER_FINS={sin:'Sin laminar',mate:'Laminado mate',brillo:'Laminado brillante',soft:'Soft touch (tacto aterciopelado)',barniz:'Barniz brillante (sin laminar)',uvsel:'Mate con barniz UV selectivo',foil:'Mate con estampado metálico',foilmate:'Estampado bajo laminado mate (metal apagado)',relieve:'Relieve o gofrado',holo:'Holográfico',lino:'Textura de lino',estampado:'Estampado metálico (hot stamping)',esmerilado:'Esmerilado',cristal:'Transparente'};
+const COVER_FINNOTE={sin:'El papel sin laminar absorbe la tinta: colores más suaves y algo menos de contraste.',mate:'Superficie plana y sin reflejos; resiste bien los roces.',brillo:'Brillo en toda la cubierta: negros más profundos y colores más vivos; marca huellas.',soft:'Tacto aterciopelado, casi de goma; colores un poco apagados.',barniz:'Brilla como el laminado pero protege menos: se raya y destiñe en los cantos con el uso.',uvsel:'Brillo solo en el título o en detalles, sobre fondo mate.',foil:'Lámina metálica sobre el título; resalta más sobre fondo mate.',foilmate:'La lámina queda bajo el laminado mate: un metal suave, casi etéreo.',relieve:'El título se levanta desde el reverso (0,2–0,5 mm): se nota al tacto.',holo:'Reflejos de arcoíris que cambian con la luz; para ediciones especiales.',lino:'Textura que imita la tela de lino.',estampado:'Lámina metálica estampada en caliente sobre la tela.',esmerilado:'Plástico translúcido mate: deja ver la primera página difuminada.',cristal:'Plástico transparente: protege sin ocultar la primera página.'};
+const FOILS={oro:['Oro','#8a6a2a','#f3d98b','#b8924a','#f6e3a6'],plata:['Plata','#7d8288','#f2f4f6','#a6abb1','#ffffff'],cobre:['Cobre','#7a3f22','#f0b08a','#a85d38','#f6c9a8']};
 const coverMats=()=>Object.keys(COVER_MATS).filter(k=>COVER_MATS[k].b.includes(S.binding));
-function coverEff(){ const c=S.cover||{}, ms=coverMats(); if(!ms.length) return null; const mat=ms.includes(c.mat)?c.mat:ms[0], M=COVER_MATS[mat]; return {mat,M,fin:M.fins.includes(c.fin)?c.fin:M.fins[0],color:c.color||'#2f3d52',img:c.img||''}; }
+function coverEff(){ const c=S.cover||{}, ms=coverMats(); if(!ms.length) return null; const mat=ms.includes(c.mat)?c.mat:ms[0], M=COVER_MATS[mat]; return {mat,M,fin:M.fins.includes(c.fin)?c.fin:M.fins[0],color:c.color||'#2f3d52',img:c.img||'',foil:FOILS[c.foil]?c.foil:'oro',title:c.title!==false,edge:c.edge||'',spineDir:c.spineDir||'up'}; }
 const coverOn=()=>!!(S.cover&&S.cover.on!==false&&S.binding&&S.binding!=='none'&&coverEff());
 function bookFaces(n){ if(!coverOn()) return null; const F=[-2,-3]; for(let i=0;i<n;i++) F.push(i); if(n%2) F.push(-6); F.push(-4,-5); return F; }
 function bookSpread(s,n){ const F=bookFaces(n); if(!F) return spreadPages(s,n); const g=i=>i>=0&&i<F.length?F[i]:-1; return [s>0?g(2*s-1):-1,g(2*s)]; }
@@ -4453,10 +4524,16 @@ const faceName=k=>({'-2':'Cubierta','-3':'Interior de la cubierta','-4':'Interio
 function coverFace(k){ const C=coverEff(); if(!C) return null; const {W,H}=bookGeom(), el=document.createElement('div');
   if(k===-6){ el.className='cvblank'; el.style.width=W+'px'; el.style.height=H+'px'; return el; }
   const inner=k===-3||k===-4, front=k===-2;
-  el.className=`cvface cv-${C.mat} fin-${C.fin}${inner?' cvin':''}${front?' cvfront':' cvback'}`; el.style.width=W+'px'; el.style.height=H+'px'; el.style.setProperty('--cvcol',C.color);
-  if(front&&C.img) el.style.backgroundImage=`url("${C.img}")`;
-  if(front&&!C.img){ const t=document.createElement('div'); t.className='cvtitle'; const a=((S.docMeta&&S.docMeta.author)||'').trim(); t.innerHTML=`<b></b>${a?'<span></span>':''}`; t.firstChild.textContent=S.docName||'Sin título'; if(a) t.lastChild.textContent=a; t.style.fontFamily=`'${S.font}', ${FONTS[S.font]||'serif'}`; el.appendChild(t); }
+  el.className=`cvface cv-${C.mat} fin-${C.fin}${inner?' cvin':''}${front?' cvfront':' cvback'}${C.M.uncoated||C.fin==='sin'?' uncoated':''}`; el.style.width=W+'px'; el.style.height=H+'px'; el.style.setProperty('--cvcol',C.color);
+  const F=FOILS[C.foil]; el.style.setProperty('--f1',F[1]); el.style.setProperty('--f2',F[2]); el.style.setProperty('--f3',F[3]); el.style.setProperty('--f4',F[4]);
+  if(front&&C.img){ const im=document.createElement('div'); im.className='cvimg'; im.style.backgroundImage=`url("${C.img}")`; if(C.mat==='papel'){ const P=paperNow(); im.style.setProperty('--ptint',P.col||'#fff'); } el.appendChild(im); }
+  if(front&&(!C.img||C.title)&&(C.img?['uvsel','foil','foilmate','relieve','holo','estampado'].includes(C.fin):true)){ const t=document.createElement('div'); t.className='cvtitle'; const a=((S.docMeta&&S.docMeta.author)||'').trim(); t.innerHTML=`<b></b>${a?'<span></span>':''}`; t.firstChild.textContent=S.docName||'Sin título'; if(a) t.lastChild.textContent=a; t.style.fontFamily=`'${S.font}', ${FONTS[S.font]||'serif'}`; el.appendChild(t); }
   const f=document.createElement('i'); f.className='cvfin'; el.appendChild(f); return el; }
+/* lomo visible con el libro cerrado: ancho real y texto según la tradición elegida */
+function spineEl(side){ const C=coverEff(); if(!C) return null; const n=PRIMARY?PRIMARY.pages.length:0, mm=96/25.4, BI=bindInfo(n), cov=['tapadura','tela'].includes(C.mat)?2*2.5:2*.35, wmm=Math.max(1,(BI.spine||0)+cov), w=wmm*mm;
+  const e=document.createElement('div'); e.className=`spine cv-${C.mat} fin-${C.fin} ${side}`; e.style.width=w+'px'; e.style.setProperty('--cvcol',C.color); { const F=FOILS[C.foil]; ['--f1','--f2','--f3','--f4'].forEach((v,i)=>e.style.setProperty(v,F[i+1])); }
+  if(wmm>=6){ const t=document.createElement('span'); t.className='sptx '+(C.spineDir||'up'); const a=((S.docMeta&&S.docMeta.author)||'').trim(); t.textContent=(S.docName||'Sin título')+(a?'  ·  '+a:''); t.style.fontFamily=`'${S.font}', ${FONTS[S.font]||'serif'}`; t.style.fontSize=Math.min(w*.5,22)+'px'; e.appendChild(t); }
+  return e; }
 function coverStiff(){ const C=coverEff(); return C&&C.M.stiff!=null?C.M.stiff:paperStiff(); }
 const spreadOf=k=>k<=0?0:Math.floor((k+1)/2);
 function spreadPages(s,n){ const L=s===0?-1:2*s-1, R=s===0?0:2*s; return [L<n?L:-1,R<n?R:-1]; }
@@ -4487,7 +4564,9 @@ function bookRender(){ if(!BOOK||!PRIMARY) return; const n=PRIMARY.pages.length,
   const vb=VP(), vw=vb.clientWidth, vh=vb.clientHeight, sc=Math.min((vw-110)/(2*W+gap+2*cov+40),(vh-130)/(H+2*cov+20));
   el.querySelector('.bkwrap').style.transform=`translate(-50%,-50%) scale(${sc})`; BOOK.sc=sc; BOOK.W=W; BOOK.H=H; BOOK.gap=gap;
   const [L,R]=bookSpread(BOOK.s,n); fillSlot(bk.querySelector('.sL'),L,'L'); fillSlot(bk.querySelector('.sR'),R,'R');
-  { const C=coverEff(); bk.style.setProperty('--cvcol',C?C.color:'#5b2b24'); bk.classList.toggle('covered',coverOn()); bk.classList.toggle('closedF',L<0&&R===-2); bk.classList.toggle('closedB',R<0&&L===-5); }
+  { const C=coverEff(); bk.style.setProperty('--cvcol',C?C.color:'#5b2b24'); bk.classList.toggle('covered',coverOn()); bk.classList.toggle('closedF',L<0&&R===-2); bk.classList.toggle('closedB',R<0&&L===-5);
+    const ed=C&&C.edge; bk.style.setProperty('--edge1',ed||'#d9d3c7'); bk.style.setProperty('--edge2',ed?`color-mix(in srgb,${ed} 70%,#000)`:'#b9b2a5');
+    bk.querySelectorAll(':scope>.spine').forEach(x=>x.remove()); if(coverOn()&&L<0&&R===-2){ const sp=spineEl('l'); if(sp) bk.appendChild(sp); } else if(coverOn()&&R<0&&L===-5){ const sp=spineEl('r'); if(sp) bk.appendChild(sp); } }
   // grosor del bloque leído y del que falta, con el grueso real del papel
   const F0=bookFaces(n), leaf=S.sheetMm*mm, pos=F0?Math.max(0,2*BOOK.s-2):2*BOOK.s, readL=Math.min(Math.ceil(n/2),Math.ceil(pos/2)), restL=Math.max(0,Math.ceil(n/2)-readL), th=x=>Math.min(22,Math.max(x?1:0,x*leaf));
   bk.style.setProperty('--stL',th(readL)+'px'); bk.style.setProperty('--stR',th(restL)+'px');
@@ -4738,6 +4817,7 @@ function initToolbar(){
   let pdPos=null;
   v.addEventListener('pointerdown',e=>{ pdPos=e.button===0?[e.clientX,e.clientY]:null; { const f=e.target.closest&&e.target.closest('figure.pg'); FOCUS_PG=f?+f.dataset.pg:FOCUS_PG; }
     const ph=e.button===0&&e.target.closest&&e.target.closest('.blankph'); if(ph){ e.preventDefault(); e.stopPropagation(); startOnBlank(+ph.dataset.anchor); pdPos=null; return; }
+    const jm=e.button===0&&e.target.closest&&e.target.closest('.jmp'); if(jm){ e.preventDefault(); e.stopPropagation(); const k=+jm.dataset.go; FOCUS_PG=k; goPage(k); pdPos=null; return; }
     const bx=e.button===0&&e.target.closest&&e.target.closest('.blankx'); if(bx){ e.preventDefault(); e.stopPropagation(); const a=+bx.dataset.anchor; S.blanks=(S.blanks||[]).filter(x=>x!==a); changed(); toast('Página en blanco quitada'); pdPos=null; } },true);
   v.addEventListener('click',e=>{
     if(e.target.closest('.blankx')){ const a=+e.target.closest('.blankx').dataset.anchor; S.blanks=(S.blanks||[]).filter(x=>x!==a); changed(); toast('Página en blanco quitada'); return; }
@@ -5798,7 +5878,7 @@ async function run(){
   const availOf=k=>(GEOS[pageStyleOf(k)]||GD).avail;
   const used=new Set(['pdef',...Object.values(S.pgStyleOf||{})]), sameW=[...used].every(id=>!GEOS[id]||Math.abs(GEOS[id].W-GD.W)<0.5);
   const doFlow=mode=>{ if(ms){ const f=flowCompose('greedy',paras,()=>({W:GD.W,avail:GD.avail}),false); return analyze(f.chunks,ctx,GD.W,()=>GD.avail,f.pages); }
-    if(sameW) return analyze(composeAll(mode,paras,GD.W),ctx,GD.W,availOf);
+    if(sameW&&!(S.jumps&&S.jumps.length)) return analyze(composeAll(mode,paras,GD.W),ctx,GD.W,availOf);
     const f=flowCompose(mode,paras,k=>{ const G=GEOS[pageStyleOf(k)]||GD; return {W:G.W,avail:G.avail}; },S.pageCtl); return analyze(f.chunks,ctx,GD.W,availOf,f.pages); };
   MSRUN=ms;
   let rA,rB; try{ rA=doFlow('greedy'); rB=ms?rA:doFlow('optimal'); }finally{}

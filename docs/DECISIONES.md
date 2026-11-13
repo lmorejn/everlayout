@@ -36,3 +36,10 @@
 ## Deshacer
 - La aplicación guarda instantáneas del documento (las claves de `S` que no son de vista, más el texto y el cursor) un momento después de cada cambio, hasta 200. Ctrl+Z / Ctrl+Mayús+Z / Ctrl+Y usan esa historia en lugar del deshacer nativo del área de texto, para que texto y estilos se deshagan en el mismo orden. La imagen de la carátula se guarda aparte para no repetirla en cada instantánea.
 
+## Saltos de flujo
+- Al escribir en una página en blanco que corta un párrafo, el texto nuevo se guarda en el texto justo después de ese párrafo y se registra un salto (`S.jumps`: `a`, dónde se corta el párrafo; `s`–`e`, el texto de la página insertada). La paginación pone el principio del párrafo, la página insertada y después el resto del párrafo. Con saltos se usa siempre la paginación por flujo.
+- Los offsets del salto siguen al texto al editar; escribir o pulsar Intro al final del texto insertado lo amplía.
+
+## Cubierta
+- Materiales y acabados según la encuadernación, con lo que cuentan Floris Books y Xinyi Print sobre acabados y Friesens sobre papeles (estucado frente a no estucado) y lomos (sin texto en lomos muy estrechos; dirección del texto coherente en una colección).
+

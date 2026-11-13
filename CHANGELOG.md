@@ -2,6 +2,9 @@
 
 ## Sin publicar
 
+- Saltos de flujo: si se añade una página entre dos páginas por las que corre un mismo párrafo, el texto que se escriba en ella es suyo y el párrafo sigue después de esa página. Unas flechas («Sigue en la pág. N» / «Viene de la pág. N») marcan el salto y llevan a la otra página con un clic.
+- Cubierta: más materiales y acabados (cartulina sin estucar, barniz brillante, estampado metálico en oro, plata o cobre, estampado bajo laminado mate, relieve, holográfico, textura de lino); cada acabado explica cómo se ve y cómo envejece. El papel sin estucar suaviza los colores de la carátula.
+- Lomo visible con el libro cerrado, con su ancho real y el texto de abajo arriba, de arriba abajo u horizontal; los lomos de menos de 6 mm no llevan texto. Cantos impresos de color.
 - Arreglado: al escribir un párrafo en una página nueva y aplicarle un estilo, el estilo caía también en los párrafos de la página siguiente que estaban seleccionados antes. La selección de párrafos ahora sigue a sus párrafos cuando se insertan o borran otros.
 - Deshacer y Rehacer (Ctrl+Z, Ctrl+Mayús+Z o Ctrl+Y, y el menú Editar) abarcan ahora todo el documento: texto, estilos de párrafo y de página, plantillas, saltos y metadatos, no solo lo escrito.
 - El texto nace en la posición elegida en el estilo de página (por ejemplo, centrado en medio de la página para una portadilla) cuando la página no se llena: la última, la que termina en un salto de página o la que deja mucho blanco. También en la exportación.
