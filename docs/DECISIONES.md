@@ -16,3 +16,11 @@
 4. **Motor en Rust** (silabeo, corte óptimo, paginación y medición con HarfBuzz), compilado a WebAssembly para la app y como biblioteca para una extensión de LibreOffice Writer. Medida idéntica en pantalla y PDF, con interletraje, ligaduras y versalitas reales.
 5. **Con el motor propio, valorar Tauri** para instaladores de ~10 MB.
 6. **Firma de código** de los instaladores (Windows y, si llega, macOS).
+
+## Fuentes del sistema
+- Se listan con la API Local Font Access (`window.queryLocalFonts`). Electron concede el permiso `local-fonts` sin preguntar. En navegadores sin la API (o en el artefacto, que corre en un iframe), se añade la fuente a mano por su nombre y se comprueba midiéndola con canvas.
+- La lista guardada (`S.sysFonts`) solo tiene familia, pesos y si hay cursiva; los archivos se leen al exportar. El PDF vectorial lee las métricas del propio archivo (cmap 4, hmtx, head, hhea, OS/2) y lo incrusta entero: TrueType como FontFile2, CFF como FontFile3/OpenType (PDF 1.6). Si no se puede (p. ej. .ttc), se exporta como imagen.
+
+## Sonido de máquina de escribir
+- Se usa la primera parte de «Typewriter Sound Effect» (kave_msri, Pixabay) recortada en un sprite: 10 teclas, espacio, retroceso, campanilla y retorno. Si el audio no se puede decodificar, se vuelve al sonido sintetizado.
+

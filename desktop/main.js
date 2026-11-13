@@ -26,6 +26,10 @@ function createWindow() {
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https?:/.test(url)) shell.openExternal(url); return { action: 'deny' }; });
   win.webContents.on('will-navigate', (e, url) => { if (!url.startsWith('app:')) { e.preventDefault(); shell.openExternal(url); } });
   // las descargas de la app (exportar, estilos…) abren el diálogo nativo de Guardar como
+  // fuentes del sistema: la app las lista con window.queryLocalFonts() (permiso 'local-fonts')
+  const ses = win.webContents.session, okPerm = p => p === 'local-fonts' || p === 'clipboard-sanitized-write';
+  ses.setPermissionCheckHandler((wc, perm) => okPerm(perm));
+  ses.setPermissionRequestHandler((wc, perm, cb) => cb(okPerm(perm)));
   win.webContents.session.on('will-download', (e, item) => { item.setSaveDialogOptions({ title: 'Guardar', defaultPath: path.join(app.getPath('documents'), item.getFilename()) }); });
 }
 ipcMain.handle('app:version', () => app.getVersion());
