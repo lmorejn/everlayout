@@ -1,0 +1,33 @@
+{
+  "name": "skoxas",
+  "productName": "Skoxa's",
+  "version": "0.9.0",
+  "description": "Skoxa's — Software de maquetado editorial",
+  "author": "Luis Morejón",
+  "license": "Apache-2.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "prepare-web": "node build-web.js",
+    "start": "npm run prepare-web && electron .",
+    "dist:win": "npm run prepare-web && electron-builder --win nsis portable --publish never",
+    "dist:linux": "npm run prepare-web && electron-builder --linux AppImage --publish never"
+  },
+  "devDependencies": {
+    "electron": "^45.3.1",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "com.lmorejn.skoxas",
+    "productName": "Skoxa's",
+    "copyright": "© Luis Morejón",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.js", "preload.js", "app/**/*"],
+    "asarUnpack": ["app/harper/**"],
+    "artifactName": "Skoxas-${version}-${os}-${arch}.${ext}",
+    "win": { "target": ["nsis", "portable"] },
+    "portable": { "artifactName": "Skoxas-${version}-portable.${ext}" },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "shortcutName": "Skoxa's", "createDesktopShortcut": true },
+    "linux": { "target": ["AppImage"], "category": "Office" }
+  }
+}
