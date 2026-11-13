@@ -2,6 +2,9 @@
 
 ## Sin publicar
 
+- El texto nace en la posición elegida en el estilo de página (por ejemplo, centrado en medio de la página para una portadilla) cuando la página no se llena: la última, la que termina en un salto de página o la que deja mucho blanco. También en la exportación.
+- Carátula: Borrador › Metadatos del texto › Carátula carga una imagen que sale en Previsualización › Libro como cubierta. El libro se abre y se cierra con cubierta, guardas y contracubierta.
+- Cubierta en Parámetros de encuadernación: material (autocubierta, cartulina estucada, kraft, cartón forrado, tela o guaflex, polipropileno) según la encuadernación, acabado (laminado mate o brillante, soft touch, UV selectivo, estampado dorado, esmerilado…) y color. La cubierta pasa con su propia rigidez.
 - Plantillas de página (Maquetación › Estilo de página): clic derecho sobre una página › Marcar como plantilla de página guarda su estilo de página y los estilos de sus párrafos; la plantilla se arrastra sobre otra página (en blanco o no) o se aplica con clic en la página y luego en la plantilla.
 - Ventana de estilo de página rediseñada: pestañas Página (tamaño, canon y ajuste manual de márgenes; si no coinciden con el canon, este pasa a «Personalizada»), Posición de la mancha (cuadrícula de 3 × 3 o según el canon, y líneas por página) y Cornisas y folio (cornisa desde título, autor, capítulo o sección actual, o inscripción personalizada). Una columna lateral muestra el pliego con el trazado y la mancha, y los valores resultantes. Desaparece la pestaña Organizador.
 - Los títulos «Estilo de página» y «Estilo de párrafo» de sus ventanas son ahora discretos, para no confundirlos con el nombre del estilo.

@@ -696,6 +696,32 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
 .bk.b-cartone::before{content:"";position:absolute;inset:calc(var(--cov)*-1) calc(var(--cov)*-1 - var(--stL)) calc(var(--cov)*-1) calc(var(--cov)*-1 - var(--stL));border-radius:6px;background:linear-gradient(90deg,#5b2b24,#6e342c 48%,#3f1d18 50%,#6e342c 52%,#5b2b24);box-shadow:0 18px 40px rgba(0,0,0,.5)}
 .bk .slot{position:absolute;top:0;width:var(--W);height:100%;background:var(--ptex,none),var(--pcol,#fdfcf9);box-shadow:0 12px 28px rgba(0,0,0,.35)}
 .bk .slot.empty{background:transparent;box-shadow:none}
+.bk .slot.empty .gut{display:none}
+.bk .slot.cvslot .gut{display:none}
+.bk.b-cartone::before{background:linear-gradient(90deg,color-mix(in srgb,var(--cvcol,#5b2b24) 88%,#000),var(--cvcol,#6e342c) 48%,color-mix(in srgb,var(--cvcol,#5b2b24) 60%,#000) 50%,var(--cvcol,#6e342c) 52%,color-mix(in srgb,var(--cvcol,#5b2b24) 88%,#000))!important}
+.bk.b-cartone.closedF::before,.bk.b-cartone.closedB::before{display:none}
+.cvface,.cvblank{position:absolute;left:0;top:0;overflow:hidden}
+.cvface{background:var(--cvcol) center/cover no-repeat}
+.cvface.cvin{background:#f4f0e6}
+.cv-papel.cvin,.cv-cartulina.cvin,.cv-kraft.cvin{background:#f7f5ef}
+.cv-kraft{background-color:#a8835a}.cv-kraft.cvfront{background-blend-mode:multiply}
+.cv-kraft::after{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 30% 40%,rgba(80,50,20,.08) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+.cv-tela:not(.cvin)::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.09) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 1px,transparent 1px 3px);mix-blend-mode:overlay}
+.cv-pp.cvfront::before{content:"";position:absolute;inset:0;background:rgba(240,244,248,.42);backdrop-filter:blur(1.5px)}
+.cv-pp.fin-cristal.cvfront::before{background:rgba(240,244,248,.12);backdrop-filter:none}
+.cvfin{position:absolute;inset:0;pointer-events:none}
+.fin-brillo .cvfin{background:linear-gradient(112deg,transparent 30%,rgba(255,255,255,.2) 42%,rgba(255,255,255,.04) 52%,transparent 62%)}
+.fin-mate .cvfin{background:rgba(255,255,255,.05)}.fin-mate.cvfront{filter:saturate(.93) contrast(.96)}
+.fin-soft .cvfin{background:radial-gradient(120% 90% at 50% 40%,rgba(255,255,255,.06),rgba(0,0,0,.06))}.fin-soft.cvfront{filter:saturate(.86) contrast(.92) brightness(1.02)}
+.fin-uvsel .cvfin{background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.22) 46%,transparent 52%);-webkit-mask:radial-gradient(40% 30% at 50% 38%,#000 60%,transparent 62%);mask:radial-gradient(40% 30% at 50% 38%,#000 60%,transparent 62%)}.fin-uvsel.cvfront{filter:saturate(.93) contrast(.96)}
+.fin-cristal .cvfin,.fin-esmerilado .cvfin{background:linear-gradient(112deg,transparent 30%,rgba(255,255,255,.25) 44%,transparent 58%)}
+.cvin .cvfin{display:none}
+.cvtitle{position:absolute;left:12%;right:12%;top:30%;text-align:center;color:rgba(255,255,255,.92);display:flex;flex-direction:column;gap:10px}
+.cvtitle b{font-weight:600;font-size:28px;line-height:1.15}.cvtitle span{font-size:15px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.fin-estampado .cvtitle{color:transparent;background:linear-gradient(100deg,#8a6a2a,#f3d98b 35%,#b8924a 55%,#f6e3a6 70%,#8a6a2a);-webkit-background-clip:text;background-clip:text}
+.cv-kraft .cvtitle,.cv-papel .cvtitle{color:rgba(30,25,20,.85)}
+.cvthumb{width:72px;height:96px;border-radius:3px;background:var(--color-background-muted) center/cover no-repeat;border:var(--border-width) solid var(--color-border-subtle);flex:none}
+.cvrow{display:flex;gap:var(--spacing-3);align-items:flex-start}.cvrow .btns{display:flex;flex-direction:column;gap:6px;margin:0}
 .bk .slot{overflow:hidden}
 .bk .sL{left:0}.bk .sR{left:calc(var(--W) + var(--gap))}
 .bk .sL:not(.empty){box-shadow:0 12px 28px rgba(0,0,0,.35),calc(var(--stL)*-1) calc(var(--stL)*.35) 0 -1px #d9d3c7,calc(var(--stL)*-1) calc(var(--stL)*.35) 0 0 #b9b2a5}
@@ -1337,7 +1363,7 @@ const POVROWS=[
  {k:'minLast',label:'Última línea mínima',min:0,max:60,step:5,fmt:v=>v+' %'}];
 S.track=S.track||0;
 S.pinL=false; S.pinR=false; S.turn='focus'; S.stock='none'; S.pageSound=true; S.stockGsm=120; S.stockBulk=1.2; S.sigs=0; S.exSheet=''; S.exMarks={crop:true,cutfull:false,bleed:false,reg:true,color:true,gray:true,frame:false,info:true}; S.exSim=false; S.typeSound=false; S.typeVol=60; S.typeBellLine=true; S.theme='auto'; S.sysFonts=[];
-S.ptpls=[]; S.pnOpen={}; S.userKeys={}; S.sbOff=false; S.uiLang='es';
+S.cover={on:true,img:'',mat:'cartulina',fin:'mate',color:'#2f3d52'}; S.ptpls=[]; S.pnOpen={}; S.userKeys={}; S.sbOff=false; S.uiLang='es';
 S.hNames=['Capítulo','Sección','Subsección','Apartado','Inciso','Subinciso']; S.hPage=[true,false,false,false,false,false];
 const DEFAULTS=JSON.parse(JSON.stringify(S));
 let saved={}; try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
@@ -2166,10 +2192,21 @@ function lineHTML(sl,W){
   }
   return h+'</div>';
 }
+/* el texto nace en la posición elegida del estilo de página: en páginas que no se llenan (última, antes de un salto, o con mucho blanco) se ancla dentro de la mancha */
+function textShift(pg,pn,gp,inner,res){ const pav=pg.avail||gp.avail, out={dx:0,dy:gp.valign==='bottom'?Math.max(0,gp.availT-pav):0};
+  if(!pg.slots||!pg.slots.length) return out; const v=pageStyleVals(pageStyleOf(pn)); if(v.posX==='canon'&&v.posY==='canon') return out;
+  res=res||CUR_RES||PRIMARY; const nx=res&&res.pages[pn+1], lh=pg.slots[0].line.lh, free=pav-pg.used;
+  const short=!nx||(nx.slots&&nx.slots[0]&&(S.pbreaks||[]).includes(nx.slots[0].line.s))||nx.blank||free>=Math.max(3*lh,pav*.25);
+  if(!short) return out;
+  const ky={top:0,center:.5,bottom:1}[v.posY]; if(ky!=null&&free>0) out.dy+=free*ky;
+  let kx={center:.5}[v.posX]; if(v.posX==='in') kx=inner==='gl'?0:1; else if(v.posX==='out') kx=inner==='gl'?1:0;
+  if(kx){ let a=Infinity,b=0; pg.slots.forEach(sl=>{ const l=sl.line; if(l.words&&l.words.length){ a=Math.min(a,l.words[0].x); b=Math.max(b,l.endX); } });
+    if(b>a){ const W=gp.W; out.dx=kx===1?W-b:(W-b-a)/2; } }
+  return out; }
 function pageHTML(pg,pn,total,g0,fam,cls){
   if(MSRUN) return msPageHTML(pg,pn,g0,fam);
   const g=Object.assign({},g0,GEOS[pageStyleOf(pn)]||{}); g.bindPx=g0.bindPx;
-  const pav=pg.avail||g.avail, voff=g.valign==='bottom'?Math.max(0,g.availT-pav):0;
+  const pav=pg.avail||g.avail, voff=g.valign==='bottom'?Math.max(0,g.availT-pav):0, inner0=cls==='l'?'gr':(cls==='r'?'gl':(pn%2===0?'gl':'gr')), TS=textShift(pg,pn,g,inner0);
   const free=pav-pg.used, missing=free>2?Math.round(free/(pg.slots.length?pg.slots[0].line.lh:g.avail)):0;
   const selPg=(S.mode==='edit'&&S.sel>=0)&&((S.selmode==='page'&&(S.sel===pn||SELX.includes(pn)))||S.selmode==='all');
   const pgCls=selPg?(S.selmode==='all'?' selall':' selpg'):'';
@@ -2179,8 +2216,9 @@ function pageHTML(pg,pn,total,g0,fam,cls){
   const cut0=S.showBind?g.bindPx+sigPage(pn).extra*96/25.4:0, cut=cut0>0.5?cut0:0; // la franja del lomo crece en los pliegos exteriores de cuadernillos gruesos
   const boxL=inner==='gl'?g.lomo-cut:g.corte;
   h+=`<div class="sheet${pgCls}${FLASHPG.has(pn)?' pflash':''}" style="width:${(g.pw-cut).toFixed(2)}px;height:${g.ph}px">${pageStyleOf(pn)==='pdef'?traceSVG(g,inner,cut):''}${decorHTML(pn,g,inner,cut)}<div class="box" style="position:absolute;left:${boxL.toFixed(2)}px;top:${(g.mt+voff).toFixed(2)}px;width:${g.W}px;height:${pav.toFixed(2)}px;font-family:${fam}">`;
-  h+=overlay(pg,g.W,pav);
-  pg.slots.forEach(sl=>{ h+=lineHTML(sl,g.W); });
+  const tsh=(TS.dx||TS.dy-voff)?`<div class="tsh" style="position:absolute;inset:0;transform:translate(${TS.dx.toFixed(2)}px,${(TS.dy-voff).toFixed(2)}px)">`:'';
+  h+=tsh; h+=overlay(pg,g.W,pav);
+  pg.slots.forEach(sl=>{ h+=lineHTML(sl,g.W); }); if(tsh) h+='</div>';
   if(S.pilc&&!pg.blank&&pg.slots.length&&S.pbreaks&&S.pbreaks.length&&CUR_RES&&CUR_RES.pages[pn+1]){ const nx=CUR_RES.pages[pn+1].slots[0], last=pg.slots[pg.slots.length-1];
     if(nx&&S.pbreaks.includes(nx.line.s)) h+=`<div class="pbmark" style="top:${(last.y+last.line.lh).toFixed(1)}px" aria-hidden="true"><span>Salto de página</span></div>`; }
   if(pg.blank) h+='</div>';
@@ -2462,8 +2500,21 @@ function buildMetaPane(){
   [ti,au,de].forEach(x=>{ x.addEventListener('input',put); x.addEventListener('keydown',e=>e.stopPropagation()); });
   ti.addEventListener('blur',()=>{ if(!ti.value.trim()) ti.value=S.docName||''; });
   REFRESH.push(syncMetaPane);
-  return {id:'meta',title:'Metadatos del texto',icon:'doc',panels:[{title:'Documento',nodes:[d]}]};
+  const cv=document.createElement('div'); cv.innerHTML=`<div class="cvrow"><div class="cvthumb" id="cvThumb" role="img" aria-label="Carátula"></div><div class="btns"><button type="button" class="tbtn" id="cvLoad">Cargar imagen…</button><button type="button" class="tbtn" id="cvDel">Quitar</button></div></div>
+    <p class="bhint">La carátula sale en Previsualización › Libro, al pasar la cubierta. El material y el acabado se eligen en Parámetros de encuadernación › Cubierta.</p><input type="file" id="cvFile" accept="image/*" hidden>`;
+  cv.querySelector('#cvLoad').addEventListener('click',()=>cv.querySelector('#cvFile').click());
+  cv.querySelector('#cvDel').addEventListener('click',()=>{ S.cover=Object.assign({},S.cover,{img:''}); coverChanged(); toast('Carátula quitada'); });
+  cv.querySelector('#cvFile').addEventListener('change',e=>{ const f=e.target.files&&e.target.files[0]; e.target.value=''; if(f) loadCoverImage(f); });
+  REFRESH.push(syncMetaCover); setTimeout(syncMetaCover,0);
+  return {id:'meta',title:'Metadatos del texto',icon:'doc',panels:[{title:'Documento',nodes:[d]},{title:'Carátula',nodes:[cv]}]};
 }
+function syncMetaCover(){ const t=$('cvThumb'); if(!t) return; const img=S.cover&&S.cover.img; t.style.backgroundImage=img?`url("${img}")`:''; t.style.backgroundColor=img?'':((S.cover&&S.cover.color)||''); const d=$('cvDel'); if(d) d.disabled=!img; }
+function loadCoverImage(file){ if(!/^image\//.test(file.type)){ toast('Ese archivo no es una imagen'); return; }
+  const url=URL.createObjectURL(file), im=new Image(); im.onload=()=>{ const mx=1600, k=Math.min(1,mx/Math.max(im.naturalWidth,im.naturalHeight)), c=document.createElement('canvas'); c.width=Math.round(im.naturalWidth*k); c.height=Math.round(im.naturalHeight*k);
+    const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height); URL.revokeObjectURL(url);
+    S.cover=Object.assign({},S.cover,{img:c.toDataURL('image/jpeg',.86),on:true}); coverChanged();
+    const G=LASTG, r=G?G.pw/G.ph:0, ri=im.naturalWidth/im.naturalHeight; toast(r&&Math.abs(ri-r)/r>.04?'Carátula cargada · su proporción no es la de la página: se recorta para cubrirla':'Carátula cargada'); };
+  im.onerror=()=>{ URL.revokeObjectURL(url); toast('No se pudo leer la imagen'); }; im.src=url; }
 function syncMetaPane(){ const ti=$('mtTitle'); if(!ti) return; const a=document.activeElement, mm=S.docMeta||{};
   if(a!==ti) ti.value=S.docName&&S.docName!=='Sin título'?S.docName:''; ti.placeholder='Sin título';
   if(a!==$('mtAuthor')) $('mtAuthor').value=mm.author||''; if(a!==$('mtDesc')) $('mtDesc').value=mm.desc||''; }
@@ -2497,9 +2548,26 @@ function buildBindPane(){
   q('#enSigs').addEventListener('change',e=>{ setSigs(parseInt(e.target.value,10)); setTimeout(syncBindPane,60); });
   q('#enShow').addEventListener('input',e=>{ S.showBind=e.target.checked; changed(); });
   REFRESH.push(syncBindPane);
-  return {id:'encuad',title:'Parámetros de encuadernación',icon:'book',panels:[{title:'Encuadernación',nodes:[d]}]};
+  const c=document.createElement('div'); c.className='bindpane';
+  c.innerHTML=`<div class="brow"><label for="cvOn">Cubierta</label><label class="bchk"><input type="checkbox" id="cvOn"><i></i><span>Mostrar la cubierta al pasar página como libro</span></label></div>
+    <div class="brow"><label for="cvMat">Material</label><span class="bsel"><select id="cvMat"></select></span></div>
+    <div class="brow"><label for="cvFin">Acabado</label><span class="bsel"><select id="cvFin"></select></span></div>
+    <div class="brow"><label for="cvCol">Color del material</label><input type="color" id="cvCol" class="bnum" style="padding:2px;height:30px"></div>
+    <p class="bhint" id="cvNote"></p>`;
+  c.querySelector('#cvOn').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{on:e.target.checked}); coverChanged(); });
+  c.querySelector('#cvMat').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{mat:e.target.value}); coverChanged(); });
+  c.querySelector('#cvFin').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{fin:e.target.value}); coverChanged(); });
+  c.querySelector('#cvCol').addEventListener('input',e=>{ S.cover=Object.assign({},S.cover,{color:e.target.value}); coverChanged(); });
+  return {id:'encuad',title:'Parámetros de encuadernación',icon:'book',panels:[{title:'Encuadernación',nodes:[d]},{title:'Cubierta',nodes:[c]}]};
 }
-function syncBindPane(){ const b=$('enBind'); if(!b) return; const a=document.activeElement, set=(id,v)=>{ const x=$(id); if(x&&x!==a) x.value=v; };
+function syncCoverPane(){ const ms=$('cvMat'); if(!ms) return; const C=coverEff(), on=S.binding&&S.binding!=='none';
+  $('cvOn').checked=!!(S.cover&&S.cover.on!==false); $('cvOn').disabled=!on||!C;
+  ms.innerHTML=coverMats().map(k=>`<option value="${k}">${esc(COVER_MATS[k].name)}</option>`).join(''); ms.disabled=!C;
+  const fs=$('cvFin'); fs.innerHTML=C?C.M.fins.map(k=>`<option value="${k}">${COVER_FINS[k]}</option>`).join(''):''; fs.disabled=!C||C.M.fins.length<2;
+  if(C){ ms.value=C.mat; fs.value=C.fin; } $('cvCol').value=(S.cover&&S.cover.color)||'#2f3d52';
+  $('cvNote').textContent=!on?'Las hojas sueltas no llevan cubierta: elige un tipo de encuadernación.':(C?`Con ${(BINDINGS[S.binding]||{}).name} se usan: ${coverMats().map(k=>COVER_MATS[k].name.split(' (')[0].toLowerCase()).join(', ')}.${S.cover&&S.cover.img?'':' Sin carátula, la cubierta muestra el título y el autor sobre el color del material.'}`:'');
+  document.querySelectorAll('#cvMat,#cvFin,#cvCol').forEach(x=>{ const r=x.closest('.brow'); if(r) r.hidden=!on||!C; }); }
+function syncBindPane(){ try{ syncCoverPane(); }catch(e){} const b=$('enBind'); if(!b) return; const a=document.activeElement, set=(id,v)=>{ const x=$(id); if(x&&x!==a) x.value=v; };
   set('enBind',S.binding); set('enPages',S.pagesTotal||''); set('enPaper',S.stock); set('enGsm',S.stockGsm); set('enBulk',S.stockBulk); set('enSheet',S.sheetMm);
   document.querySelectorAll('.bindpane .encus').forEach(e=>{ e.hidden=S.stock!=='custom'; });
   const sh=$('enShow'); if(sh) sh.checked=!!S.showBind;
@@ -4363,9 +4431,33 @@ addEventListener('pointerdown',()=>{ try{ if(!ACX&&S.pageSound&&S.mode==='previe
 /* ---- pasar página en Previsualización: por foco o como un libro encuadernado ---- */
 const BINDVIS={none:{gap:16,shade:0},grapa:{gap:0,shade:.16,staples:'c'},fresada:{gap:0,shade:.42,deep:1},cosida:{gap:0,shade:.24,stitch:1},wireo:{gap:30,shade:.05,rings:1},cartone:{gap:0,shade:.3,cover:1},japonesa:{gap:0,shade:.36,stitch:2},bodoniana:{gap:0,shade:.08},lateral:{gap:0,shade:.45,staples:'s'}};
 let BOOK=null;
+const COVER_MATS={
+  papel:{name:'Autocubierta (el mismo papel del interior)',b:['grapa','lateral','japonesa'],fins:['sin'],stiff:null},
+  cartulina:{name:'Cartulina estucada (250–350 g/m²)',b:['grapa','fresada','cosida','wireo','japonesa','bodoniana','lateral'],fins:['mate','brillo','soft','uvsel','sin'],stiff:.86},
+  kraft:{name:'Cartulina kraft',b:['grapa','cosida','fresada','wireo','japonesa'],fins:['sin'],stiff:.82},
+  tapadura:{name:'Cartón forrado con papel impreso',b:['cartone','wireo'],fins:['mate','brillo','soft','uvsel'],stiff:1},
+  tela:{name:'Tela o guaflex sobre cartón',b:['cartone'],fins:['sin','estampado'],stiff:1},
+  pp:{name:'Polipropileno translúcido',b:['wireo'],fins:['esmerilado','cristal'],stiff:.7}};
+const COVER_FINS={sin:'Sin laminar',mate:'Laminado mate',brillo:'Laminado brillante',soft:'Soft touch (tacto aterciopelado)',uvsel:'Mate con barniz UV selectivo',estampado:'Estampado dorado (hot stamping)',esmerilado:'Esmerilado',cristal:'Transparente'};
+const coverMats=()=>Object.keys(COVER_MATS).filter(k=>COVER_MATS[k].b.includes(S.binding));
+function coverEff(){ const c=S.cover||{}, ms=coverMats(); if(!ms.length) return null; const mat=ms.includes(c.mat)?c.mat:ms[0], M=COVER_MATS[mat]; return {mat,M,fin:M.fins.includes(c.fin)?c.fin:M.fins[0],color:c.color||'#2f3d52',img:c.img||''}; }
+const coverOn=()=>!!(S.cover&&S.cover.on!==false&&S.binding&&S.binding!=='none'&&coverEff());
+function bookFaces(n){ if(!coverOn()) return null; const F=[-2,-3]; for(let i=0;i<n;i++) F.push(i); if(n%2) F.push(-6); F.push(-4,-5); return F; }
+function bookSpread(s,n){ const F=bookFaces(n); if(!F) return spreadPages(s,n); const g=i=>i>=0&&i<F.length?F[i]:-1; return [s>0?g(2*s-1):-1,g(2*s)]; }
+function bookMaxS(n){ const F=bookFaces(n); return F?F.length/2:spreadOf(n-1); }
+function bookSpreadOf(k){ const F=bookFaces(PRIMARY?PRIMARY.pages.length:0); if(!F) return spreadOf(k); const i=F.indexOf(k); return i<0?0:Math.floor((i+1)/2); }
+const faceName=k=>({'-2':'Cubierta','-3':'Interior de la cubierta','-4':'Interior de la contracubierta','-5':'Contracubierta','-6':'Página en blanco'})[k];
+function coverFace(k){ const C=coverEff(); if(!C) return null; const {W,H}=bookGeom(), el=document.createElement('div');
+  if(k===-6){ el.className='cvblank'; el.style.width=W+'px'; el.style.height=H+'px'; return el; }
+  const inner=k===-3||k===-4, front=k===-2;
+  el.className=`cvface cv-${C.mat} fin-${C.fin}${inner?' cvin':''}${front?' cvfront':' cvback'}`; el.style.width=W+'px'; el.style.height=H+'px'; el.style.setProperty('--cvcol',C.color);
+  if(front&&C.img) el.style.backgroundImage=`url("${C.img}")`;
+  if(front&&!C.img){ const t=document.createElement('div'); t.className='cvtitle'; const a=((S.docMeta&&S.docMeta.author)||'').trim(); t.innerHTML=`<b></b>${a?'<span></span>':''}`; t.firstChild.textContent=S.docName||'Sin título'; if(a) t.lastChild.textContent=a; t.style.fontFamily=`'${S.font}', ${FONTS[S.font]||'serif'}`; el.appendChild(t); }
+  const f=document.createElement('i'); f.className='cvfin'; el.appendChild(f); return el; }
+function coverStiff(){ const C=coverEff(); return C&&C.M.stiff!=null?C.M.stiff:paperStiff(); }
 const spreadOf=k=>k<=0?0:Math.floor((k+1)/2);
 function spreadPages(s,n){ const L=s===0?-1:2*s-1, R=s===0?0:2*s; return [L<n?L:-1,R<n?R:-1]; }
-function sheetClone(k){ if(k<0) return null; const sh=document.querySelector(`#view .panel:not([hidden]) figure.pg[data-pg="${k}"] .sheet`); if(!sh) return null;
+function sheetClone(k){ if(k<=-2) return coverFace(k); if(k<0) return null; const sh=document.querySelector(`#view .panel:not([hidden]) figure.pg[data-pg="${k}"] .sheet`); if(!sh) return null;
   const c=sh.cloneNode(true); c.classList.remove('pflash','pfocus','selpg','selall'); c.style.position='absolute'; c.style.left='0'; c.style.top='0'; c.style.contentVisibility='visible'; c.style.contain='none'; return c; }
 function syncTurnBar(){ applyPaper(); syncSigCtl(); syncBindPane(); const b=$('turnBar'); if(!b) return; const on=S.mode==='preview'&&S.docOpen; b.hidden=!on; const ps=$('bkPaper'); if(ps) ps.value=S.stock;
   b.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.t===S.turn)));
@@ -4376,43 +4468,48 @@ function openBook(){ if(BOOK||!PRIMARY) return; const v=VP();
   const k=FOCUS_PG>=0?FOCUS_PG:Math.max(0,mostVisiblePage());
   const el=document.createElement('div'); el.className='bookv'; el.innerHTML='<div class="bkwrap"><div class="bk"><div class="slot sL"></div><div class="slot sR"></div><div class="spart"></div></div></div><p class="bkhint">Clic en la mitad derecha o → para avanzar · mitad izquierda o ← para volver · Esc para salir</p>';
   v.appendChild(el); v.classList.add('booking'); document.body.classList.add('booking');
-  BOOK={el,s:spreadOf(k),busy:false};
+  BOOK={el,s:bookSpreadOf(k),busy:false};
   ['dblclick','click','contextmenu'].forEach(ev=>el.addEventListener(ev,e=>{ e.stopPropagation(); if(ev!=='click') e.preventDefault(); }));
   el.addEventListener('pointerdown',e=>{ e.stopPropagation(); if(e.button!==0||BOOK.busy) return; const bk=el.querySelector('.bk').getBoundingClientRect(); if(e.clientX<bk.left-40||e.clientX>bk.right+40) return; e.preventDefault(); e.stopPropagation(); bookFlip(e.clientX>bk.left+bk.width/2?1:-1); });
   let wt=0; el.addEventListener('wheel',e=>{ e.preventDefault(); e.stopPropagation(); const now=performance.now(); if(now-wt<550) return; const d=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX; if(Math.abs(d)<4) return; wt=now; bookFlip(d>0?1:-1); },{passive:false});
   bookRender(); syncTurnBar(); }
-function closeBook(){ if(!BOOK) return; const n=PRIMARY?PRIMARY.pages.length:0, [L,R]=spreadPages(BOOK.s,n); BOOK.el.remove(); VP().classList.remove('booking'); document.body.classList.remove('booking'); FOCUS_PG=R>=0?R:L; BOOK=null; syncTurnBar(); if(FOCUS_PG>=0) requestAnimationFrame(()=>goPage(FOCUS_PG)); }
-function bookGeom(){ const c=sheetClone(0); const W=c?parseFloat(c.style.width):LASTG.pw, H=c?parseFloat(c.style.height):LASTG.ph; return {W,H}; }
-function bookRender(){ if(!BOOK||!PRIMARY) return; const n=PRIMARY.pages.length, maxS=spreadOf(n-1); BOOK.s=clamp(BOOK.s,0,maxS);
+const k0Clone=()=>{ const sh=document.querySelector('#view .panel:not([hidden]) figure.pg[data-pg="0"] .sheet'); return sh?{style:{width:sh.style.width,height:sh.style.height}}:null; };
+function closeBook(){ if(!BOOK) return; const n=PRIMARY?PRIMARY.pages.length:0, [L,R]=bookSpread(BOOK.s,n); BOOK.el.remove(); VP().classList.remove('booking'); document.body.classList.remove('booking'); FOCUS_PG=R>=0?R:(L>=0?L:(BOOK.s>1?n-1:0)); BOOK=null; syncTurnBar(); if(FOCUS_PG>=0) requestAnimationFrame(()=>goPage(FOCUS_PG)); }
+function bookGeom(){ const c=k0Clone(); const W=c?parseFloat(c.style.width):LASTG.pw, H=c?parseFloat(c.style.height):LASTG.ph; return {W,H}; }
+function bookRender(){ if(!BOOK||!PRIMARY) return; const n=PRIMARY.pages.length, maxS=bookMaxS(n); BOOK.s=clamp(BOOK.s,0,maxS);
   const vis=BINDVIS[S.binding]||BINDVIS.none, {W,H}=bookGeom(), gap=vis.gap, el=BOOK.el, bk=el.querySelector('.bk'), mm=96/25.4;
   const BI=bindInfo(n), lost=BI.mmLost*mm, cov=vis.cover?14:0;
   bk.style.width=(2*W+gap)+'px'; bk.style.height=H+'px'; bk.className='bk b-'+(S.binding||'none'); bk.style.setProperty('--gap',gap+'px'); bk.style.setProperty('--W',W+'px');
   bk.style.setProperty('--sh',vis.shade); bk.style.setProperty('--gw',Math.max(14,Math.min(W*.22,lost*1.1+vis.shade*70))+'px'); bk.style.setProperty('--cov',cov+'px');
   const vb=VP(), vw=vb.clientWidth, vh=vb.clientHeight, sc=Math.min((vw-110)/(2*W+gap+2*cov+40),(vh-130)/(H+2*cov+20));
   el.querySelector('.bkwrap').style.transform=`translate(-50%,-50%) scale(${sc})`; BOOK.sc=sc; BOOK.W=W; BOOK.H=H; BOOK.gap=gap;
-  const [L,R]=spreadPages(BOOK.s,n); fillSlot(bk.querySelector('.sL'),L,'L'); fillSlot(bk.querySelector('.sR'),R,'R');
+  const [L,R]=bookSpread(BOOK.s,n); fillSlot(bk.querySelector('.sL'),L,'L'); fillSlot(bk.querySelector('.sR'),R,'R');
+  { const C=coverEff(); bk.style.setProperty('--cvcol',C?C.color:'#5b2b24'); bk.classList.toggle('covered',coverOn()); bk.classList.toggle('closedF',L<0&&R===-2); bk.classList.toggle('closedB',R<0&&L===-5); }
   // grosor del bloque leído y del que falta, con el grueso real del papel
-  const leaf=S.sheetMm*mm, readL=BOOK.s, restL=Math.ceil(Math.max(0,n-(2*BOOK.s+1))/2), th=x=>Math.min(22,Math.max(x?1:0,x*leaf));
+  const F0=bookFaces(n), leaf=S.sheetMm*mm, pos=F0?Math.max(0,2*BOOK.s-2):2*BOOK.s, readL=Math.min(Math.ceil(n/2),Math.ceil(pos/2)), restL=Math.max(0,Math.ceil(n/2)-readL), th=x=>Math.min(22,Math.max(x?1:0,x*leaf));
   bk.style.setProperty('--stL',th(readL)+'px'); bk.style.setProperty('--stR',th(restL)+'px');
   const sp=bk.querySelector('.spart'); sp.innerHTML=vis.rings?'<i class="rings"></i>':(vis.staples?`<i class="stp ${vis.staples}"></i><i class="stp ${vis.staples} b"></i>`:(vis.stitch?'<i class="stitch"></i>':''));
-  const info=$('bkInfo'); if(info){ const lab=L>=0&&R>=0?`Págs. ${L+1}–${R+1}`:`Pág. ${(R>=0?R:L)+1}`; info.textContent=`${lab} de ${n}`; }
+  const info=$('bkInfo'); if(info){ const nm=k=>k>=0?String(k+1):'', lab=(L>=0&&R>=0)?`Págs. ${L+1}–${R+1}`:(L>=0||R>=0)?((L>=0?L:R)>=0?`Pág. ${(L>=0?L:R)+1}`:''):'';
+    const cv=[L,R].filter(k=>k<=-2).map(faceName); info.textContent=(L<-1||R<-1)?(cv.join(' · ')+([L,R].some(k=>k>=0)?` · pág. ${[L,R].filter(k=>k>=0).map(nm).join('–')}`:'')):`${lab} de ${n}`; }
   const bb=$('bkBind'); if(bb){ const SP=sigPlan(n); bb.textContent=(BINDINGS[S.binding]||BINDINGS.none).name+(S.binding&&S.binding!=='none'?` · lomo ${String(BI.spine).replace('.',',')} mm`:''); bb.classList.toggle('warn',!!(SP&&(SP.tight||SP.imp))); bb.title=SP?sigText(SP)+(SP.tight?'. Cuadernillos apretados: los pliegos exteriores pierden medianil.':''):''; }
   $('bkPrev').disabled=BOOK.s<=0; $('bkNext').disabled=BOOK.s>=maxS; }
+function coverChanged(){ persist(); if(BOOK&&!BOOK.busy) bookRender(); syncBindPane(); syncMetaCover(); }
 function backOf(k){ if(k<0||!PRIMARY) return -1; const b=k%2===0?k+1:k-1; return b>=0&&b<PRIMARY.pages.length?b:-1; }
 function ghostOf(k){ const st=paperShow(), b=backOf(k); if(!st||b<0) return null; const c=sheetClone(b); if(!c) return null; const g=document.createElement('div'); g.className='ghost'; g.style.opacity=st.toFixed(3); g.appendChild(c); return g; }
 function sigDecor(el,k,side){ const sp=sigPage(k), mm=96/25.4, ex=sp.extra*mm, cr=sp.creep*mm; el.style.setProperty('--gx',ex.toFixed(1)+'px');
   const sh=el.querySelector(':scope>.sheet'); if(sh&&cr>.3) sh.style.transform=`translateX(${side==='L'?-cr:cr}px)`; // el corrimiento empuja la página hacia el corte y la guillotina se la come
   if(ex>.5){ const e=document.createElement('i'); e.className='eat '+side; e.style.width=(ex*1.15).toFixed(1)+'px'; el.appendChild(e); } }
-function fillSlot(slot,k,side){ slot.innerHTML=''; slot.classList.toggle('empty',k<0); slot.dataset.pg=k; const c=sheetClone(k); if(c){ const gh=ghostOf(k); if(gh) slot.appendChild(gh); slot.appendChild(c); sigDecor(slot,k,side); }
+function fillSlot(slot,k,side){ slot.innerHTML=''; slot.classList.toggle('empty',k===-1); slot.classList.toggle('cvslot',k<=-2&&k!==-6); slot.dataset.pg=k; const c=sheetClone(k); if(c){ const gh=k>=0?ghostOf(k):null; if(gh) slot.appendChild(gh); slot.appendChild(c); if(k>=0) sigDecor(slot,k,side); }
   const g=document.createElement('i'); g.className='gut '+side; slot.appendChild(g); }
-function bookFlip(d){ if(!BOOK||BOOK.busy||!PRIMARY) return; const n=PRIMARY.pages.length, maxS=spreadOf(n-1), s2=BOOK.s+d; if(s2<0||s2>maxS){ const bk=BOOK.el.querySelector('.bk'); bk.classList.remove('nudge'); void bk.offsetWidth; bk.classList.add('nudge'); return; }
-  const bk=BOOK.el.querySelector('.bk'), [L0,R0]=spreadPages(BOOK.s,n), [L1,R1]=spreadPages(s2,n), W=BOOK.W, gap=BOOK.gap;
+function bookFlip(d){ if(!BOOK||BOOK.busy||!PRIMARY) return; const n=PRIMARY.pages.length, maxS=bookMaxS(n), s2=BOOK.s+d; if(s2<0||s2>maxS){ const bk=BOOK.el.querySelector('.bk'); bk.classList.remove('nudge'); void bk.offsetWidth; bk.classList.add('nudge'); return; }
+  const bk=BOOK.el.querySelector('.bk'), [L0,R0]=bookSpread(BOOK.s,n), [L1,R1]=bookSpread(s2,n), W=BOOK.W, gap=BOOK.gap;
   // la hoja se arma con tiras encadenadas: así puede curvarse según la rigidez del papel
-  const P=paperNow(), um=paperUm(P)||100, stiff=paperStiff(), N=7, w=W/N, sg=d>0?-1:1;
+  const fpg0=d>0?R0:L0, bpg0=d>0?L1:R1, isCov=fpg0<=-2&&fpg0!==-6||bpg0<=-2&&bpg0!==-6;
+  const P=paperNow(), um=paperUm(P)||100, stiff=isCov?coverStiff():paperStiff(), N=7, w=W/N, sg=d>0?-1:1;
   const leaf=document.createElement('div'); leaf.className='leaf '+(d>0?'toL':'toR'); leaf.style.left=(d>0?W+gap:0)+'px'; leaf.style.width=W+'px';
   const fpg=d>0?R0:L0, bpg=d>0?L1:R1, strips=[]; let parent=leaf;
   const face=(cls,pg,x)=>{ const f=document.createElement('div'); f.className='face '+cls; f.style.width=w+'px';
-    if(pg>=0){ const wr=document.createElement('div'); wr.className='fpage'; wr.style.left=(-x)+'px'; wr.style.width=W+'px'; const g=ghostOf(pg); if(g) wr.appendChild(g); const c=sheetClone(pg); if(c){ wr.appendChild(c); sigDecor(wr,pg,pg%2===0?'R':'L'); } f.appendChild(wr); }
+    if(pg>=0||pg<=-2){ const wr=document.createElement('div'); wr.className='fpage'+(pg<=-2&&pg!==-6?' cvpage':''); wr.style.left=(-x)+'px'; wr.style.width=W+'px'; const g=pg>=0?ghostOf(pg):null; if(g) wr.appendChild(g); const c=sheetClone(pg); if(c){ wr.appendChild(c); if(pg>=0) sigDecor(wr,pg,pg%2===0?'R':'L'); } f.appendChild(wr); }
     const sh=document.createElement('i'); sh.className='fsh'; sh.style.left=(-x)+'px'; sh.style.width=W+'px'; sh.style.right='auto'; f.appendChild(sh); return f; };
   for(let i=0;i<N;i++){ const st=document.createElement('div'); st.className='strip'; st.style.width=w+'px';
     if(d>0){ st.style.left=(i?w:0)+'px'; st.style.transformOrigin=i?'0 50%':`${-gap/2}px 50%`; }
@@ -4935,7 +5032,7 @@ async function renderPageCanvas(k,dpi,bg,ink){
   const cv=document.createElement('canvas'); cv.width=Math.round(gp.pw*sc); cv.height=Math.round(gp.ph*sc);
   const c=cv.getContext('2d'); if(bg!=='none'){ c.fillStyle='#fff'; c.fillRect(0,0,cv.width,cv.height); }
   c.setTransform(sc,0,0,sc,0,0);
-  const inner=innerOf(k,res), boxL=inner==='gl'?gp.lomo:gp.corte, pav=pg.avail||gp.avail, voff=gp.valign==='bottom'?Math.max(0,gp.availT-pav):0;
+  const inner=innerOf(k,res), TS=textShift(pg,k,gp,inner,res), boxL=(inner==='gl'?gp.lomo:gp.corte)+TS.dx, pav=pg.avail||gp.avail, voff=TS.dy;
   c.fillStyle=ink||'#111'; c.textBaseline='alphabetic';
   for(const sl of pg.slots){ const l=sl.line, font=`${l.ital?'italic ':''}${l.caps?'small-caps ':''}${l.weight||S.weight||400} ${l.px}px "${l.font||S.font}", ${FONTS[l.font||S.font]||'serif'}`;
     c.font=font; if('fontStretch' in c) c.fontStretch=stretchKw(l.fw||100); const mt=c.measureText('Hxg'), A=mt.fontBoundingBoxAscent||l.px*.8, D=mt.fontBoundingBoxDescent||l.px*.2;
@@ -5121,7 +5218,7 @@ async function ensureFontsFor(ks){ const need=new Set([S.font]); (S.styles||[]).
   const sys=new Set(sysFamilies()); for(const f of need) if(!FONTMETA[f]&&sys.has(f)) await ensureSysMeta(f); }
 function vecPageCS(k,fontRef){ // texto vectorial de una página, en coordenadas PDF de la propia página
   const res=PRIMARY, pg=res.pages[k], gp=Object.assign({},LASTG,GEOS[pageStyleOf(k)]||{}), Hpt=gp.ph*.75, Wpt=gp.pw*.75, inner=innerOf(k,res);
-  const boxL=inner==='gl'?gp.lomo:gp.corte, pav=pg.avail||gp.avail, voff=gp.valign==='bottom'?Math.max(0,gp.availT-pav):0;
+  const TS=textShift(pg,k,gp,inner,res), boxL=(inner==='gl'?gp.lomo:gp.corte)+TS.dx, pav=pg.avail||gp.avail, voff=TS.dy;
   let cs='0.067 g\n';
     for(const sl of pg.slots){ const l=sl.line, fr=fontRef(l.font||S.font,l.weight||S.weight||400,l.ital), m=fr.f.m, A=m.asc/m.upm*l.px, D=-m.desc/m.upm*l.px;
       const base=gp.mt+voff+sl.y+(l.lh-(A+D))/2+A, y=(Hpt-base*.75).toFixed(2), size=(l.px*.75).toFixed(3);
