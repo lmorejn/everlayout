@@ -28,3 +28,8 @@
 - Los menús se limitan a lo que se busca en un menú. Salieron de Editar: borrar la selección, duplicar, limpiar, insertar calderón, panel de selección, texto de muestra, copiar texto y copiar/pegar ajustes; sus acciones siguen en el código (`ACTIONS`) por si se reubican, y los que tenían tecla (Supr, ¶) la conservan.
 - Los atajos del usuario (`S.userKeys`, combinación → comando de `MENUS`) tienen prioridad sobre los predefinidos y exigen Ctrl, Alt/⌥, Win/⌘ o una tecla F, para no chocar con la escritura.
 
+## Posición de la mancha y plantillas de página
+- La posición de la mancha (`posX`: lomo, centro, corte; `posY`: arriba, en medio, abajo; o «canon») reparte el blanco sobrante sin acercar la mancha al borde más que el margen menor del canon. Sustituye a «Arriba / Hundida»; los estilos antiguos con `valign: bottom` siguen funcionando mientras no se elija otra posición.
+- Una plantilla de página (`S.ptpls`) guarda el estilo de página de una página y la secuencia de estilos de los párrafos que empiezan en ella. Si el estilo de página se borró, se recrea desde la copia guardada en la plantilla.
+- Las cornisas aceptan {doc}, {author}, {chap} y {sec}; capítulo y sección son los títulos de nivel 1 y 2 vigentes al empezar la página.
+

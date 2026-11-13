@@ -371,6 +371,42 @@ figure.pg figcaption{margin:0 0 var(--spacing-2);color:var(--color-text-secondar
 .stren{width:100%;height:24px;font:500 .875rem/1 var(--font-body);color:var(--color-text-primary);background:var(--color-background-surface);border:var(--border-width) solid var(--color-accent);border-radius:var(--radius-inner);padding:0 var(--spacing-1-5);box-shadow:inset 0 0 0 1px var(--color-accent)}
 .stren:focus{outline:none}
 .stname{margin:var(--spacing-1) 0 var(--spacing-2)}
+.modal.stdlg .mbox>h2{font:600 .6875rem/1.4 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:0}
+.modal.stdlg .stname input{font-size:1.0625rem}
+.modal.pswide .mbox{width:min(900px,96vw);max-width:none}
+.pswrap{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:var(--spacing-5);align-items:start}
+.psaside{position:sticky;top:0;display:flex;flex-direction:column;gap:var(--spacing-3);padding:var(--spacing-3);border-radius:var(--radius-lg,12px);background:var(--color-background-muted)}
+.pvwrap{display:grid;place-items:center;min-height:120px}
+.pvwrap svg{max-width:100%;height:auto}
+.pvpg{fill:var(--color-background-surface);stroke:var(--color-border-emphasized);stroke-width:.8}
+.pvdg{stroke:var(--color-border-subtle);stroke-width:.5;stroke-dasharray:2 2}
+.pvcanon{fill:none;stroke:#c08a2b;stroke-width:.7;stroke-dasharray:3 2}
+.pvbox{fill:color-mix(in srgb,var(--color-accent) 12%,transparent);stroke:var(--color-accent);stroke-width:.8}
+.pvln{stroke:var(--color-text-secondary);stroke-width:.45;opacity:.7}
+.pvrh{stroke:var(--color-text-primary);stroke-width:1}
+.pvfo{fill:var(--color-text-primary)}
+.pvlomo{stroke:var(--color-border-emphasized);stroke-width:.8}
+.psres{display:grid;grid-template-columns:auto 1fr;gap:4px var(--spacing-3);margin:0;font-size:.8125rem}
+.psres dt{color:var(--color-text-secondary)}.psres dd{margin:0;font-variant-numeric:tabular-nums}
+.pvleg{margin:0;font-size:.75rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pvleg i{display:inline-block;width:14px;height:9px;border-radius:2px}.pvleg .k1{background:color-mix(in srgb,var(--color-accent) 25%,transparent);border:1px solid var(--color-accent)}.pvleg .k2{border:1px dashed #c08a2b}
+.posbox{display:flex;gap:var(--spacing-4);align-items:center}
+.posgrid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:4px;width:132px;height:172px;padding:8px;border:var(--border-width) solid var(--color-border-emphasized);border-radius:4px;background:var(--color-background-surface);flex:none}
+.poscell{border:var(--border-width) dashed var(--color-border-emphasized);border-radius:3px;background:none;cursor:pointer;display:grid;place-items:center;padding:0}
+.poscell i{width:60%;height:52%;border-radius:2px;background:var(--color-border-emphasized);opacity:.45}
+.poscell:hover i{opacity:.8}
+.poscell:hover i{background:var(--color-border-emphasized)}
+.poscell.on{border-style:solid;border-color:var(--color-accent)}.poscell.on i{background:var(--color-accent);opacity:1}
+.posside{display:flex;flex-direction:column;gap:var(--spacing-2);align-items:flex-start}
+.posside .tbtn[aria-pressed=true]{border-color:var(--color-accent);color:var(--color-accent)}
+.rhpick{display:flex;flex-direction:column;gap:6px}
+.ptpls{list-style:none;margin:0 0 var(--spacing-2);padding:0;display:grid;gap:4px}
+.ptpls .empty{font-size:.8125rem;color:var(--color-text-secondary);padding:var(--spacing-2) 0}
+.ptpl{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:var(--spacing-2);padding:6px 8px;border-radius:var(--radius-md);cursor:grab;user-select:none}
+.ptpl:hover{background:var(--color-background-muted)}.ptpl:focus-visible{outline:2px solid var(--color-accent)}.ptpl.dragging{opacity:.5}
+.ptpl .tth{display:grid;place-items:center}.ptpl .nm{display:flex;flex-direction:column;min-width:0}.ptpl .nm b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ptpl .nm small{color:var(--color-text-secondary);font-size:.75rem}
+.ptx{border:0;background:none;color:var(--color-text-secondary);font-size:1rem;cursor:pointer;border-radius:var(--radius-full);width:24px;height:24px}.ptx:hover{background:var(--color-background-emphasized,rgba(0,0,0,.08));color:var(--color-text-primary)}
+@media (max-width:760px){.pswrap{grid-template-columns:1fr}.psaside{position:static}}
 .mbox>.mtabs{margin:0 var(--spacing-6);}
 .stname input{width:100%;font:600 1.25rem/1.3 var(--font-body);color:var(--color-text-primary);background:transparent;border:var(--border-width) solid transparent;border-radius:var(--radius-element);padding:var(--spacing-1) var(--spacing-2);margin-left:calc(var(--spacing-2)*-1);cursor:text}
 .stname input:hover{background:var(--color-background-muted)}
@@ -1301,7 +1337,7 @@ const POVROWS=[
  {k:'minLast',label:'Última línea mínima',min:0,max:60,step:5,fmt:v=>v+' %'}];
 S.track=S.track||0;
 S.pinL=false; S.pinR=false; S.turn='focus'; S.stock='none'; S.pageSound=true; S.stockGsm=120; S.stockBulk=1.2; S.sigs=0; S.exSheet=''; S.exMarks={crop:true,cutfull:false,bleed:false,reg:true,color:true,gray:true,frame:false,info:true}; S.exSim=false; S.typeSound=false; S.typeVol=60; S.typeBellLine=true; S.theme='auto'; S.sysFonts=[];
-S.pnOpen={}; S.userKeys={}; S.sbOff=false; S.uiLang='es';
+S.ptpls=[]; S.pnOpen={}; S.userKeys={}; S.sbOff=false; S.uiLang='es';
 S.hNames=['Capítulo','Sección','Subsección','Apartado','Inciso','Subinciso']; S.hPage=[true,false,false,false,false,false];
 const DEFAULTS=JSON.parse(JSON.stringify(S));
 let saved={}; try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
@@ -2979,7 +3015,7 @@ function styleDialog(id,tab,keep){
       {label:'Cerrar',primary:true,fn:()=>{ if(SD_SNAP&&SD_SNAP.id===id&&SD_SNAP.json!==sdState(id)) setTimeout(()=>askCloseUnsavedPar(id),0); else SD_SNAP=null; }}]);
   if(!keep||!SD_SNAP||SD_SNAP.id!==id) SD_SNAP={id,json:sdState(id)};
   enterToClose(m);
-  m.classList.add('float'); m.querySelector('.mbox').setAttribute('aria-modal','false');
+  m.classList.add('float','stdlg'); m.querySelector('.mbox').setAttribute('aria-modal','false');
   { const box=m.querySelector('.mbox'), body=box.querySelector('.mbody'); const nm=body.querySelector('.stname'), tb=body.querySelector('.mtabs'); nm.classList.add('mhx'); box.insertBefore(nm,body); box.insertBefore(tb,body); }
   makeMovable(m,'style');
   const q=x=>m.querySelector(x);
@@ -3104,7 +3140,7 @@ const FOLIO_DEF={pos:'pie',align:'center',gap:8,size:9,fmt:'arabic',start:1};
 function pageStyleVals(id){
   const st=pageStyleById(id)||pageStyleById('pdef')||{props:{}}, p=st.props||{}, d=(pageStyleById('pdef')||{props:{}}).props||{};
   const pick=(k,def)=>p[k]!=null?p[k]:def;
-  return {delta:+(p.delta||0),valign:p.valign||'top',ambi:!!p.ambi,adjIn:+(p.adjIn||0),adjOut:+(p.adjOut||0),adjTop:+(p.adjTop||0),
+  return {delta:+(p.delta||0),valign:p.valign||'top',ambi:!!p.ambi,adjIn:+(p.adjIn||0),adjOut:+(p.adjOut||0),adjTop:+(p.adjTop||0),posX:p.posX||'canon',posY:p.posY||'canon',
     rh:Object.assign({},RH_DEF,d.rh||{},p.rh||{}),folio:Object.assign({},FOLIO_DEF,d.folio||{},p.folio||{})};
 }
 function geoOf(id){ const st=pageStyleById(id), o={}; GEOKEYS.forEach(k=>{ o[k]=S[k]; }); if(st&&id!=='pdef'&&st.geo) Object.keys(st.geo).forEach(k=>{ if(st.geo[k]!=null) o[k]=st.geo[k]; }); return o; }
@@ -3117,14 +3153,19 @@ function pageGeom(id,ctx,lh,geoOverride,fine){
   let Ml=P.Ml, Mc=P.Mc;
   if(v.ambi){ const side=(Ml+Mc)/2+v.adjOut; Ml=Mc=side; } else { Ml+=v.adjIn; Mc+=v.adjOut; }
   Ml=Math.max(2,Ml); Mc=Math.max(2,Mc);
-  const a=Math.max(10,P.x-Ml-Mc), Ms=Math.max(2,P.Ms+v.adjTop), lines=clamp(P.lines+v.delta,2,P.lines+12);
-  return {id,P,geo,x:P.x,y:P.y,a,Ml,Mc,Ms,lines,pw:P.x*mm,ph:P.y*mm,W:a*mm,mt:Ms*mm,lomo:Ml*mm,corte:Mc*mm,lh,availT:P.lines*lh,avail:lines*lh,ambi:v.ambi,valign:v.valign,v};
+  const a=Math.max(10,P.x-Ml-Mc), lines=clamp(P.lines+v.delta,2,P.lines+12); let Ms=Math.max(2,P.Ms+v.adjTop);
+  // posición de la mancha: el canon decide, o se ancla a un lado o al centro sin acercarse al borde más que el margen menor del canon
+  let availT=P.lines*lh, valign=v.valign; const posX=v.posX||'canon', posY=v.posY||'canon';
+  if(posX!=='canon'||posY!=='canon'){ const T=lines*lh/mm, H=P.lines*lh/mm, pie=P.y-P.Ms-H, m0=Math.max(4,Math.min(P.Ml,P.Mc,P.Ms,pie>4?pie:P.Ms)), free=Math.max(0,P.x-a);
+    if(posX==='in'){ Ml=Math.min(m0,free); Mc=free-Ml; } else if(posX==='out'){ Mc=Math.min(m0,free); Ml=free-Mc; } else if(posX==='center'){ Ml=Mc=free/2; }
+    if(posY!=='canon'){ Ms=Math.max(2,posY==='top'?m0:(posY==='bottom'?P.y-m0-T:(P.y-T)/2)); availT=lines*lh; valign='top'; } }
+  return {id,P,geo,x:P.x,y:P.y,a,Ml,Mc,Ms,lines,pw:P.x*mm,ph:P.y*mm,W:a*mm,mt:Ms*mm,lomo:Ml*mm,corte:Mc*mm,lh,availT,avail:lines*lh,ambi:v.ambi,valign,v};
 }
 let GEOS={};
 function tplLinesNow(id){ const g=GEOS[id||S.pgSel]||GEOS.pdef; return g?g.P.lines:(LASTP?LASTP.lines:40); }
 function pageLines(k,N){ const g=GEOS[pageStyleOf(k)]; return g?g.lines:N; }
 function pageSel(){ if(S.mode!=='edit'||S.sel<0) return []; if(S.selmode==='all') return PRIMARY?PRIMARY.pages.map((p,i)=>i):[]; if(S.selmode==='page') return parSel(); return []; }
-function pstylesChanged(){ persist(); changed(); renderPageStyles(); }
+function pstylesChanged(){ persist(); changed(); renderPageStyles(); setTimeout(renderPageTemplates,120); }
 function applyPageStyleTo(id,idx){
   if(!idx||!idx.length){ toast('Elige páginas: Maquetación › selección por página (Mayús + clic para varias), o arrastra el estilo sobre una página'); return; }
   S.pgStyleOf=S.pgStyleOf||{}; idx.forEach(i=>{ if(id==='pdef') delete S.pgStyleOf[i]; else S.pgStyleOf[i]=id; });
@@ -3133,7 +3174,7 @@ function applyPageStyleTo(id,idx){
 }
 function pstyleSummary(id){ const g=GEOS[id], v=pageStyleVals(id); if(!g) return '';
   const f1=x=>x.toFixed(0);
-  return `${(id!=='pdef'&&pageStyleById(id).geo&&pageStyleById(id).geo.tpl)?TPLS[g.P.tpl].name+' · ':''}${g.lines} líneas${v.delta?` (${v.delta>0?'+':'−'}${Math.abs(v.delta)})`:''} · ${v.valign==='bottom'?'hundida':'arriba'}${v.ambi?' · ambidiestra':''}${(id!=='pdef'&&pageStyleById(id).geo&&pageStyleById(id).geo.paper)?' · '+(pageStyleById(id).geo.paper):''}`; }
+  return `${(id!=='pdef'&&pageStyleById(id).geo&&pageStyleById(id).geo.tpl)?TPLS[g.P.tpl].name+' · ':''}${g.lines} líneas${v.delta?` (${v.delta>0?'+':'−'}${Math.abs(v.delta)})`:''} · mancha ${posLabel(v)}${v.ambi?' · ambidiestra':''}${(id!=='pdef'&&pageStyleById(id).geo&&pageStyleById(id).geo.paper)?' · '+(pageStyleById(id).geo.paper):''}`; }
 function pstyleUse(){ const c={}; const n=PRIMARY?PRIMARY.pages.length:0; for(let i=0;i<n;i++){ const id=pageStyleOf(i); c[id]=(c[id]||0)+1; } return c; }
 function renderPageStyles(){
   const ul=$('psTree'); if(!ul) return;
@@ -3197,6 +3238,9 @@ function delPageStyle(){ const st=pageStyleById(S.pgSel); if(!st) return;
   const m=modal('¿Borrar el estilo de página «'+st.name+'»?',`<p>${n?`Las ${n} página${n>1?'s':''} que lo usan vuelven a «Predeterminada».`:'Ninguna página lo usa.'}</p>`,[{label:'Cancelar'},{label:'Borrar',primary:true,fn:()=>{
     Object.keys(S.pgStyleOf).forEach(k=>{ if(S.pgStyleOf[k]===st.id) delete S.pgStyleOf[k]; }); S.pstyles=S.pstyles.filter(x=>x!==st); S.pgSel='pdef'; pstylesChanged(); }}]); }
 function movePageStyle(d){ const st=pageStyleById(S.pgSel); if(!st) return; const a=S.pstyles, i=a.indexOf(st), j=i+d; if(j<0||j>=a.length) return; a.splice(i,1); a.splice(j,0,st); pstylesChanged(); }
+const POSX=[['in','al lomo'],['center','al centro'],['out','al corte']], POSY=[['top','Arriba'],['center','En medio'],['bottom','Abajo']];
+function posLabel(v){ if((v.posX||'canon')==='canon'&&(v.posY||'canon')==='canon') return v.valign==='bottom'?'según el canon, hundida':'según el canon';
+  const y=(POSY.find(p=>p[0]===v.posY)||[0,'Como el canon'])[1], x=(POSX.find(p=>p[0]===v.posX)||[0,'como el canon'])[1]; return (v.posY==='center'&&v.posX==='center')?'centrada':`${y.toLowerCase()}, ${x}`; }
 const VALIGN=[['top','Arriba','El texto empieza en la cabeza de la mancha; las líneas que faltan quedan al pie.'],['bottom','Hundida','El texto termina al pie de la mancha y deja blanco arriba, como en los inicios de capítulo.']];
 function setPageProp(st,k,v){ st.props=st.props||{}; if(v==null) delete st.props[k]; else st.props[k]=v; pstylesChanged(); REFRESH.forEach(f=>f()); }
 function setPagePropSub(st,grp,k,v){ st.props=st.props||{}; st.props[grp]=Object.assign({},st.props[grp]||{},{[k]:v}); pstylesChanged(); }
@@ -3238,32 +3282,51 @@ const psState=id=>{ const st=pageStyleById(id); return JSON.stringify({st,geo:id
 function psRevert(snap){ const o=JSON.parse(snap.json), st=pageStyleById(snap.id); if(!st) return;
   Object.keys(st).forEach(k=>delete st[k]); Object.assign(st,o.st); if(o.geo) GEOKEYS.forEach((k,i)=>{ S[k]=o.geo[i]; });
   pstylesChanged(); REFRESH.forEach(f=>f()); }
+const RH_TOK=[['{doc}','Título del documento'],['{author}','Autor'],['{chap}','Capítulo actual'],['{sec}','Sección actual'],['','Nada'],['__custom','Inscripción personalizada…']];
+function psPreviewSVG(g,id){ if(!g) return ''; const v=pageStyleVals(id), mm=96/25.4, W=268, gap=0, sc=Math.min((W-gap)/(2*g.x),200/g.y), pw=g.x*sc, ph=g.y*sc, f=x=>x.toFixed(1);
+  const txTop=(g.Ms+(g.valign==='bottom'?Math.max(0,(g.availT-g.avail)/mm):0))*sc, txH=g.avail/mm*sc, boxW=g.a*sc, cT=g.P.Ms*sc, cH=g.P.lines*g.lh/mm*sc;
+  let h=`<svg viewBox="-2 -2 ${f(2*pw+4)} ${f(ph+4)}" width="${f(2*pw+4)}" height="${f(ph+4)}" role="img" aria-label="Vista previa del pliego: página par e impar">`;
+  [0,1].forEach(side=>{ const x0=side*pw, L=x0+(side===0?g.Mc:g.Ml)*sc;
+    h+=`<rect class="pvpg" x="${f(x0)}" y="0" width="${f(pw)}" height="${f(ph)}"/>`;
+    h+=`<line class="pvdg" x1="${f(x0)}" y1="0" x2="${f(x0+pw)}" y2="${f(ph)}"/><line class="pvdg" x1="${f(x0+pw)}" y1="0" x2="${f(x0)}" y2="${f(ph)}"/>`;
+    h+=`<rect class="pvcanon" x="${f(x0+(side===0?g.P.Mc:g.P.Ml)*sc)}" y="${f(cT)}" width="${f(g.P.a*sc||boxW)}" height="${f(cH)}"/>`;
+    h+=`<rect class="pvbox" x="${f(L)}" y="${f(txTop)}" width="${f(boxW)}" height="${f(txH)}"/>`;
+    const n=g.lines, step=Math.max(1,Math.ceil(n/40)); for(let k=0;k<n;k+=step){ const y=txTop+(k+.62)*txH/n; h+=`<line class="pvln" x1="${f(L+(k===0?boxW*.06:0))}" y1="${f(y)}" x2="${f(L+(k===n-1?boxW*.55:boxW))}" y2="${f(y)}"/>`; }
+    if(v.rh.on){ const y=txTop-v.rh.gap*sc; h+=`<line class="pvrh" x1="${f(side===0?L:L+boxW*.6)}" y1="${f(y)}" x2="${f(side===0?L+boxW*.4:L+boxW)}" y2="${f(y)}"/>`; }
+    if(v.folio.pos==='pie'){ const y=(g.Ms+g.availT/mm+v.folio.gap)*sc, cx=v.folio.align==='center'?L+boxW/2:((v.folio.align==='outer')===(side===1)?L+boxW-2:L+2); h+=`<circle class="pvfo" cx="${f(cx)}" cy="${f(y)}" r="1.6"/>`; }
+  });
+  h+=`<line class="pvlomo" x1="${f(pw)}" y1="0" x2="${f(pw)}" y2="${f(ph)}"/></svg>`; return h; }
 function pageStyleDialog(id,tab,keep){
   const st=pageStyleById(id); if(!st) return; const isDef=id==='pdef';
   if(!keep||!PS_SNAP||PS_SNAP.id!==id) PS_SNAP={id,json:psState(id)};
   const m=modal('Estilo de página',`<div class="stname mhx"><input id="psTitle" type="text" maxlength="60" aria-label="Nombre del estilo de página"></div>
-    <div class="mtabs" role="tablist"><button type="button" role="tab" data-t="can">Página y canon</button><button type="button" role="tab" data-t="fin">Ajuste fino</button><button type="button" role="tab" data-t="rh">Cornisas y folio</button><button type="button" role="tab" data-t="org">Organizador</button></div>
-    <div class="mpane" data-p="can"><div class="dgrid">
-      <h3>Página</h3><label for="psPaper">Tamaño</label><select id="psPaper"></select>
-      <h3>Canon de marginado</h3><label for="psTpl">Canon</label><select id="psTpl"></select>
+    <div class="mtabs" role="tablist"><button type="button" role="tab" data-t="pag">Página</button><button type="button" role="tab" data-t="pos">Posición de la mancha</button><button type="button" role="tab" data-t="rh">Cornisas y folio</button></div>
+    <div class="pswrap"><div class="psmain">
+    <div class="mpane" data-p="pag"><div class="dgrid">
+      <h3>Tamaño</h3><label for="psPaper">Tamaño de página</label><select id="psPaper"></select>
+      <h3>Canon de mancha y marginado</h3><label for="psTpl">Canon</label><select id="psTpl"></select>
       <div id="psCanonNote" style="grid-column:1/3"></div>
       <div id="psParams" class="dgrid" style="grid-column:1/3;margin:0"></div>
-      <h3>Resultado</h3><label>Página</label><div class="bro" id="psR1"></div><label>Mancha</label><div class="bro" id="psR2"></div><label>Márgenes</label><div class="bro" id="psR3"></div>
-    </div></div>
-    <div class="mpane" data-p="fin"><div class="dgrid">
-      <h3>Líneas</h3><label>Líneas por página</label><div id="psdLines"></div>
-      <label>Posición del texto</label><div class="alopts" role="radiogroup" aria-label="Posición del texto" id="psdVal"></div>
-      <h3>Márgenes</h3><span></span><label class="bchk"><input type="checkbox" id="psAmbi"><i></i><span>Página ambidiestra: márgenes laterales iguales, sin espejo entre par e impar</span></label>
+      <h3>Ajuste manual de márgenes</h3>
+      <p class="dnote" style="grid-column:1/3;margin:0" id="psManNote">Si los cambias, el canon pasa a «Personalizada». Elegir un canon de la lista los devuelve a sus valores.</p>
+      <span></span><label class="bchk"><input type="checkbox" id="psAmbi"><i></i><span>Página ambidiestra: márgenes laterales iguales, sin espejo entre par e impar</span></label>
       <label id="psInL">Interior (lomo)</label><div id="psIn"></div>
       <label id="psOutL">Exterior (corte)</label><div id="psOut"></div>
       <label>Cabeza</label><div id="psTop"></div>
-      <span></span><div class="btns"><button class="tbtn" type="button" id="psFineReset">Volver a los valores del canon</button></div>
+      <span></span><div class="btns"><button class="tbtn" type="button" id="psFineReset">Volver a los márgenes del canon</button></div>
+    </div></div>
+    <div class="mpane" data-p="pos"><div class="dgrid">
+      <h3>Dónde se coloca la mancha</h3>
+      <div class="posbox" style="grid-column:1/3"><div class="posgrid" id="psPos" role="radiogroup" aria-label="Posición de la mancha en la página"></div>
+        <div class="posside"><button type="button" class="tbtn" id="psPosCanon">Según el canon</button><p class="dnote" id="psPosNote"></p></div></div>
+      <h3>Líneas</h3><label>Líneas por página</label><div id="psdLines"></div>
+      <p class="dnote" style="grid-column:1/3;margin:0">El canon da la cantidad de líneas que caben; aquí puedes quitar o añadir. Con menos líneas y la mancha abajo al centro consigues una página hundida, como en los inicios de capítulo.</p>
     </div></div>
     <div class="mpane" data-p="rh"><div class="dgrid">
       <h3>Cornisa (titulillo)</h3><span></span><label class="bchk"><input type="checkbox" id="rhOn"><i></i><span>Mostrar cornisa en la cabeza</span></label>
-      <label for="rhVerso">Página par</label><input id="rhVerso" type="text" maxlength="120">
-      <label for="rhRecto">Página impar</label><input id="rhRecto" type="text" maxlength="120">
-      <p class="dnote" style="grid-column:1/3;margin:0">{doc} pone el nombre del documento. De Buen recomienda versalitas para los folios explicativos.</p>
+      <label for="rhVersoSel">Página par</label><div class="rhpick"><select id="rhVersoSel">${RH_TOK.map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}</select><input id="rhVerso" type="text" maxlength="120" placeholder="Escribe la inscripción" aria-label="Inscripción de la página par"></div>
+      <label for="rhRectoSel">Página impar</label><div class="rhpick"><select id="rhRectoSel">${RH_TOK.map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}</select><input id="rhRecto" type="text" maxlength="120" placeholder="Escribe la inscripción" aria-label="Inscripción de la página impar"></div>
+      <p class="dnote" style="grid-column:1/3;margin:0">Título y autor salen de los metadatos del documento; capítulo y sección, de la estructura del manuscrito. En una inscripción personalizada puedes combinarlos con {doc}, {author}, {chap} y {sec}. De Buen recomienda versalitas para los folios explicativos.</p>
       <label for="rhAlign">Alineación</label><select id="rhAlign"><option value="outer">Al corte (exterior)</option><option value="center">Centrada</option><option value="inner">Al lomo (interior)</option></select>
       <label>Distancia a la mancha</label><div id="rhGap"></div>
       <label for="rhPst">Estilo de párrafo</label><select id="rhPst"></select>
@@ -3279,70 +3342,83 @@ function pageStyleDialog(id,tab,keep){
       <label for="foFmt">Numeración</label><select id="foFmt"><option value="arabic">1, 2, 3</option><option value="roman">i, ii, iii</option><option value="ROMAN">I, II, III</option></select>
       <label for="foStart">Primer número</label><input id="foStart" type="number" min="0" max="9999" step="1">
     </div></div>
-    <div class="mpane" data-p="org"><div class="dgrid"><label for="psdDesc">Descripción</label><input id="psdDesc" type="text" maxlength="200"><label>En uso</label><div class="bro" id="psdUse"></div></div></div>`,
+    </div><aside class="psaside" aria-label="Vista previa del estilo de página"><div class="pvwrap" id="psPrev"></div>
+      <dl class="psres"><dt>Página</dt><dd id="psR1"></dd><dt>Mancha</dt><dd id="psR2"></dd><dt>Márgenes</dt><dd id="psR3"></dd><dt>Posición</dt><dd id="psR4"></dd><dt>En uso</dt><dd id="psdUse"></dd></dl>
+      <p class="pvleg"><i class="k1"></i>mancha y líneas <i class="k2"></i>mancha del canon</p></aside></div>`,
     [{label:'Aplicar',fn:()=>{ PS_SNAP={id,json:psState(id)}; persist(); toast('Cambios aplicados a «'+st.name+'»'); return false; }},
      {label:'Cerrar',primary:true,fn:()=>{ if(PS_SNAP&&PS_SNAP.id===id&&PS_SNAP.json!==psState(id)){ setTimeout(()=>askCloseUnsaved(id),0); } else PS_SNAP=null; }}]);
   const onEnter=e=>{ if(MODAL!==m){ removeEventListener('keydown',onEnter,true); return; } if(e.key==='Enter'&&!e.isComposing&&!(e.target.matches&&e.target.matches('input[type=text],input[type=number],textarea,.mfoot button'))){ e.preventDefault(); const cb=[...m.querySelectorAll('.mfoot button')].find(b=>b.textContent==='Cerrar'); if(cb) cb.click(); } }; addEventListener('keydown',onEnter,true);
   setTimeout(()=>{ const cb=[...m.querySelectorAll('.mfoot button')].find(b=>b.textContent==='Cerrar'); const ae=document.activeElement; if(cb&&!(ae&&m.contains(ae)&&ae.matches('input,textarea,select'))) cb.focus({preventScroll:true}); },30);
-  m.classList.add('float'); m.querySelector('.mbox').setAttribute('aria-modal','false'); makeMovable(m,'style'); stickySections(m);
+  m.classList.add('float','stdlg','pswide'); m.querySelector('.mbox').setAttribute('aria-modal','false'); makeMovable(m,'pstyle'); stickySections(m);
   { const box=m.querySelector('.mbox'), body=box.querySelector('.mbody'); box.insertBefore(body.querySelector('.stname'),body); box.insertBefore(body.querySelector('.mtabs'),body); }
   const q=x=>m.querySelector(x), T=q('#psTitle'); T.value=st.name;
   T.addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter'){ e.preventDefault(); T.blur(); } else if(e.key==='Escape'){ e.preventDefault(); T.value=st.name; T.blur(); } });
   T.addEventListener('blur',()=>{ const n=T.value.trim(); if(n&&n!==st.name){ st.name=n; pstylesChanged(); } T.value=st.name; });
   const tabs=[...m.querySelectorAll('.mtabs button')];
   const show=t=>{ tabs.forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===t))); m.querySelectorAll('.mpane').forEach(pn=>pn.hidden=pn.dataset.p!==t); PS_TAB=t; };
-  tabs.forEach(b=>b.addEventListener('click',()=>{ show(b.dataset.t); q('.mbody').scrollTop=0; if(m._secUpd) m._secUpd(); })); show(tab||PS_TAB||'can');
-  const G=()=>GEOS[id]||(LAST?pageGeom(id,LAST,lhNow()):null);
-  // página y canon
+  tabs.forEach(b=>b.addEventListener('click',()=>{ show(b.dataset.t); q('.mbody').scrollTop=0; if(m._secUpd) m._secUpd(); }));
+  show({can:'pag',fin:'pos',org:'pag'}[tab||PS_TAB]||tab||PS_TAB||'pag');
+  const G=()=>GEOS[id]||(LAST?pageGeom(id,LAST,lhNow()):null), V=()=>pageStyleVals(id);
+  const isCustom=()=>{ const v=V(); return !!(v.adjIn||v.adjOut||v.adjTop||v.ambi); };
+  // página: tamaño, canon y márgenes
   const own=k=>isDef?S[k]:((st.geo&&st.geo[k]!=null)?st.geo[k]:'');
   q('#psPaper').innerHTML=paperOptions(isDef?S.paper:own('paper'),!isDef);
   q('#psPaper').addEventListener('input',e=>{ const v=e.target.value; if(isDef){ S.paper=v; paperTouched(); } else setGeo(id,'paper',v||null); pstylesChanged(); REFRESH.forEach(f=>f()); setTimeout(up,80); });
-  q('#psTpl').innerHTML=tplOptions(isDef?S.tpl:own('tpl'),!isDef);
-  q('#psTpl').addEventListener('input',e=>{ const v=e.target.value; confirmCanon(id,v||null,()=>pageStyleDialog(id,'can',true)); });
+  const tplSel=q('#psTpl');
+  const fillTpl=()=>{ const cur=isDef?S.tpl:own('tpl'); tplSel.innerHTML=(isCustom()?`<option value="__custom">Personalizada (a partir de ${esc((TPLS[(G()||{P:{}}).P.tpl]||TPLS.centrada).name)})</option>`:'')+tplOptions(cur,!isDef); tplSel.value=isCustom()?'__custom':(cur||''); };
+  tplSel.addEventListener('input',e=>{ const v=e.target.value; if(v==='__custom') return; confirmCanon(id,v||null,()=>pageStyleDialog(id,'pag',true)); });
   const prm=q('#psParams'), PRM={};
   Object.keys(TPLPARAM).forEach(pid=>{ const [k,l,mi,ma,stp,fmt]=TPLPARAM[pid];
     const lb=document.createElement('label'); lb.textContent=l;
     const sl=makeSlider({min:mi,max:ma,step:stp,label:l,get:()=>geoOf(id)[k],set:v=>{ setGeo(id,k,v); pstylesChanged(); REFRESH.forEach(f=>f()); setTimeout(up,80); },fmt});
     prm.append(lb,sl.el); PRM[pid]={lb,el:sl.el,up:sl.update}; });
-  // ajuste fino
-  const lines=makeSlider({min:2,max:120,step:1,label:'Líneas por página',range:()=>{ const N=tplLinesNow(id); return [2,N+12]; },get:()=>tplLinesNow(id)+pageStyleVals(id).delta,set:v=>setPageProp(st,'delta',Math.round(v-tplLinesNow(id))),fmt:v=>{ const d=Math.round(v-tplLinesNow(id)); return `${v} líneas${d?` (${d>0?'+':'−'}${Math.abs(d)})`:' · canon'}`; }});
-  q('#psdLines').appendChild(lines.el);
-  const mmS=(k,lbl,getBase)=>makeSlider({min:-30,max:30,step:.5,fine:.1,label:lbl,get:()=>pageStyleVals(id)[k],set:v=>{ setPageProp(st,k,v); setTimeout(up,80); },fmt:v=>{ const g=G(), b=getBase(g); return `${b!=null?b.toFixed(1).replace('.',',')+' mm':''}${v?` (${v>0?'+':'−'}${Math.abs(v).toString().replace('.',',')})`:''}`; }});
-  const sIn=mmS('adjIn','Interior',g=>g&&g.Ml), sOut=mmS('adjOut','Exterior',g=>g&&g.Mc), sTop=mmS('adjTop','Cabeza',g=>g&&g.Ms);
+  const fmm=x=>(Math.round(x*10)/10).toString().replace('.',',')+' mm';
+  const absS=(k,lbl,base)=>makeSlider({min:2,max:90,step:.5,fine:.1,label:lbl,get:()=>{ const g=G(); return g?Math.round((base(g)+V()[k])*10)/10:0; },set:v=>{ const g=G(); if(!g) return; setPageProp(st,k,Math.round((v-base(g))*10)/10||null); setTimeout(up,80); },fmt:v=>{ const d=V()[k]; return fmm(v)+(d?` (${d>0?'+':'−'}${String(Math.abs(d)).replace('.',',')})`:''); }});
+  const sIn=absS('adjIn','Interior',g=>g.P.Ml), sOut=absS('adjOut','Exterior',g=>V().ambi?(g.P.Ml+g.P.Mc)/2:g.P.Mc), sTop=absS('adjTop','Cabeza',g=>g.P.Ms);
   q('#psIn').appendChild(sIn.el); q('#psOut').appendChild(sOut.el); q('#psTop').appendChild(sTop.el);
-  q('#psAmbi').addEventListener('input',e=>{ setPageProp(st,'ambi',e.target.checked); setTimeout(up,80); });
-  q('#psFineReset').addEventListener('click',()=>{ st.props=Object.assign({},st.props,{delta:0,ambi:false,adjIn:0,adjOut:0,adjTop:0}); pstylesChanged(); REFRESH.forEach(f=>f()); setTimeout(up,80); });
+  q('#psAmbi').addEventListener('input',e=>{ setPageProp(st,'ambi',e.target.checked||null); setTimeout(up,80); });
+  q('#psFineReset').addEventListener('click',()=>{ st.props=Object.assign({},st.props,{ambi:false,adjIn:0,adjOut:0,adjTop:0}); pstylesChanged(); REFRESH.forEach(f=>f()); setTimeout(up,80); });
+  // posición de la mancha y líneas
+  const lines=makeSlider({min:2,max:120,step:1,label:'Líneas por página',range:()=>{ const N=tplLinesNow(id); return [2,N+12]; },get:()=>tplLinesNow(id)+V().delta,set:v=>{ setPageProp(st,'delta',Math.round(v-tplLinesNow(id))); setTimeout(up,80); },fmt:v=>{ const d=Math.round(v-tplLinesNow(id)); return `${v} líneas${d?` (${d>0?'+':'−'}${Math.abs(d)})`:' · canon'}`; }});
+  q('#psdLines').appendChild(lines.el);
+  const setPos=(x,y)=>{ st.props=Object.assign({},st.props); if(x==='canon') delete st.props.posX; else st.props.posX=x; if(y==='canon') delete st.props.posY; else st.props.posY=y; delete st.props.valign; pstylesChanged(); REFRESH.forEach(f=>f()); setTimeout(up,80); };
+  { const pg=q('#psPos'); POSY.forEach(([y,yt])=>POSX.forEach(([x,xt])=>{ const b=document.createElement('button'); b.type='button'; b.className='poscell'; b.dataset.x=x; b.dataset.y=y; b.setAttribute('role','radio');
+      const lbl=(y==='center'&&x==='center')?'Centrada':`${yt}, ${xt}`; b.title=lbl; b.setAttribute('aria-label',lbl); b.innerHTML='<i></i>'; b.addEventListener('click',()=>setPos(x,y)); pg.appendChild(b); })); }
+  q('#psPosCanon').addEventListener('click',()=>setPos('canon','canon'));
   // cornisas y folio
-  const V=()=>pageStyleVals(id);
-  const bindTxt=(sel,grp,k)=>{ const el=q(sel); el.addEventListener('change',()=>setPagePropSub(st,grp,k,el.value)); el.addEventListener('keydown',e=>e.stopPropagation()); };
-  bindTxt('#rhVerso','rh','verso'); bindTxt('#rhRecto','rh','recto');
-  [['#rhOn','rh','on'],['#rhCaps','rh','caps'],['#rhRule','rh','rule']].forEach(([s2,g2,k2])=>q(s2).addEventListener('input',e=>{ setPagePropSub(st,g2,k2,e.target.checked); }));
+  const rhPick=(selId,inId,k)=>{ const sel=q(selId), inp=q(inId);
+    sel.addEventListener('input',()=>{ if(sel.value==='__custom'){ inp.hidden=false; inp.value=''; inp.focus(); return; } inp.hidden=true; setPagePropSub(st,'rh',k,sel.value); up(); });
+    inp.addEventListener('input',()=>setPagePropSub(st,'rh',k,inp.value)); inp.addEventListener('keydown',e=>e.stopPropagation());
+    return ()=>{ const val=V().rh[k], tok=RH_TOK.some(([t])=>t===val&&t!=='__custom'); if(document.activeElement===inp) return; sel.value=tok?val:'__custom'; inp.hidden=tok; if(!tok) inp.value=val; }; };
+  const upV=rhPick('#rhVersoSel','#rhVerso','verso'), upR=rhPick('#rhRectoSel','#rhRecto','recto');
+  [['#rhOn','rh','on'],['#rhCaps','rh','caps'],['#rhRule','rh','rule']].forEach(([s2,g2,k2])=>q(s2).addEventListener('input',e=>{ setPagePropSub(st,g2,k2,e.target.checked); up(); }));
   [['#rhAlign','rh','align'],['#foPos','folio','pos'],['#foAlign','folio','align'],['#foFmt','folio','fmt']].forEach(([s2,g2,k2])=>q(s2).addEventListener('input',e=>{ setPagePropSub(st,g2,k2,e.target.value); up(); }));
-  const pstOpts=()=>'<option value="">Ninguno (fuente del documento y cuerpo de abajo)</option>'+styleOrder().map(x=>`<option value="${x.id}">${'\u2003'.repeat(styleDepth(x.id))}${esc(x.name)}</option>`).join('');
+  const pstOpts=()=>'<option value="">Ninguno (fuente del documento y cuerpo de abajo)</option>'+styleOrder().map(x=>`<option value="${x.id}">${' '.repeat(styleDepth(x.id))}${esc(x.name)}</option>`).join('');
   q('#rhPst').innerHTML=pstOpts(); q('#foPst').innerHTML=pstOpts();
   q('#rhPst').addEventListener('input',e=>{ setPagePropSub(st,'rh','pstyle',e.target.value||null); up(); });
   q('#foPst').addEventListener('input',e=>{ setPagePropSub(st,'folio','pstyle',e.target.value||null); up(); });
   q('#foStart').addEventListener('change',e=>{ const n=parseInt(e.target.value,10); if(isFinite(n)) setPagePropSub(st,'folio','start',n); }); q('#foStart').addEventListener('keydown',e=>e.stopPropagation());
-  const mk=(host,grp,k,mi,ma,stp,fmt)=>{ const sl=makeSlider({min:mi,max:ma,step:stp,label:k,get:()=>V()[grp][k],set:v=>setPagePropSub(st,grp,k,v),fmt}); q(host).appendChild(sl.el); return sl; };
+  const mk=(host,grp,k,mi,ma,stp,fmt)=>{ const sl=makeSlider({min:mi,max:ma,step:stp,label:k,get:()=>V()[grp][k],set:v=>{ setPagePropSub(st,grp,k,v); setTimeout(up,80); },fmt}); q(host).appendChild(sl.el); return sl; };
   const sl1=mk('#rhGap','rh','gap',1,30,.5,v=>String(v).replace('.',',')+' mm'), sl2=mk('#rhSize','rh','size',6,14,.5,v=>String(v).replace('.',',')+' pt');
   const sl3=mk('#foGap','folio','gap',1,30,.5,v=>String(v).replace('.',',')+' mm'), sl4=mk('#foSize','folio','size',6,14,.5,v=>String(v).replace('.',',')+' pt');
-  q('#psdDesc').value=st.desc||''; q('#psdDesc').addEventListener('change',e=>{ st.desc=e.target.value.trim(); persist(); }); q('#psdDesc').addEventListener('keydown',e=>e.stopPropagation());
   function up(){
-    const g=G(), v=pageStyleVals(id); if(!g) return;
-    lines.update(); sIn.update(); sOut.update(); sTop.update(); sl1.update(); sl2.update(); sl3.update(); sl4.update();
+    const g=G(), v=V(); if(!g) return;
+    lines.update(); sIn.update(); sOut.update(); sTop.update(); sl1.update(); sl2.update(); sl3.update(); sl4.update(); fillTpl();
     const tp=TPLS[g.P.tpl]||{params:[]}; Object.keys(PRM).forEach(pid=>{ const on=tp.params.includes(pid); PRM[pid].lb.hidden=!on; PRM[pid].el.hidden=!on; PRM[pid].up(); });
     const f=x=>x.toFixed(1).replace('.',',');
     q('#psR1').textContent=`${f(g.x)} × ${f(g.y)} mm${g.P.derived?' · calculada por el canon':''}`;
     q('#psR2').textContent=`${f(g.a)} × ${f(g.lines*g.lh*25.4/96)} mm · ${g.lines} líneas`;
-    q('#psR3').textContent=`lomo ${f(g.Ml)} · corte ${f(g.Mc)} · cabeza ${f(g.Ms)} mm`;
+    q('#psR3').textContent=`lomo ${f(g.Ml)} · corte ${f(g.Mc)} · cabeza ${f(g.Ms)} · pie ${f(Math.max(0,g.y-g.Ms-g.avail*25.4/96))} mm`;
+    q('#psR4').textContent=posLabel(v).replace(/^./,c=>c.toUpperCase());
+    q('#psPrev').innerHTML=psPreviewSVG(g,id);
     const nt=canonNote(g.P,g.P.tpl), cn=q('#psCanonNote');
     cn.innerHTML=nt?`<div class="canon ${nt.kind}"><i>${nt.kind==='warn'?'!':'i'}</i><div><b></b><span></span></div></div>`:''; if(nt){ cn.querySelector('b').textContent=nt.head; cn.querySelector('span').textContent=nt.body; }
     q('#psAmbi').checked=v.ambi; q('#psInL').hidden=v.ambi; sIn.el.parentElement.hidden=v.ambi; q('#psOutL').textContent=v.ambi?'Laterales':'Exterior (corte)';
-    const al=q('#psdVal'); al.innerHTML='';
-    VALIGN.forEach(([vv,t,d])=>{ const b=document.createElement('button'); b.type='button'; b.className='alopt'; b.setAttribute('role','radio'); b.setAttribute('aria-checked',String(v.valign===vv));
-      b.innerHTML=`<span class="ai">${svg(vv==='top'?'alignL':'alignC',18)}</span><span><b>${t}</b><small>${d}</small></span>`; b.addEventListener('click',()=>{ setPageProp(st,'valign',vv); up(); }); al.appendChild(b); });
-    q('#rhOn').checked=v.rh.on; q('#rhCaps').checked=v.rh.caps; q('#rhRule').checked=v.rh.rule; q('#rhAlign').value=v.rh.align;
-    if(document.activeElement!==q('#rhVerso')) q('#rhVerso').value=v.rh.verso; if(document.activeElement!==q('#rhRecto')) q('#rhRecto').value=v.rh.recto;
+    q('#psManNote').textContent=(v.posX!=='canon'||v.posY!=='canon')?'La posición de la mancha está fijada en su pestaña: manda sobre estos márgenes en el eje que hayas movido. Si los cambias, el canon pasa a «Personalizada».':'Si los cambias, el canon pasa a «Personalizada». Elegir un canon de la lista los devuelve a sus valores.';
+    q('#psPos').querySelectorAll('.poscell').forEach(b=>{ const on=b.dataset.x===v.posX&&b.dataset.y===v.posY; b.setAttribute('aria-checked',String(on)); b.classList.toggle('on',on); });
+    q('#psPosCanon').setAttribute('aria-pressed',String(v.posX==='canon'&&v.posY==='canon'));
+    q('#psPosNote').textContent=(v.posX==='canon'&&v.posY==='canon')?`Ahora: según el canon${v.valign==='bottom'?' (hundida)':''}. La mancha queda donde la pone ${(TPLS[g.P.tpl]||TPLS.centrada).name}.`:`Ahora: ${posLabel(v)}. La mancha no se acerca al borde más que el margen menor del canon (${f(Math.min(g.P.Ml,g.P.Mc,g.P.Ms))} mm).`;
+    q('#rhOn').checked=v.rh.on; q('#rhCaps').checked=v.rh.caps; q('#rhRule').checked=v.rh.rule; q('#rhAlign').value=v.rh.align; upV(); upR();
     q('#foPos').value=v.folio.pos; q('#foAlign').value=v.folio.align; q('#foFmt').value=v.folio.fmt; if(document.activeElement!==q('#foStart')) q('#foStart').value=v.folio.start;
     q('#foAlign').disabled=v.folio.pos!=='pie';
     q('#rhPst').value=v.rh.pstyle||''; q('#foPst').value=v.folio.pstyle||'';
@@ -3353,7 +3429,7 @@ function pageStyleDialog(id,tab,keep){
   }
   m._up=up; up();
 }
-let PS_TAB='can';
+let PS_TAB='pag';
 function askCloseUnsaved(id){
   const st=pageStyleById(id); if(!st) return;
   modal('¿Cerrar sin guardar los cambios?',`<p>Hiciste cambios en «${esc(st.name)}» que no aplicaste. Si cierras, se descartan y el estilo vuelve a como estaba.</p>`,
@@ -3386,6 +3462,67 @@ function importPageStyles(){
   m.querySelector('#piFile').addEventListener('click',()=>pickStyleFile('pagestyles',txt=>{ m.querySelector('textarea').value=txt; }));
   m.querySelector('textarea').addEventListener('keydown',e=>e.stopPropagation());
 }
+/* ---- plantillas de página: una página guardada (su estilo de página y los estilos de sus párrafos) que se aplica a otras ---- */
+const parStartsOn=k=>{ const res=CUR_RES||PRIMARY, pg=res&&res.pages[k]; if(!pg||!pg.slots) return []; const st=new Set(splitParasIdx(docText()).map(P=>P.start)), out=[];
+  pg.slots.forEach(sl=>{ if(st.has(sl.line.s)&&!out.includes(sl.line.pi)) out.push(sl.line.pi); }); return out; };
+function markPageTemplate(k){
+  const ps=pageStyleOf(k), pst=pageStyleById(ps)||pageStyleById('pdef'), pars=parStartsOn(k).map(i=>styleOf(i));
+  const names=new Set((S.ptpls||[]).map(t=>t.name)); let n=(pst&&pst.id!=='pdef'?pst.name:'Plantilla'), i=2; const b0=n; while(names.has(n)) n=`${b0} ${i++}`;
+  const m=modal('Marcar como plantilla de página',`<p>La página ${k+1} se guarda como plantilla: su estilo de página «${esc(pst.name)}»${pars.length?` y los estilos de sus ${pars.length} párrafo${pars.length>1?'s':''} (${[...new Set(pars.map(x=>(styleById(x)||{}).name||x))].map(esc).join(', ')})`:''}. Al aplicarla a otra página, esa página toma el mismo estilo de página y sus párrafos, en orden, los mismos estilos.</p>
+    <div class="dgrid"><label for="tpName">Nombre</label><input id="tpName" type="text" maxlength="60"></div>`,
+    [{label:'Cancelar'},{label:'Guardar plantilla',primary:true,fn:mm=>{ const nm=mm.querySelector('#tpName').value.trim()||n;
+      S.ptpls=(S.ptpls||[]).concat([{id:'tp'+Date.now().toString(36).slice(-6),name:nm,ps:pst.id,snap:{name:pst.name,props:JSON.parse(JSON.stringify(pst.props||{})),geo:Object.assign({},pst.geo||{})},pars}]);
+      persist(); renderPageTemplates(); const pn=document.querySelector('#paneL_pestilo .bpanel[data-t="Plantillas de página"]'); if(pn) setPanelOpen(pn,true);
+      toast(`Plantilla «${nm}» guardada`); }}]);
+  const inp=m.querySelector('#tpName'); inp.value=n; inp.addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter') m.querySelector('.mfoot .prim').click(); }); setTimeout(()=>{ inp.focus(); inp.select(); },30);
+}
+function tplTargets(n){ const sel=pageSel(); if(n!=null) return sel.includes(n)&&sel.length>1?sel:[n]; if(sel.length) return sel; return FOCUS_PG>=0&&PRIMARY&&FOCUS_PG<PRIMARY.pages.length?[FOCUS_PG]:[]; }
+function applyPageTemplate(tp,idx){
+  if(!idx.length){ toast('Haz clic en una página y luego en la plantilla, o arrastra la plantilla sobre una página'); return; }
+  let ps=tp.ps; if(!pageStyleById(ps)){ const st={id:'pg'+Date.now().toString(36).slice(-5),name:tp.snap.name+' (de plantilla)',desc:'',props:JSON.parse(JSON.stringify(tp.snap.props||{})),geo:Object.assign({},tp.snap.geo||{})}; S.pstyles.push(st); tp.ps=ps=st.id; }
+  let np=0; S.pstyleOf=S.pstyleOf||{};
+  idx.forEach(k=>{ parStartsOn(k).forEach((pi,j)=>{ const sid=tp.pars[j]; if(sid&&styleById(sid)){ S.pstyleOf[pi]=sid; np++; } }); });
+  S.pgStyleOf=S.pgStyleOf||{}; idx.forEach(i=>{ if(ps==='pdef') delete S.pgStyleOf[i]; else S.pgStyleOf[i]=ps; });
+  FLASHPG=new Set(idx); clearTimeout(FLASHPG_T); FLASHPG_T=setTimeout(()=>{ FLASHPG=new Set(); document.querySelectorAll('.sheet.pflash').forEach(e=>e.classList.remove('pflash')); },1100);
+  pstylesChanged(); toast(`Plantilla «${tp.name}» aplicada a ${idx.length===1?'la página '+(idx[0]+1):idx.length+' páginas'}${np?` · ${np} párrafo${np>1?'s':''} con estilo`:''}`);
+}
+function tplThumb(tp){ const g=GEOS[tp.ps]||GEOS.pdef; if(!g) return '<svg width="26" height="34"></svg>'; const sc=Math.min(26/g.x,34/g.y), w=g.x*sc, h=g.y*sc, f=x=>x.toFixed(1);
+  return `<svg width="${f(w)}" height="${f(h)}" viewBox="0 0 ${f(w)} ${f(h)}" aria-hidden="true"><rect class="pvpg" x=".5" y=".5" width="${f(w-1)}" height="${f(h-1)}"/><rect class="pvbox" x="${f(g.Ml*sc)}" y="${f(g.Ms*sc)}" width="${f(g.a*sc)}" height="${f(g.avail*25.4/96*sc)}"/></svg>`; }
+function renderPageTemplates(){ const ul=$('ptplList'); if(!ul) return; const L=S.ptpls||[]; ul.innerHTML='';
+  if(!L.length){ ul.innerHTML='<li class="empty">Todavía no hay plantillas. En Maquetación, haz clic derecho sobre una página y elige «Marcar como plantilla de página».</li>'; return; }
+  L.forEach(tp=>{ const li=document.createElement('li'); li.className='ptpl'; li.tabIndex=0; li.setAttribute('role','button');
+    const ps=pageStyleById(tp.ps); li.innerHTML=`<span class="tth">${tplThumb(tp)}</span><span class="nm"><b></b><small></small></span><button type="button" class="ptx" title="Borrar la plantilla" aria-label="Borrar la plantilla">×</button>`;
+    li.querySelector('b').textContent=tp.name; li.querySelector('small').textContent=`${ps?ps.name:tp.snap.name}${tp.pars.length?` · ${tp.pars.length} párrafo${tp.pars.length>1?'s':''}`:''}`;
+    li.title='Clic: aplicar a la página elegida · arrastrar: soltar sobre una página · doble clic: renombrar';
+    li.addEventListener('click',e=>{ if(e.target.closest('.ptx')||li._dragged) return; applyPageTemplate(tp,tplTargets()); });
+    li.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); applyPageTemplate(tp,tplTargets()); } else if(e.key==='Delete'){ e.preventDefault(); delTpl(tp); } });
+    li.addEventListener('dblclick',e=>{ e.preventDefault(); const nm=li.querySelector('b'), inp=document.createElement('input'); inp.type='text'; inp.className='stren'; inp.value=tp.name; nm.replaceWith(inp); inp.focus(); inp.select();
+      const done=ok=>{ const n=inp.value.trim(); if(ok&&n) tp.name=n; persist(); renderPageTemplates(); }; inp.addEventListener('keydown',ev=>{ ev.stopPropagation(); if(ev.key==='Enter') done(true); if(ev.key==='Escape') done(false); }); inp.addEventListener('blur',()=>done(true)); });
+    li.querySelector('.ptx').addEventListener('click',e=>{ e.stopPropagation(); delTpl(tp); });
+    li.addEventListener('pointerdown',e=>{ if(e.button!==0||e.target.closest('input,.ptx')) return; tplDrag(li,tp,e); });
+    ul.appendChild(li); }); }
+function delTpl(tp){ S.ptpls=(S.ptpls||[]).filter(x=>x!==tp); persist(); renderPageTemplates(); toast(`Plantilla «${tp.name}» borrada · las páginas no cambian`); }
+function tplDrag(li,tp,e0){
+  let ghost=null, tgt=-1, started=false; const x0=e0.clientX, y0=e0.clientY;
+  const mark=n=>{ if(n===tgt) return; document.querySelectorAll('.sheet.pdrop').forEach(x=>x.classList.remove('pdrop')); tgt=n; if(n>=0) tplTargets(n).forEach(i=>document.querySelectorAll(`figure.pg[data-pg="${i}"] .sheet`).forEach(x=>x.classList.add('pdrop'))); };
+  const move=e=>{ if(!started){ if(Math.hypot(e.clientX-x0,e.clientY-y0)<6) return; started=true; li._dragged=true; li.classList.add('dragging'); ghost=document.createElement('div'); ghost.className='stghost'; ghost.innerHTML=svg('pstyle',14)+'<span></span>'; document.body.appendChild(ghost); }
+    ghost.style.transform=`translate(${e.clientX+12}px,${e.clientY+10}px)`; const el=document.elementFromPoint(e.clientX,e.clientY), f=el&&el.closest&&el.closest('#view figure.pg');
+    mark(f?+f.dataset.pg:-1); ghost.lastChild.textContent=tgt>=0?`Aplicar «${tp.name}» a la página ${tgt+1}`:tp.name; ghost.classList.toggle('no',tgt<0); };
+  const fin=()=>{ removeEventListener('pointermove',move); removeEventListener('pointerup',up); removeEventListener('pointercancel',cancel); li.classList.remove('dragging'); if(ghost) ghost.remove(); setTimeout(()=>{ li._dragged=false; },0); };
+  const up=()=>{ if(!started){ fin(); return; } const n=tgt; mark(-1); fin(); if(n>=0) applyPageTemplate(tp,tplTargets(n)); };
+  const cancel=()=>{ mark(-1); fin(); };
+  addEventListener('pointermove',move); addEventListener('pointerup',up); addEventListener('pointercancel',cancel);
+}
+function pageMenu(k,x,y){ closeLintMenu();
+  const m=document.createElement('div'); m.className='lintmenu'; m.setAttribute('role','menu');
+  m.innerHTML=`<div class="lmh"><p>Página ${k+1} · ${esc((pageStyleById(pageStyleOf(k))||{}).name||'')}</p></div>`;
+  const add=(label,fn)=>{ const b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitem'); b.textContent=label; b.addEventListener('click',()=>{ closeLintMenu(); fn(); }); m.appendChild(b); return b; };
+  add('Marcar como plantilla de página…',()=>markPageTemplate(k));
+  add('Ajustes de su estilo de página…',()=>{ S.pgSel=pageStyleOf(k); renderPageStyles(); pageStyleDialog(pageStyleOf(k)); });
+  document.body.appendChild(m); const r=m.getBoundingClientRect(); m.style.left=Math.min(x,innerWidth-r.width-8)+'px'; m.style.top=Math.min(y,innerHeight-r.height-8)+'px';
+  m.querySelector('button').focus();
+  m.addEventListener('keydown',e=>{ const bs=[...m.querySelectorAll('button')], i=bs.indexOf(document.activeElement); if(e.key==='ArrowDown'){ e.preventDefault(); bs[(i+1)%bs.length].focus(); } else if(e.key==='ArrowUp'){ e.preventDefault(); bs[(i-1+bs.length)%bs.length].focus(); } else if(e.key==='Escape'){ e.preventDefault(); closeLintMenu(); } e.stopPropagation(); });
+  setTimeout(()=>{ addEventListener('pointerdown',function f(ev){ if(!m.contains(ev.target)){ closeLintMenu(); removeEventListener('pointerdown',f,true); } },true); },0); }
 function buildPageStylePane(){
   const ls=makeSlider({min:2,max:120,step:1,label:'Líneas por página',range:()=>[2,tplLinesNow()+12],
     get:()=>tplLinesNow()+pageStyleVals(S.pgSel).delta,set:v=>{ const st=pageStyleById(S.pgSel); if(st) setPageProp(st,'delta',Math.round(v-tplLinesNow())); },
@@ -3401,8 +3538,11 @@ function buildPageStylePane(){
   const ap=document.createElement('div'); ap.className='btns'; ap.innerHTML='<button class="tbtn prim" type="button" id="psApply">Aplicar a las páginas seleccionadas</button>';
   ap.firstChild.addEventListener('click',()=>applyPageStyleTo(S.pgSel,pageSel()));
   const hint=document.createElement('p'); hint.className='bhint'; hint.textContent='Selecciona páginas (Tab hasta «Página»; Mayús + clic para varias) y haz doble clic en un estilo, o arrástralo sobre una página. Engranaje: ajustes del estilo · clic en el nombre: renombrar.';
-  setTimeout(renderPageStyles,0);
-  return {id:'pestilo',title:'Estilo de página',icon:'pstyle',panels:[{title:'Líneas por página',nodes:[r1,forl]},{title:'Estilos de página',nodes:[bar,ul,ap,hint]}]};
+  const tl=document.createElement('ul'); tl.className='ptpls'; tl.id='ptplList'; tl.setAttribute('aria-label','Plantillas de página');
+  const th=document.createElement('p'); th.className='bhint'; th.textContent='Arrastra una plantilla sobre una página (en blanco o no), o haz clic en una página y luego en la plantilla. Para crear una: clic derecho sobre una página › Marcar como plantilla de página.';
+  setTimeout(()=>{ renderPageStyles(); renderPageTemplates(); },0);
+  REFRESH.push(()=>setTimeout(renderPageTemplates,0));
+  return {id:'pestilo',title:'Estilo de página',icon:'pstyle',panels:[{title:'Líneas por página',nodes:[r1,forl]},{title:'Estilos de página',nodes:[bar,ul,ap,hint]},{title:'Plantillas de página',nodes:[tl,th]}]};
 }
 function buildTplPane(){
   const nodes=[];
@@ -4491,7 +4631,8 @@ function initToolbar(){
   v.addEventListener('pointerup',endPan); v.addEventListener('pointercancel',endPan);
   v.addEventListener('auxclick',e=>{ if(e.button===1) e.preventDefault(); });
   v.addEventListener('contextmenu',e=>{ if(pan){ e.preventDefault(); return; }
-    const w=e.target.closest&&e.target.closest('.w.lint'); if(S.mode==='review'&&w){ e.preventDefault(); lintMenu(+w.dataset.l,e.clientX,e.clientY); } });
+    const w=e.target.closest&&e.target.closest('.w.lint'); if(S.mode==='review'&&w){ e.preventDefault(); lintMenu(+w.dataset.l,e.clientX,e.clientY); return; }
+    const f=S.mode==='edit'&&e.target.closest&&e.target.closest('figure.pg'); if(f){ e.preventDefault(); FOCUS_PG=+f.dataset.pg; pageMenu(+f.dataset.pg,e.clientX,e.clientY); } });
   v.addEventListener('pointermove',e=>{ const ln=e.target.closest&&e.target.closest('.ln'); if(ln) HOVER_P=+ln.dataset.p; },{passive:true});
   // a poco zoom (10–30 %), un clic en una página la ajusta al ancho de la vista
   let pdPos=null;
@@ -4746,6 +4887,13 @@ function currentPageIndex(){ const ta=TA(), a=ta.selectionStart; if(PRIMARY&&can
 /* ---- cornisa y folio de cada página (mismos datos para la vista, la imagen y el PDF) ---- */
 function toRoman(n){ if(n<=0) return String(n); const v=[[1000,'m'],[900,'cm'],[500,'d'],[400,'cd'],[100,'c'],[90,'xc'],[50,'l'],[40,'xl'],[10,'x'],[9,'ix'],[5,'v'],[4,'iv'],[1,'i']]; let s=''; for(const [a,r] of v){ while(n>=a){ s+=r; n-=a; } } return s; }
 function folioText(pn,f){ const n=pn+(+f.start||1); return f.fmt==='roman'?toRoman(n):(f.fmt==='ROMAN'?toRoman(n).toUpperCase():String(n)); }
+/* capítulo y sección vigentes en una página (para las cornisas) */
+let CS_CACHE={t:null,it:[]};
+function chapSecAt(pn){ const res=CUR_RES||PRIMARY; let off=-1;
+  if(res) for(let k=pn;k>=0&&off<0;k--){ const pg=res.pages[k]; if(pg&&pg.slots&&pg.slots.length) off=pg.slots[0].line.s; }
+  const t=docText(); if(CS_CACHE.t!==t){ CS_CACHE={t,it:outlineItems().filter(x=>x.n===1||x.n===2)}; }
+  let chap='', sec='', chapStart=-1; CS_CACHE.it.forEach(x=>{ if(x.start<=off){ if(x.n===1){ chap=x.t.trim(); chapStart=x.start; sec=''; } else if(x.start>=chapStart) sec=x.t.trim(); } });
+  return {chap,sec}; }
 function pageDecor(pn,gp,inner){
   // devuelve textos con la x del ancla, la línea base y el ancla (izquierda, centro, derecha), en px de página
   const v=pageStyleVals(pageStyleOf(pn)), out=[], rules=[], pt=96/72, mm=96/25.4;
@@ -4754,7 +4902,8 @@ function pageDecor(pn,gp,inner){
   const fam=S.font, docName=(S.docName||'Sin título');
   const tyRH=(v.rh.pstyle&&styleById(v.rh.pstyle))?styleVals(v.rh.pstyle):null, tyFO=(v.folio.pstyle&&styleById(v.folio.pstyle))?styleVals(v.folio.pstyle):null;
   const fR=tyRH?tyRH.font:fam, wR=tyRH?tyRH.weight:400, sR=tyRH?tyRH.size:v.rh.size, fF=tyFO?tyFO.font:fam, wF=tyFO?tyFO.weight:400, sF=tyFO?tyFO.size:v.folio.size;
-  const fill=t=>String(t||'').replace(/\{doc\}/g,docName);
+  const fill=t=>{ t=String(t||''); if(/\{(chap|sec)\}/.test(t)){ const cs=chapSecAt(pn); t=t.replace(/\{chap\}/g,cs.chap).replace(/\{sec\}/g,cs.sec); }
+    return t.replace(/\{doc\}/g,docName).replace(/\{author\}/g,((S.docMeta&&S.docMeta.author)||'').trim()); };
   if(v.rh.on){
     const px=sR*pt, base=gp.mt-v.rh.gap*mm;
     let txt=fill(recto?v.rh.recto:v.rh.verso); if(v.rh.caps) txt=txt.toUpperCase();

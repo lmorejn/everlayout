@@ -2,6 +2,9 @@
 
 ## Sin publicar
 
+- Plantillas de página (Maquetación › Estilo de página): clic derecho sobre una página › Marcar como plantilla de página guarda su estilo de página y los estilos de sus párrafos; la plantilla se arrastra sobre otra página (en blanco o no) o se aplica con clic en la página y luego en la plantilla.
+- Ventana de estilo de página rediseñada: pestañas Página (tamaño, canon y ajuste manual de márgenes; si no coinciden con el canon, este pasa a «Personalizada»), Posición de la mancha (cuadrícula de 3 × 3 o según el canon, y líneas por página) y Cornisas y folio (cornisa desde título, autor, capítulo o sección actual, o inscripción personalizada). Una columna lateral muestra el pliego con el trazado y la mancha, y los valores resultantes. Desaparece la pestaña Organizador.
+- Los títulos «Estilo de página» y «Estilo de párrafo» de sus ventanas son ahora discretos, para no confundirlos con el nombre del estilo.
 - Las subsecciones de las barras laterales aparecen plegadas; cada pestaña tiene dos botones para desplegarlas o plegarlas todas, y se recuerda cuáles abriste.
 - Arreglado: la barra de estado oculta, los atajos personalizados y el idioma no se recordaban al recargar.
 - Menús reorganizados. Editar: Deshacer, Rehacer, Seleccionar todo el texto y Preferencias. Ver: «Calderón» pasa a «Marcas de edición» (calderón y saltos de página); Ajustar página actual a la vista, Ajustar ancho a la vista, Zoom a tamaño real; y Ver barra de estado. Ayuda: Atajos de teclado, Manual de usuario (en preparación) y Acerca de.
