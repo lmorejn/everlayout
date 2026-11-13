@@ -2,6 +2,9 @@
 
 ## Sin publicar
 
+- Las páginas insertadas en Maquetación (y los saltos de flujo) se ven también en Borrador y Corrección: la hoja del manuscrito se corta donde se insertó la página, aparece una hoja marcada «Página insertada en Maquetación» y las flechas del salto.
+- Roles en la pantalla de bienvenida: Escritor (Borrador, Corrección, Previsualización), Editor (Corrección, Maquetación, Previsualización), Encuadernador (Maquetación, Previsualización) o Generalista (todos). El selector de modos muestra solo los del rol. Ayuda › Mostrar pantalla de bienvenida la vuelve a abrir.
+- Tapa dura: el laminado brillante refleja la luz con la ondulación típica del cartón forrado y el mate queda satinado; la cubierta lleva la ranura de la bisagra junto al lomo y el lomo se ve redondeado.
 - Nodos de flujo en Maquetación: donde un párrafo pasa de una página a otra hay un nodo de salida (al pie, a la derecha de la mancha) y uno de entrada donde continúa. Arrastrar la salida a otra página hace que el texto siga allí (deja páginas en blanco en medio) o lo vuelve a unir; con un clic se abre un menú (seguir en la página siguiente, dejar una página en blanco, ir a donde sigue). El nodo se pinta naranja si el párrafo salta páginas o se corta antes de llenar la suya.
 - La barra de paso de página de Previsualización ya no flota sobre la hoja: va fija debajo de la barra de herramientas.
 - Saltos de flujo: si se añade una página entre dos páginas por las que corre un mismo párrafo, el texto que se escriba en ella es suyo y el párrafo sigue después de esa página. Unas flechas («Sigue en la pág. N» / «Viene de la pág. N») marcan el salto y llevan a la otra página con un clic.

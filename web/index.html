@@ -498,6 +498,9 @@ figure.pg figcaption{margin:0 0 var(--spacing-2);color:var(--color-text-secondar
 .fwire{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999}
 .fwire path{fill:none;stroke:var(--color-accent);stroke-width:2;stroke-dasharray:6 4}
 .bk .fnode{display:none}
+.msblank{display:grid;place-items:center;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(0,0,0,.025) 14px 15px)}
+.msins{display:grid;gap:6px;text-align:center;font:500 13px/1.3 var(--font-body,system-ui);color:#8c877c;padding:10px 16px;border:1px dashed #c9c3b6;border-radius:6px}
+.msins small{font-weight:400;font-size:11px}
 .jmp{position:absolute;right:0;z-index:3;display:inline-flex;align-items:center;gap:4px;padding:1px 8px;border:1px solid color-mix(in srgb,var(--color-accent) 55%,transparent);border-radius:999px;background:color-mix(in srgb,var(--color-accent) 10%,#fff);color:var(--color-accent);font:500 10px/1.5 var(--font-body,system-ui);cursor:pointer;white-space:nowrap}
 .jmp.from{top:-20px}.jmp:hover{background:color-mix(in srgb,var(--color-accent) 18%,#fff)}
 .bk .jmp{display:none}
@@ -620,6 +623,9 @@ figure.pg figcaption{margin:0 0 var(--spacing-2);color:var(--color-text-secondar
 .sptx b{font:700 1.75rem/1.1 var(--font-body);letter-spacing:-.01em}
 .sptx span{font:500 1rem/1.3 var(--font-body);color:var(--color-text-primary)}
 .sptx small{font:400 .8125rem/1.3 var(--font-body);color:var(--color-text-secondary)}
+.sprole{display:grid;gap:4px;justify-items:stretch;width:min(320px,70vw)}
+.sprole label{font:500 .75rem/1.3 var(--font-body);color:var(--color-text-secondary);text-align:center}
+.sprole select{height:var(--size-element-md,36px);padding:0 var(--spacing-3);border-radius:var(--radius-element);border:var(--border-width) solid var(--color-border);background:var(--color-background-surface);color:var(--color-text-primary);font:500 .875rem/1 var(--font-body)}
 .spbar{width:180px;height:3px;border-radius:3px;background:var(--color-background-muted);overflow:hidden}
 .spbar i{display:block;height:100%;width:40%;border-radius:inherit;background:var(--color-accent);animation:spbar 1.2s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes spbar{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
@@ -721,6 +727,16 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
 .cv-natural:not(.cvin){background-color:color-mix(in srgb,var(--cvcol) 92%,#e8e0cc)}
 .cv-natural:not(.cvin)::after{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle at 60% 30%,rgba(0,0,0,.035) 0 1px,transparent 1px 4px);pointer-events:none}
 .fin-lino:not(.cvin)::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 1px,transparent 1px 3px);mix-blend-mode:overlay;pointer-events:none}
+.cv-tapadura.cvfront .cvfin::before,.cv-tela.cvfront .cvfin::before{content:"";position:absolute;top:0;bottom:0;left:3.2%;width:5px;background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(255,255,255,.18) 55%,rgba(0,0,0,.08));filter:blur(.6px)}
+.cv-tapadura.cvback .cvfin::before,.cv-tela.cvback .cvfin::before{content:"";position:absolute;top:0;bottom:0;right:3.2%;width:5px;background:linear-gradient(270deg,rgba(0,0,0,.28),rgba(255,255,255,.18) 55%,rgba(0,0,0,.08));filter:blur(.6px)}
+.cv-tapadura.cvface:not(.cvin){box-shadow:inset 0 0 0 1px rgba(0,0,0,.25),inset 2px 0 3px rgba(255,255,255,.12)}
+.cv-tapadura.fin-brillo .cvfin{background:var(--gloss) center/100% 100% no-repeat,linear-gradient(105deg,transparent 30%,rgba(255,255,255,.1) 46%,transparent 60%);mix-blend-mode:screen}
+.cv-tapadura.fin-brillo.cvfront .cvimg,.cv-tapadura.fin-brillo.cvfront{filter:saturate(1.08) contrast(1.06)}
+.cv-tapadura.fin-mate .cvfin,.cv-tapadura.fin-soft .cvfin{background:var(--satin) center/100% 100% no-repeat,rgba(255,255,255,.03);mix-blend-mode:screen}
+.cv-tapadura.fin-mate.cvfront .cvimg{filter:saturate(.96) contrast(.96)}
+.bk>.spine.cv-tapadura,.bk>.spine.cv-tela{border-radius:4px 0 0 4px;background-image:linear-gradient(90deg,rgba(0,0,0,.35),rgba(255,255,255,.14) 35%,rgba(255,255,255,.04) 60%,rgba(0,0,0,.3))}
+.bk>.spine.r.cv-tapadura,.bk>.spine.r.cv-tela{border-radius:0 4px 4px 0}
+.bk>.spine.cv-tapadura.fin-brillo{background-image:linear-gradient(90deg,rgba(0,0,0,.35),rgba(255,255,255,.45) 30%,rgba(255,255,255,.08) 55%,rgba(0,0,0,.3))}
 .fin-barniz .cvfin{background:linear-gradient(112deg,transparent 32%,rgba(255,255,255,.14) 44%,transparent 58%)}
 .fin-holo .cvtitle{color:transparent;background:linear-gradient(100deg,#ff8aa8,#ffe48a 20%,#8affc1 40%,#8ac8ff 60%,#d38aff 80%,#ff8aa8);-webkit-background-clip:text;background-clip:text;filter:saturate(1.2)}
 .fin-holo .cvfin{background:linear-gradient(112deg,transparent 30%,rgba(255,180,220,.18) 40%,rgba(180,255,230,.18) 48%,rgba(180,200,255,.18) 56%,transparent 66%)}
@@ -735,10 +751,10 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
 .bk>.spine.r{left:var(--W)}
 .bk>.spine.fin-brillo,.bk>.spine.fin-barniz{background-image:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.22) 45%,rgba(255,255,255,.05))}
 .bk>.spine.cv-tela::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 1px,transparent 1px 3px);mix-blend-mode:overlay}
-.sptx{position:absolute;left:50%;top:50%;white-space:nowrap;color:rgba(255,255,255,.88);font-weight:600;letter-spacing:.06em;transform:translate(-50%,-50%) rotate(-90deg)}
-.sptx.down{transform:translate(-50%,-50%) rotate(90deg)}.sptx.horiz{top:12%;width:100%;transform:translateX(-50%);white-space:normal;text-align:center;font-size:11px!important;padding:4px;box-sizing:border-box}
-.cv-kraft .sptx,.cv-papel .sptx,.cv-natural .sptx{color:rgba(30,25,20,.85)}
-.spine.fin-foil .sptx,.spine.fin-estampado .sptx,.spine.fin-foilmate .sptx{color:transparent;background:linear-gradient(100deg,var(--f1),var(--f2) 35%,var(--f3) 55%,var(--f4) 70%,var(--f1));-webkit-background-clip:text;background-clip:text}
+.spntx{position:absolute;left:50%;top:50%;white-space:nowrap;color:rgba(255,255,255,.88);font-weight:600;letter-spacing:.06em;transform:translate(-50%,-50%) rotate(-90deg)}
+.spntx.down{transform:translate(-50%,-50%) rotate(90deg)}.spntx.horiz{top:12%;width:100%;transform:translateX(-50%);white-space:normal;text-align:center;font-size:11px!important;padding:4px;box-sizing:border-box}
+.cv-kraft .spntx,.cv-papel .spntx,.cv-natural .spntx{color:rgba(30,25,20,.85)}
+.spine.fin-foil .spntx,.spine.fin-estampado .spntx,.spine.fin-foilmate .spntx{color:transparent;background:linear-gradient(100deg,var(--f1),var(--f2) 35%,var(--f3) 55%,var(--f4) 70%,var(--f1));-webkit-background-clip:text;background-clip:text}
 .cvface.cvin{background:#f4f0e6}
 .cv-papel.cvin,.cv-cartulina.cvin,.cv-kraft.cvin{background:#f7f5ef}
 .cv-kraft{background-color:#a8835a}.cv-kraft.cvfront{background-blend-mode:multiply}
@@ -1400,7 +1416,7 @@ const POVROWS=[
  {k:'minLast',label:'Última línea mínima',min:0,max:60,step:5,fmt:v=>v+' %'}];
 S.track=S.track||0;
 S.pinL=false; S.pinR=false; S.turn='focus'; S.stock='none'; S.pageSound=true; S.stockGsm=120; S.stockBulk=1.2; S.sigs=0; S.exSheet=''; S.exMarks={crop:true,cutfull:false,bleed:false,reg:true,color:true,gray:true,frame:false,info:true}; S.exSim=false; S.typeSound=false; S.typeVol=60; S.typeBellLine=true; S.theme='auto'; S.sysFonts=[];
-S.gaps={}; S.jumps=[]; S.cover={on:true,img:'',mat:'cartulina',fin:'mate',color:'#2f3d52'}; S.ptpls=[]; S.pnOpen={}; S.userKeys={}; S.sbOff=false; S.uiLang='es';
+S.role=''; S.gaps={}; S.jumps=[]; S.cover={on:true,img:'',mat:'cartulina',fin:'mate',color:'#2f3d52'}; S.ptpls=[]; S.pnOpen={}; S.userKeys={}; S.sbOff=false; S.uiLang='es';
 S.hNames=['Capítulo','Sección','Subsección','Apartado','Inciso','Subinciso']; S.hPage=[true,false,false,false,false,false];
 const DEFAULTS=JSON.parse(JSON.stringify(S));
 let saved={}; try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
@@ -2106,6 +2122,9 @@ function flowCompose(mode,paras,spec,control){
   const J=(S.jumps||[]).map(j=>({a:j.a,idx:paras.map((P,i)=>i).filter(i=>paras[i].start>=j.s&&paras[i].start<=j.e),done:false})).filter(j=>j.idx.length);
   const inJ=new Map(); J.forEach(j=>j.idx.forEach(i=>inJ.set(i,j)));
   const brkPage=()=>{ if(cur.slots.length) cur=newPage(); };
+  // en el manuscrito, las páginas en blanco de Maquetación cortan el flujo justo donde se insertaron
+  const BLK=MSRUN?(()=>{ const a=(S.blanks||[]).slice(); Object.keys(S.gaps||{}).forEach(k=>{ for(let i=0;i<(S.gaps[k]|0);i++) a.push(+k); }); return a.sort((x,y)=>x-y); })():[]; let bli=0;
+  const putBlanks=s0=>{ let any=false; while(bli<BLK.length&&BLK[bli]<=s0){ if(!pages.some(q=>q.slots.length)){ bli++; continue; } if(cur.slots.length) cur=newPage(); cur.blank=true; cur.anchor=BLK[bli]; bli++; cur=newPage(); any=true; } return any; };
   const lay=(P,i)=>{
     let from=0, first=true, guard=0; const jp=J.find(j=>!j.done&&!inJ.has(i)&&j.a>P.start&&j.a<P.start+P.text.length);
     const msCh=MSRUN&&hPage(levelOf(i));
@@ -2119,12 +2138,14 @@ function flowCompose(mode,paras,spec,control){
       chunks.push(it);
       const k=it.lines.length; let rest=it.lines.map((line,li)=>({line,pi:i,li,k})), recompose=false;
       while(rest.length){
-        if(jp&&!jp.done&&rest[0].line.s>=jp.a){ // el párrafo salta: la página nueva va en medio y el resto sigue después
+        if(jp&&!jp.done&&rest[0].line.e>jp.a){ // el párrafo salta: la página nueva va en medio y el resto sigue después
           jp.done=true; const fromPg=cur.slots.length?cur:(pages[pages.length-2]||cur), Wp=cur.W; brkPage(); jp.idx.forEach((ii,n)=>{ if(n===0) brkPage(); lay(paras[ii],ii); }); brkPage();
           fromPg.jumpTo=cur; cur.jumpFrom=fromPg; prev={sid:styleOf(i),sa:0};
           if(Math.abs(cur.W-Wp)>0.5){ from=rest[0].line.s-P.start; recompose=true; break; } }
+        if(BLK.length) putBlanks(rest[0].line.s);
         const g=(first&&rest.length===k)?((cur.slots.length?it.gap:0)+(it.blankH||0)):0;
-        const stopAt=(jp&&!jp.done)?rest.findIndex(sl=>sl.line.s>=jp.a):-1;
+        let stopAt=(jp&&!jp.done)?rest.findIndex(sl=>sl.line.e>jp.a):-1;
+        if(bli<BLK.length){ const sb=rest.findIndex(sl=>sl.line.s>=BLK[bli]); if(sb>0&&(stopAt<0||sb<stopAt)) stopAt=sb; }
         let fit=0,h=cur.used+g; while(fit<rest.length&&(stopAt<0||fit<stopAt)&&h+rest[fit].line.lh<=cur.avail+0.02){ h+=rest[fit].line.lh; fit++; }
         if(stopAt>0&&fit===stopAt){ cur.used+=g; rest.slice(0,fit).forEach(sl=>{ sl.y=cur.used; cur.used+=sl.line.lh; cur.slots.push(sl); }); rest=rest.slice(fit); first=false; continue; }
         if(fit>=rest.length){ cur.used+=g; rest.forEach(sl=>{ sl.y=cur.used; cur.used+=sl.line.lh; cur.slots.push(sl); }); rest=[]; break; }
@@ -2140,7 +2161,7 @@ function flowCompose(mode,paras,spec,control){
     if(jp&&!jp.done){ jp.done=true; brkPage(); jp.idx.forEach(ii=>lay(paras[ii],ii)); brkPage(); }
   };
   paras.forEach((P,i)=>{ const j=inJ.get(i); if(j&&j.done) return; if(j&&!j.done&&j.idx[0]===i){ brkPage(); } lay(P,i); });
-  return {pages:pages.filter(pg=>pg.slots.length),chunks};
+  return {pages:pages.filter(pg=>pg.slots.length||pg.blank),chunks};
 }
 function composeAll(mode,paras,W){
   const out=[]; let prev=null; const BL=blankLines(paras);
@@ -2326,10 +2347,14 @@ function msHeader(pn){ const au=((S.docMeta&&S.docMeta.author)||'').trim(), sur=
   const t=caseText((S.docName||'Sin título').trim(),'upper'); return (sur?sur+' / ':'')+t+' / '+(pn+1); }
 function msPageHTML(pg,pn,g,fam){
   const px=12*96/72;
-  let h=`<figure class="pg" data-pg="${pn}"><figcaption>Hoja ${pn+1} · manuscrito</figcaption>`;
+  if(pg.blank) return `<figure class="pg" data-pg="${pn}"><figcaption>Hoja ${pn+1} · página insertada en Maquetación</figcaption><div class="sheet msblank" style="width:${g.pw}px;height:${g.ph}px"><div class="msins">Página insertada en Maquetación<small>El texto de antes sigue en la hoja ${pn+2}</small></div></div></figure>`;
+  let h=`<figure class="pg" data-pg="${pn}"><figcaption>Hoja ${pn+1} · manuscrito${pg.jumpFrom?' · continúa el párrafo de la hoja '+((CUR_RES?CUR_RES.pages.indexOf(pg.jumpFrom):-2)+1):''}</figcaption>`;
   h+=`<div class="sheet" style="width:${g.pw}px;height:${g.ph}px"><div class="msh" data-pn="${pn}" style="left:${g.corte}px;width:${g.W}px;text-align:right;top:${(48-px*.8).toFixed(1)}px;font-size:${px}px;line-height:${px}px">${esc(msHeader(pn))}</div>`;
   h+=`<div class="box" style="position:absolute;left:${g.corte}px;top:${g.mt}px;width:${g.W}px;height:${g.avail}px;font-family:${fam}">`;
   pg.slots.forEach(sl=>{ h+=lineHTML(sl,g.W); });
+  if(CUR_RES){ const ix=o=>CUR_RES.pages.indexOf(o);
+    if(pg.jumpTo&&ix(pg.jumpTo)>=0){ const last=pg.slots[pg.slots.length-1]; h+=`<button type="button" class="jmp to" style="top:${(last.y+last.line.lh+2).toFixed(1)}px" data-go="${ix(pg.jumpTo)}">\u21B7 Sigue en la hoja ${ix(pg.jumpTo)+1}</button>`; }
+    if(pg.jumpFrom&&ix(pg.jumpFrom)>=0) h+=`<button type="button" class="jmp from" data-go="${ix(pg.jumpFrom)}">\u21B6 Viene de la hoja ${ix(pg.jumpFrom)+1}</button>`; }
   return h+'</div></div></figure>';
 }
 let CUR_RES=null;
@@ -3929,7 +3954,7 @@ function unitMenu(){
 }
 
 /* ---- documentos guardados en este navegador ---- */
-const VIEW_KEYS=['pnOpen','uiLang','theme','sysFonts','sbOff','userKeys','typeSound','typeVol','typeBellLine','exSim','exSheet','exMarks','pageSound','turn','pinL','pinR','stFold','prefOpen','splash','exFmt','exDpi','exQ','exRaster','pgSel','showKeys','screenDiag','ppiAdj','revBarOff','stSel','zoom','tx','ty','left','right','tabL','tabR','mode','selmode','sel','coin','coinX','coinY','coinSet','coinDoc','coinType','rulers','grid','runit','markers','blurOn','blur','view','layout','pair2','openFit','showTrace','showBind','pilc','noteSel','docId','docSavedSig','docOpen','askDel','noteId'];
+const VIEW_KEYS=['role','pnOpen','uiLang','theme','sysFonts','sbOff','userKeys','typeSound','typeVol','typeBellLine','exSim','exSheet','exMarks','pageSound','turn','pinL','pinR','stFold','prefOpen','splash','exFmt','exDpi','exQ','exRaster','pgSel','showKeys','screenDiag','ppiAdj','revBarOff','stSel','zoom','tx','ty','left','right','tabL','tabR','mode','selmode','sel','coin','coinX','coinY','coinSet','coinDoc','coinType','rulers','grid','runit','markers','blurOn','blur','view','layout','pair2','openFit','showTrace','showBind','pilc','noteSel','docId','docSavedSig','docOpen','askDel','noteId'];
 const DKEY='justify-lab-docs';
 function dstore(){ try{ const o=JSON.parse(localStorage.getItem(DKEY)||'{}'); o.docs=o.docs||{}; o.recent=(o.recent||[]).filter(id=>o.docs[id]); return o; }catch(e){ return null; } }
 function dstoreSave(o){ try{ localStorage.setItem(DKEY,JSON.stringify(o)); return true; }catch(e){ return false; } }
@@ -4557,6 +4582,9 @@ addEventListener('pointerdown',()=>{ try{ if(!ACX&&S.pageSound&&S.mode==='previe
 /* ---- pasar página en Previsualización: por foco o como un libro encuadernado ---- */
 const BINDVIS={none:{gap:16,shade:0},grapa:{gap:0,shade:.16,staples:'c'},fresada:{gap:0,shade:.42,deep:1},cosida:{gap:0,shade:.24,stitch:1},wireo:{gap:30,shade:.05,rings:1},cartone:{gap:0,shade:.3,cover:1},japonesa:{gap:0,shade:.36,stitch:2},bodoniana:{gap:0,shade:.08},lateral:{gap:0,shade:.45,staples:'s'}};
 let BOOK=null;
+const GLOSS_SVG=(spec,exp,op,sc)=>`url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='400' height='560' preserveAspectRatio='none'><filter id='f' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='${sc}' numOctaves='3' seed='7'/><feGaussianBlur stdDeviation='2.2'/><feSpecularLighting surfaceScale='5' specularConstant='${spec}' specularExponent='${exp}' lighting-color='#fff'><fePointLight x='230' y='-120' z='260'/></feSpecularLighting><feComponentTransfer><feFuncA type='linear' slope='${op}'/></feComponentTransfer></filter><rect width='400' height='560' filter='url(#f)'/></svg>`)}")`;
+document.documentElement.style.setProperty('--gloss',GLOSS_SVG(1.25,28,.95,'.009 .006'));
+document.documentElement.style.setProperty('--satin',GLOSS_SVG(.45,5,.16,'.02 .015'));
 const COVER_MATS={
   papel:{name:'Autocubierta (el mismo papel del interior)',b:['grapa','lateral','japonesa'],fins:['sin'],stiff:null,uncoated:1},
   cartulina:{name:'Cartulina estucada (250–350 g/m²)',b:['grapa','fresada','cosida','wireo','japonesa','bodoniana','lateral'],fins:['mate','brillo','soft','barniz','uvsel','foil','foilmate','relieve','holo','lino','sin'],stiff:.86},
@@ -4587,7 +4615,7 @@ function coverFace(k){ const C=coverEff(); if(!C) return null; const {W,H}=bookG
 /* lomo visible con el libro cerrado: ancho real y texto según la tradición elegida */
 function spineEl(side){ const C=coverEff(); if(!C) return null; const n=PRIMARY?PRIMARY.pages.length:0, mm=96/25.4, BI=bindInfo(n), cov=['tapadura','tela'].includes(C.mat)?2*2.5:2*.35, wmm=Math.max(1,(BI.spine||0)+cov), w=wmm*mm;
   const e=document.createElement('div'); e.className=`spine cv-${C.mat} fin-${C.fin} ${side}`; e.style.width=w+'px'; e.style.setProperty('--cvcol',C.color); { const F=FOILS[C.foil]; ['--f1','--f2','--f3','--f4'].forEach((v,i)=>e.style.setProperty(v,F[i+1])); }
-  if(wmm>=6){ const t=document.createElement('span'); t.className='sptx '+(C.spineDir||'up'); const a=((S.docMeta&&S.docMeta.author)||'').trim(); t.textContent=(S.docName||'Sin título')+(a?'  ·  '+a:''); t.style.fontFamily=`'${S.font}', ${FONTS[S.font]||'serif'}`; t.style.fontSize=Math.min(w*.5,22)+'px'; e.appendChild(t); }
+  if(wmm>=6){ const t=document.createElement('span'); t.className='spntx '+(C.spineDir||'up'); const a=((S.docMeta&&S.docMeta.author)||'').trim(); t.textContent=(S.docName||'Sin título')+(a?'  ·  '+a:''); t.style.fontFamily=`'${S.font}', ${FONTS[S.font]||'serif'}`; t.style.fontSize=Math.min(w*.5,22)+'px'; e.appendChild(t); }
   return e; }
 function coverStiff(){ const C=coverEff(); return C&&C.M.stiff!=null?C.M.stiff:paperStiff(); }
 const spreadOf=k=>k<=0?0:Math.floor((k+1)/2);
@@ -4698,12 +4726,14 @@ function setSide(which,open){
   $(L?'tbLeft':'tbRight').setAttribute('aria-pressed',String(open)); persist();
 }
 const toggleSide=w=>setSide(w,!S[w==='L'?'left':'right']);
+const ROLES={generalista:['Generalista','Todos los modos',['draft','review','edit','preview']],escritor:['Escritor','Borrador, Corrección y Previsualización',['draft','review','preview']],editor:['Editor','Corrección, Maquetación y Previsualización',['review','edit','preview']],encuadernador:['Encuadernador','Maquetación y Previsualización',['edit','preview']]};
+const roleModes=()=>(ROLES[S.role]||ROLES.generalista)[2];
 const MODES=[['draft','Borrador','draft','Escribir y reunir el manuscrito'],['review','Corrección','review','Leer, corregir, comentar y estructurar'],['edit','Maquetación','pencil','Componer la página final'],['preview','Previsualización','eye','Ver el resultado y sus defectos']];
 const canSelect=()=>S.mode==='edit'||S.mode==='review'||S.mode==='draft';
 const writable=()=>S.mode!=='preview';
 const isMS=()=>S.mode==='draft'||S.mode==='review'; // manuscrito: borrador y corrección comparten la hoja de máquina de escribir
 const SELMODES=[['par','Por párrafo','selpar'],['line','Por línea','selline'],['page','Por página','selpage'],['all','Todo el texto','selall']];
-function setMode(m){ const was=isMS(); MSC.clear(); S.mode=m; S.sel=-1; SELX=[]; if(was!==isMS()) AUTOFIT=true; syncMode(); changed(); }
+function setMode(m){ if(!roleModes().includes(m)){ toast(`El rol «${(ROLES[S.role]||ROLES.generalista)[0]}» no usa ese modo · cámbialo en Ayuda › Mostrar pantalla de bienvenida`); return; } const was=isMS(); MSC.clear(); S.mode=m; S.sel=-1; SELX=[]; if(was!==isMS()) AUTOFIT=true; syncMode(); changed(); }
 function setSelMode(m){ S.selmode=m; S.sel=-1; SELX=[]; LSEL=[]; S.selLine=-1; syncMode(); changed(); }
 /* cada pestaña izquierda pertenece a ciertos modos; cada modo recuerda su última pestaña */
 const LTAB_MODES={meta:['draft'],estructura:['draft','review'],marcas:['review'],correccion:['review'],defaults:['edit'],pestilo:['edit'],espacio:['edit'],estilos:['edit'],deteccion:['edit'],seleccion:['edit'],encuad:['preview']};
@@ -4788,6 +4818,7 @@ function initToolbar(){
     b.addEventListener('click',()=>{ mp.classList.remove('open'); $('modeBtn').setAttribute('aria-expanded','false'); setMode(m); });
     drop.appendChild(b);
   });
+  applyRole(true);
   $('modeBtn').addEventListener('click',e=>{
     e.stopPropagation();
     const was=mp.classList.contains('open'); closeMenus();
@@ -5597,14 +5628,28 @@ function hotkeysHTML(){
   return HOTKEYS.map(([g,list])=>`<h3>${g}</h3>`+list.map(([ks,t])=>`<div class="hkrow"><span class="hkk">${ks.map(k=>k[0]==='@'?mouseSVG(k.slice(1)):`<kbd>${esc(k)}</kbd>`).join('<i>+</i>')}</span><span>${esc(t)}</span></div>`).join('')).join('');
 }
 const APP_VERSION='0.9.1', APP_CODENAME='Calderón';
-function showSplash(){
-  if(S.splash===false) return;
+function applyRole(quiet){ const ok=roleModes(); document.querySelectorAll('#modeDrop .mstepb').forEach(b=>{ b.hidden=!ok.includes(b.dataset.m); });
+  let k=0; document.querySelectorAll('#modeDrop .mstepb').forEach(b=>{ if(!b.hidden) b.querySelector('.mstep').textContent=++k; });
+  document.querySelectorAll('#modeDrop hr').forEach(h=>{ h.hidden=!(ok.includes('draft')||ok.includes('review'))||!(ok.includes('edit')||ok.includes('preview')); });
+  if(!ok.includes(S.mode)){ const was=isMS(); S.mode=ok.includes('edit')?'edit':ok[0]; S.sel=-1; SELX=[]; if(was!==isMS()){ MSC.clear(); AUTOFIT=true; } if(!quiet){ syncMode(); changed(); } } }
+function showSplash(force){
+  if(S.splash===false&&!force) return; document.querySelectorAll('.splash').forEach(x=>x.remove());
   const d=document.createElement('div'); d.className='splash'; d.setAttribute('role','dialog'); d.setAttribute('aria-label','Bienvenida');
-  d.innerHTML=`<div class="spcard"><div class="splogo" aria-hidden="true"><span>¶</span></div><div class="sptx"><b>Skoxa's</b><span>Software de maquetado editorial</span><small>Versión ${APP_VERSION} «${APP_CODENAME}»</small></div><div class="spbar"><i></i></div></div>`;
+  const first=!S.role;
+  d.innerHTML=`<div class="spcard"><div class="splogo" aria-hidden="true"><span>¶</span></div><div class="sptx"><b>Skoxa's</b><span>Software de maquetado editorial</span><small>Versión ${APP_VERSION} «${APP_CODENAME}»</small></div>
+    <div class="sprole"><label for="spRole">Trabajo como</label><select id="spRole">${Object.keys(ROLES).map(k=>`<option value="${k}">${ROLES[k][0]} · ${ROLES[k][1]}</option>`).join('')}</select></div>
+    <button type="button" class="tbtn prim" id="spGo">Empezar</button>${force||first?'':'<div class="spbar"><i></i></div>'}</div>`;
   document.body.appendChild(d);
-  const close=()=>{ if(d.classList.contains('out')) return; d.classList.add('out'); setTimeout(()=>d.remove(),450); };
-  d.addEventListener('pointerdown',close); addEventListener('keydown',close,{once:true});
-  setTimeout(close,1900);
+  const sel=d.querySelector('#spRole'); sel.value=S.role||'generalista';
+  let hold=!!(force||first);
+  const close=()=>{ if(d.classList.contains('out')) return; d.classList.add('out'); removeEventListener('keydown',onKey,true); setTimeout(()=>d.remove(),450); };
+  const choose=()=>{ const r=sel.value; if(r!==S.role){ S.role=r; persist(); applyRole(); toast(`Rol: ${ROLES[r][0]} · modos: ${ROLES[r][2].map(m=>MODES.find(x=>x[0]===m)[1]).join(', ')}`); } close(); };
+  const onKey=e=>{ if(e.key==='Escape'){ e.preventDefault(); close(); } else if(e.key==='Enter'&&e.target!==sel){ e.preventDefault(); choose(); } else hold=true; };
+  addEventListener('keydown',onKey,true);
+  d.addEventListener('pointerdown',e=>{ if(e.target===d) close(); else hold=true; });
+  sel.addEventListener('input',()=>{ hold=true; const sb=d.querySelector('.spbar'); if(sb) sb.remove(); });
+  d.querySelector('#spGo').addEventListener('click',choose);
+  if(!hold) setTimeout(()=>{ if(!hold) close(); },2600);
 }
 const RULES_HTML='<ul><li>Los dígrafos <b>ch</b>, <b>ll</b> y <b>rr</b> no se separan.</li><li>Los grupos <b>pr, pl, br, bl, fr, fl, tr, dr, cr, cl, gr, gl</b> pasan juntos a la sílaba siguiente.</li><li>Dos vocales fuertes forman hiato y se pueden separar. Una vocal débil con vocal fuerte forma diptongo.</li><li>Una <b>í</b> o <b>ú</b> con acento junto a una vocal fuerte forma hiato.</li><li>No se deja una sola letra al inicio o al final de la línea. Los mínimos son configurables.</li><li>La lista de excepciones tiene prioridad sobre las reglas.</li></ul>';
 const PREF_KEYS=['uiLang','theme','showKeys','splash','openFit','screenDiag','ppiAdj','coinType','typeSound','typeBellLine','typeVol','pageSound'];
@@ -5782,6 +5827,7 @@ const ACTIONS={
   vRule(){ $('tRule').click(); },
   undo(){ editHist('undo'); }, redo(){ editHist('redo'); },
   vReal(){ $('z100').click(); },
+  splash(){ showSplash(true); },
   vStatus(){ S.sbOff=!S.sbOff; persist(); applyStatusBar(); },
   manual(){ modal('Manual de usuario','<p>El manual de usuario está en preparación.</p><p class="dnote">Mientras tanto, en Ayuda › Atajos de teclado tienes la lista de atajos, y casi todos los controles explican lo que hacen al pasar el ratón por encima.</p>'); }, vGrid(){ $('tGrid').click(); },
   vMarks(){ S.markers=!S.markers; $('tMarks').checked=S.markers; changed(); },
@@ -5799,7 +5845,7 @@ const MENUS={
   file:[['Nuevo','fNew'],['Abrir…','fOpen','Ctrl+O'],['Abrir reciente','fRecent','',null,'sub'],'-',['Guardar','fSave','Ctrl+S'],['Guardar como…','fSaveAs','Ctrl+Mayús+S'],'-',['Exportar…','fExport','Ctrl+E'],['Imprimir…','fPrint','Ctrl+P'],'-',['Propiedades del documento…','fProps'],['Ajustes del documento…','docset'],'-',['Cerrar documento','fClose'],['Cerrar aplicación','fQuit']],
   edit:[['Deshacer','undo','Ctrl+Z'],['Rehacer','redo','Ctrl+Mayús+Z'],'-',['Seleccionar todo el texto','selall','Ctrl+A'],'-',['Preferencias…','prefs','Ctrl+,']],
   view:[['Tema oscuro','vDark','',()=>isDark()],'-',['Regla','vRule','',()=>S.rulers],['Cuadrícula','vGrid','',()=>S.grid],['Marcadores','vMarks','',()=>S.markers],['Marcas de edición','vPilc','',()=>S.pilc],['Simular encuadernación','vBind','',()=>S.showBind],['Trazado de la plantilla','vTrace','',()=>S.showTrace],['Moneda de referencia (25 ¢)','vCoin','',()=>S.coin],'-',['Ajustar página actual a la vista','vFitP'],['Ajustar ancho a la vista','vFitW'],['Zoom a tamaño real','vReal'],'-',['Barra de controles','togL','T',()=>S.left],['Barra de estadísticas','togR','N',()=>S.right],'-',['Ver barra de estado','vStatus','',()=>!S.sbOff]],
-  help:[['Atajos de teclado…','keys'],['Manual de usuario','manual'],'-',['Acerca de Skoxa\'s','about']]
+  help:[['Atajos de teclado…','keys'],['Manual de usuario','manual'],['Mostrar pantalla de bienvenida','splash'],'-',['Acerca de Skoxa\'s','about']]
 };
 /* ---- deshacer y rehacer de la aplicación: texto y estilos juntos (instantáneas del documento) ---- */
 const HIST={u:[],r:[],last:null,t:0};
