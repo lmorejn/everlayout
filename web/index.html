@@ -1259,7 +1259,8 @@ const TABS_L=[
   {title:'Costo de los guiones (óptima)',items:[
     {k:'hypPen',t:'slider',label:'Costo por guion',min:0,max:500,step:10,def:50,fmt:v=>v},
     {k:'penultHyph',t:'chk',label:'Evitar guion en la penúltima línea',def:true}]},
-  {title:'Probar una palabra',items:[{t:'raw',build:'tester'}]}]},
+  {title:'Probar una palabra',items:[{t:'raw',build:'tester'}]},
+  {title:'Excepciones',items:[{t:'raw',build:'exc'}]}]},
  {id:'espacio',title:'Espaciado',icon:'space',panels:[
   {title:'Espacio entre palabras',items:[
     {k:'minSp',t:'slider',label:'Mínimo',min:50,max:100,step:1,def:85,fmt:fmtPct},
@@ -1612,6 +1613,13 @@ function buildItem(it){
       d.innerHTML=`<div class="brow"><label for="tw">Palabra</label><input type="text" id="tw" class="bnum" value="extraordinariamente" autocomplete="off" spellcheck="false" style="text-align:left"></div>
         <div class="brow"><label>Sílabas</label><code class="bro" id="twSyl"></code></div>
         <div class="brow"><label>Cortes permitidos</label><code class="bro" id="twCut"></code></div>`;
+    }
+    if(it.build==='exc'){
+      d.innerHTML=`<p class="bhint" style="margin-top:0">Una por línea, con guiones donde se permita el corte. Sin guiones, la palabra no se separa nunca. Tienen prioridad sobre las reglas.</p>
+        <textarea class="bta" id="excTa" rows="7" spellcheck="false" placeholder="Mo-re-jón&#10;Luis" aria-label="Excepciones de silabeo"></textarea>
+        <details class="prules"><summary>Reglas de silabeo</summary>${RULES_HTML}</details>`;
+      const ta=d.querySelector('textarea'); ta.value=S.excText||''; ta.addEventListener('input',()=>{ S.excText=ta.value; changed(); }); ta.addEventListener('keydown',e=>e.stopPropagation());
+      REFRESH.push(()=>{ if(document.activeElement!==ta) ta.value=S.excText||''; });
     }
     out.push(d);
   }
@@ -3529,7 +3537,7 @@ function unitMenu(){
 }
 
 /* ---- documentos guardados en este navegador ---- */
-const VIEW_KEYS=['theme','sysFonts','sbOff','userKeys','typeSound','typeVol','typeBellLine','exSim','exSheet','exMarks','pageSound','turn','pinL','pinR','stFold','prefOpen','splash','exFmt','exDpi','exQ','exRaster','pgSel','showKeys','screenDiag','ppiAdj','revBarOff','stSel','zoom','tx','ty','left','right','tabL','tabR','mode','selmode','sel','coin','coinX','coinY','coinSet','coinDoc','coinType','rulers','grid','runit','markers','blurOn','blur','view','layout','pair2','openFit','showTrace','showBind','pilc','noteSel','docId','docSavedSig','docOpen','askDel','noteId'];
+const VIEW_KEYS=['uiLang','theme','sysFonts','sbOff','userKeys','typeSound','typeVol','typeBellLine','exSim','exSheet','exMarks','pageSound','turn','pinL','pinR','stFold','prefOpen','splash','exFmt','exDpi','exQ','exRaster','pgSel','showKeys','screenDiag','ppiAdj','revBarOff','stSel','zoom','tx','ty','left','right','tabL','tabR','mode','selmode','sel','coin','coinX','coinY','coinSet','coinDoc','coinType','rulers','grid','runit','markers','blurOn','blur','view','layout','pair2','openFit','showTrace','showBind','pilc','noteSel','docId','docSavedSig','docOpen','askDel','noteId'];
 const DKEY='justify-lab-docs';
 function dstore(){ try{ const o=JSON.parse(localStorage.getItem(DKEY)||'{}'); o.docs=o.docs||{}; o.recent=(o.recent||[]).filter(id=>o.docs[id]); return o; }catch(e){ return null; } }
 function dstoreSave(o){ try{ localStorage.setItem(DKEY,JSON.stringify(o)); return true; }catch(e){ return false; } }
@@ -4578,7 +4586,7 @@ function initToolbar(){
   });
   $('turnBar').querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>setTurn(b.dataset.t)));
   { const ps=$('bkPaper'); ps.innerHTML=PAPER_ORDER.map(k=>`<option value="${k}">${esc(paperLabel(k))}</option>`).join(''); ps.value=S.stock; ps.addEventListener('input',()=>setPaper(ps.value));
-    const sb=$('bkSnd'), syncS=()=>{ sb.innerHTML=S.pageSound?'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.6a6 6 0 0 1 0 8.8"/></svg>':'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z"/><path d="M11 6l3.5 4M14.5 6L11 10"/></svg>'; sb.setAttribute('aria-pressed',String(!!S.pageSound)); sb.title=S.pageSound?'Sonido al pasar página: activado':'Sonido al pasar página: desactivado'; };
+    const sb=$('bkSnd'), syncS=sb._sync=()=>{ sb.innerHTML=S.pageSound?'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.6a6 6 0 0 1 0 8.8"/></svg>':'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z"/><path d="M11 6l3.5 4M14.5 6L11 10"/></svg>'; sb.setAttribute('aria-pressed',String(!!S.pageSound)); sb.title=S.pageSound?'Sonido al pasar página: activado':'Sonido al pasar página: desactivado'; };
     sb.addEventListener('click',()=>{ S.pageSound=!S.pageSound; persist(); syncS(); if(S.pageSound&&BOOK) pageSound(500); }); syncS(); }
   { const cur=()=>{ const SP=sigPlan(PRIMARY?PRIMARY.pages.length:1); return SP?SP.k:0; };
     $('sigMinus').addEventListener('click',()=>{ const SP=sigPlan(PRIMARY?PRIMARY.pages.length:1); if(!SP) return; if(SP.k-1<SP.kMin){ setSigs(SP.k-1); return; } setSigs(SP.k-1); });
@@ -5139,64 +5147,78 @@ function showSplash(){
   setTimeout(close,1900);
 }
 const RULES_HTML='<ul><li>Los dígrafos <b>ch</b>, <b>ll</b> y <b>rr</b> no se separan.</li><li>Los grupos <b>pr, pl, br, bl, fr, fl, tr, dr, cr, cl, gr, gl</b> pasan juntos a la sílaba siguiente.</li><li>Dos vocales fuertes forman hiato y se pueden separar. Una vocal débil con vocal fuerte forma diptongo.</li><li>Una <b>í</b> o <b>ú</b> con acento junto a una vocal fuerte forma hiato.</li><li>No se deja una sola letra al inicio o al final de la línea. Los mínimos son configurables.</li><li>La lista de excepciones tiene prioridad sobre las reglas.</li></ul>';
-function prefsDialog(){
+const PREF_KEYS=['uiLang','theme','showKeys','splash','openFit','screenDiag','ppiAdj','coinType','typeSound','typeBellLine','typeVol','pageSound'];
+const prefState=()=>JSON.stringify(PREF_KEYS.map(k=>S[k]));
+let PF_SNAP=null;
+function prefRevert(json){ const v=JSON.parse(json); PREF_KEYS.forEach((k,i)=>{ if(v[i]===undefined) delete S[k]; else S[k]=v[i]; }); applyTheme(); try{ syncCoinFace(); placeCoin(); }catch(e){} persist(); }
+function askClosePrefs(){
+  modal('¿Cerrar sin aplicar los cambios?','<p>Cambiaste preferencias que no aplicaste. Si cierras, se descartan y todo vuelve a como estaba.</p>',
+    [{label:'Seguir editando',fn:()=>{ setTimeout(()=>prefsDialog(true),0); }},{label:'Aplicar y cerrar',fn:()=>{ PF_SNAP=null; persist(); toast('Preferencias aplicadas'); }},{label:'Descartar cambios',primary:true,fn:()=>{ const sn=PF_SNAP; PF_SNAP=null; if(sn) prefRevert(sn); toast('Cambios descartados'); }}]); }
+function prefsDialog(keep){
   const SEC=(k,t,body)=>`<section class="psec" data-k="${k}"><button type="button" class="psh" aria-expanded="true"><span class="pchev" aria-hidden="true"></span>${t}</button><div class="psb">${body}</div></section>`;
   const m=modal('Preferencias',`<div class="ptools"><button type="button" class="tbtn" id="pExpand">Desplegar todo</button><button type="button" class="tbtn" id="pCollapse">Contraer todo</button></div>`+
-    SEC('sil','Silabeo',`<p>Excepciones de silabeo: una por línea, con guiones donde se permita el corte. Sin guiones, la palabra no se separa nunca.</p>
-    <textarea class="bta" id="prefExc" rows="9" spellcheck="false" placeholder="Mo-re-jón&#10;Luis" aria-label="Excepciones de silabeo"></textarea>
-    <p class="bhint" style="color:var(--mut)">Las excepciones tienen prioridad sobre las reglas del silabeador.</p><details class="prules"><summary>Reglas de silabeo</summary>${RULES_HTML}</details>`)+
-    SEC('vis','Vista',`<div class="dgrid">
-      <label for="prefTheme">Tema</label><select id="prefTheme"><option value="auto">Automático (el del sistema)</option><option value="light">Claro</option><option value="dark">Oscuro</option></select>
-      <label for="prefView">Al abrir</label><select id="prefView"><option value="fit">Ajustar la página a la vista</option><option value="keep">Conservar el último zoom</option></select>
+    SEC('ui','Interfaz',`<div class="dgrid">
+      <label for="prefLang">Idioma</label><select id="prefLang"><option value="es">Español</option></select>
+      <label for="prefTheme">Tema</label><select id="prefTheme"><option value="auto">El del sistema</option><option value="light">Claro</option><option value="dark">Oscuro</option></select>
       <label for="prefKeys">Comandos en pantalla</label><label class="bchk"><input type="checkbox" id="prefKeys"><i></i><span>Mostrar en una esquina los atajos y comandos que uses</span></label>
       <label for="prefSplash">Al iniciar</label><label class="bchk"><input type="checkbox" id="prefSplash"><i></i><span>Mostrar la pantalla de bienvenida</span></label></div>`)+
-    SEC('real','Tamaño real (zoom 1:1)',`<div class="dgrid">
+    SEC('zoom','Zoom',`<div class="dgrid">
+      <label for="prefView">Al abrir un documento</label><select id="prefView"><option value="fit">Ajustar la página a la vista</option><option value="keep">Conservar el último zoom</option></select>
+      <h3>Tamaño real (zoom 1:1)</h3>
       <label>Pantalla</label><div class="bro" id="prefScr"></div>
       <label for="prefDiag">Diagonal (pulgadas)</label><input type="number" id="prefDiag" min="5" max="100" step="0.1">
       <label>Ajuste fino</label><div id="prefAdjHost"></div>
       <p class="dnote" style="grid-column:1/3;margin:0" id="prefCalNote"></p>
       <div class="calcard" id="prefCard" style="grid-column:1/3"><span>Tarjeta bancaria · 85,6 × 54 mm</span></div>
       <label for="prefCoin">Moneda de referencia</label><select id="prefCoin">${Object.keys(COINS).map(k=>`<option value="${k}">${COINS[k].short} · ${String(COINS[k].mm).replace('.',',')} mm</option>`).join('')}</select>
-    </div>`)+SEC('snd','Sonido',`<div class="dgrid">
+    </div>`)+
+    SEC('keys','Atajos de teclado',`<p class="bhint" style="margin-top:0"><button type="button" class="tbtn" id="prefUK">Personalizar atajos…</button></p><div class="hklist">${hotkeysHTML()}</div>`)+
+    SEC('snd','Efectos de sonido',`<div class="dgrid">
       <label for="prefTw">Máquina de escribir</label><label class="bchk"><input type="checkbox" id="prefTw"><i></i><span>Sonido de teclas en Borrador y Corrección, con campanilla y retorno de carro al pulsar Enter</span></label>
       <label for="prefTwBell">Campanilla de margen</label><label class="bchk"><input type="checkbox" id="prefTwBell"><i></i><span>Avisar con la campanilla cuando falten pocos caracteres para el final del renglón, como en una máquina real</span></label>
       <label>Volumen</label><div id="prefTwVol"></div>
       <span></span><div class="btns" style="margin:0"><button type="button" class="tbtn" id="prefTwTry">Probar</button></div>
-    </div>`)+SEC('keys','Atajos de teclado y ratón',`<p class="bhint" style="margin-top:0"><button type="button" class="tbtn" id="prefUK">Personalizar atajos…</button></p><div class="hklist">${hotkeysHTML()}</div>`)+
-    SEC('reset','Restaurar ajustes',`<p>Devuelve todos los ajustes a sus valores de fábrica. El texto del documento no se toca.</p><p><button type="button" class="tbtn danger" id="prefReset">Restaurar ajustes…</button></p>`));
-  m.querySelector('#prefReset').addEventListener('click',confirmReset); m.querySelector('#prefUK').addEventListener('click',keysDialog);
+      <label for="prefPg">Paso de página</label><label class="bchk"><input type="checkbox" id="prefPg"><i></i><span>Sonido del papel al pasar página en Previsualización (cambia con el gramaje)</span></label>
+    </div>`)+
+    SEC('reset','Restaurar ajustes',`<p>Devuelve todos los ajustes a sus valores de fábrica. El texto del documento no se toca.</p><p><button type="button" class="tbtn danger" id="prefReset">Restaurar ajustes…</button></p>`),
+    [{label:'Aplicar',fn:()=>{ PF_SNAP=prefState(); persist(); toast('Preferencias aplicadas'); return false; }},
+     {label:'Cerrar',primary:true,fn:()=>{ if(PF_SNAP&&PF_SNAP!==prefState()) setTimeout(askClosePrefs,0); else PF_SNAP=null; }}]);
+  if(!keep||!PF_SNAP) PF_SNAP=prefState();
+  enterToClose(m);
+  m.classList.add('float'); m.querySelector('.mbox').setAttribute('aria-modal','false'); makeMovable(m,'prefs');
+  m.querySelector('#prefReset').addEventListener('click',()=>{ PF_SNAP=null; confirmReset(); }); m.querySelector('#prefUK').addEventListener('click',()=>{ if(PF_SNAP&&PF_SNAP!==prefState()){ PF_SNAP=prefState(); persist(); } PF_SNAP=null; keysDialog(); });
   S.prefOpen=S.prefOpen||{};
   const secs=[...m.querySelectorAll('.psec')];
   const setOpen=(sec,on)=>{ sec.classList.toggle('closed',!on); sec.querySelector('.psh').setAttribute('aria-expanded',String(on)); S.prefOpen[sec.dataset.k]=on; };
   secs.forEach(sec=>{ setOpen(sec,S.prefOpen[sec.dataset.k]!==false); sec.querySelector('.psh').addEventListener('click',()=>{ setOpen(sec,sec.classList.contains('closed')); persist(); if(m._secUpd) m._secUpd(); }); });
   m.querySelector('#pExpand').addEventListener('click',()=>{ secs.forEach(x=>setOpen(x,true)); persist(); });
   m.querySelector('#pCollapse').addEventListener('click',()=>{ secs.forEach(x=>setOpen(x,false)); persist(); });
-  const sp=m.querySelector('#prefSplash'); sp.checked=S.splash!==false; sp.addEventListener('input',()=>{ S.splash=sp.checked; persist(); });
+  const pl=m.querySelector('#prefLang'); pl.value='es'; pl.addEventListener('input',()=>{ S.uiLang=pl.value; });
+  const sp=m.querySelector('#prefSplash'); sp.checked=S.splash!==false; sp.addEventListener('input',()=>{ S.splash=sp.checked; });
   { const tw=m.querySelector('#prefTw'), tb=m.querySelector('#prefTwBell'); tw.checked=!!S.typeSound; tb.checked=S.typeBellLine!==false;
-    const syncTw=()=>{ tb.disabled=!tw.checked; m.querySelector('#prefTwTry').disabled=false; };
-    tw.addEventListener('input',()=>{ S.typeSound=tw.checked; persist(); syncTw(); if(tw.checked){ twLoad(); setTimeout(()=>{ twKeyS('key'); setTimeout(()=>twKeyS('key'),130); },150); } });
-    tb.addEventListener('input',()=>{ S.typeBellLine=tb.checked; persist(); });
-    const vs=makeSlider({min:0,max:100,step:5,fine:1,label:'Volumen de la máquina de escribir',get:()=>S.typeVol??60,set:v=>{ S.typeVol=v; persist(); twKeyS('key'); },fmt:v=>v+' %'}); m.querySelector('#prefTwVol').appendChild(vs.el);
+    const syncTw=()=>{ tb.disabled=!tw.checked; };
+    tw.addEventListener('input',()=>{ S.typeSound=tw.checked; syncTw(); if(tw.checked){ twLoad(); setTimeout(()=>{ twKeyS('key'); setTimeout(()=>twKeyS('key'),130); },150); } });
+    tb.addEventListener('input',()=>{ S.typeBellLine=tb.checked; });
+    const vs=makeSlider({min:0,max:100,step:5,fine:1,label:'Volumen de la máquina de escribir',get:()=>S.typeVol??60,set:v=>{ S.typeVol=v; twKeyS('key'); },fmt:v=>v+' %'}); m.querySelector('#prefTwVol').appendChild(vs.el);
     m.querySelector('#prefTwTry').addEventListener('click',()=>{ twLoad(); const seq=['key','key','key','space','key','key','key','key','key','back']; setTimeout(()=>{ seq.forEach((k,i)=>setTimeout(()=>twKeyS(k),i*125+Math.random()*30)); setTimeout(twEnterS,seq.length*125+250); },120); });
     syncTw(); }
-  { const th=m.querySelector('#prefTheme'); th.value=S.theme||'auto'; th.addEventListener('input',()=>{ S.theme=th.value; persist(); applyTheme(); }); }
-  const pk=m.querySelector('#prefKeys'); pk.checked=!!S.showKeys; pk.addEventListener('input',()=>{ S.showKeys=pk.checked; persist(); if(S.showKeys) keycast([],'Comandos en pantalla activados'); });
+  { const pgs=m.querySelector('#prefPg'); pgs.checked=S.pageSound!==false; pgs.addEventListener('input',()=>{ S.pageSound=pgs.checked; const b=$('bkSnd'); if(b&&b._sync) b._sync(); }); }
+  { const th=m.querySelector('#prefTheme'); th.value=S.theme||'auto'; th.addEventListener('input',()=>{ S.theme=th.value; applyTheme(); }); }
+  const pk=m.querySelector('#prefKeys'); pk.checked=!!S.showKeys; pk.addEventListener('input',()=>{ S.showKeys=pk.checked; if(S.showKeys) keycast([],'Comandos en pantalla activados'); });
   const pd=m.querySelector('#prefDiag'), card=m.querySelector('#prefCard');
   const calUp=()=>{ const r=realZoomInfo(), si=r.si;
     m.querySelector('#prefScr').textContent=`${si.pw} × ${si.ph} px físicos · escala ${String(+si.dpr.toFixed(2)).replace('.',',')}`;
     pd.placeholder=si.guess?`${fmtIn(si.guess)} (detectada)`:'no detectada';
     const pxmm=r.cssPPI/25.4; card.style.width=(85.6*pxmm).toFixed(1)+'px'; card.style.height=(53.98*pxmm).toFixed(1)+'px';
-    m.querySelector('#prefCalNote').textContent=(r.known?`Diagonal ${r.src}: ${fmtIn(r.diag)}″. `:'No se pudo detectar tu pantalla: escribe su diagonal. ')+'Para afinar, apoya una tarjeta bancaria sobre el recuadro y mueve el ajuste fino hasta que coincidan. El navegador no informa el tamaño físico de la pantalla; la aplicación de escritorio podrá leerlo directamente.'; };
-  pd.value=S.screenDiag||''; pd.addEventListener('input',()=>{ const v=parseFloat(pd.value); S.screenDiag=isFinite(v)&&v>=5?v:0; persist(); calUp(); });
+    m.querySelector('#prefCalNote').textContent=(r.known?`Diagonal ${r.src}: ${fmtIn(r.diag)}″. `:'No se pudo detectar tu pantalla: escribe su diagonal. ')+'Para afinar, apoya una tarjeta bancaria sobre el recuadro y mueve el ajuste fino hasta que coincidan.'; };
+  pd.value=S.screenDiag||''; pd.addEventListener('input',()=>{ const v=parseFloat(pd.value); S.screenDiag=isFinite(v)&&v>=5?v:0; calUp(); });
   pd.addEventListener('keydown',e=>e.stopPropagation());
-  const adj=makeSlider({min:80,max:120,step:1,fine:.1,label:'Ajuste fino del tamaño real',get:()=>Math.round((S.ppiAdj||1)*1000)/10,set:v=>{ S.ppiAdj=v/100; persist(); calUp(); },fmt:v=>(+v.toFixed(1))+' %'});
+  const adj=makeSlider({min:80,max:120,step:1,fine:.1,label:'Ajuste fino del tamaño real',get:()=>Math.round((S.ppiAdj||1)*1000)/10,set:v=>{ S.ppiAdj=v/100; calUp(); },fmt:v=>(+v.toFixed(1))+' %'});
   m.querySelector('#prefAdjHost').appendChild(adj.el); calUp();
   const pc=m.querySelector('#prefCoin'); pc.value=S.coinType in COINS?S.coinType:'usq';
-  pc.addEventListener('input',()=>{ S.coinType=pc.value; syncCoinFace(); placeCoin(); persist(); });
-  const t=m.querySelector('#prefExc'); t.value=S.excText||'';
-  t.addEventListener('input',()=>{ S.excText=t.value; changed(); });
+  pc.addEventListener('input',()=>{ S.coinType=pc.value; syncCoinFace(); placeCoin(); });
   const pv=m.querySelector('#prefView'); pv.value=S.openFit?'fit':'keep';
-  pv.addEventListener('input',()=>{ S.openFit=pv.value==='fit'; persist(); });
+  pv.addEventListener('input',()=>{ S.openFit=pv.value==='fit'; });
 }
 function docDialog(){
   const opts=PAPER_GROUPS.map(g=>`<optgroup label="${g.g}">${g.items.map(i=>`<option>${i[0]}</option>`).join('')}</optgroup>`).join('')+'<option value="__custom">Personalizado…</option>';

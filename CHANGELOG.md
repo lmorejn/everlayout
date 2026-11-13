@@ -6,7 +6,8 @@
 - Atajos de teclado personalizados: cualquier comando de los menús puede tener su propio atajo (Ayuda › Atajos de teclado, o Preferencias).
 - Restaurar ajustes pasa al final de Preferencias y pide escribir RESTAURAR para confirmar.
 - El aviso del modo corrección sale cada vez que entras en corrección; cerrarlo lo quita solo hasta la próxima vez.
-- Las reglas de silabeo están ahora en Preferencias › Silabeo.
+- Preferencias reorganizadas en Interfaz (idioma y tema), Zoom (al abrir y calibración del tamaño real con tarjeta y moneda), Atajos de teclado, Efectos de sonido (máquina de escribir y paso de página) y Restaurar ajustes. Se comporta como los demás diálogos: los cambios se ven al momento, Aplicar los fija y Cerrar pregunta si quedan cambios sin aplicar.
+- Las excepciones y las reglas de silabeo pasan a la barra lateral (Separación silábica › Excepciones).
 
 ## 0.9.1 «Calderón»
 
