@@ -5110,7 +5110,7 @@ const HOTKEYS=[
 function hotkeysHTML(){
   return HOTKEYS.map(([g,list])=>`<h3>${g}</h3>`+list.map(([ks,t])=>`<div class="hkrow"><span class="hkk">${ks.map(k=>k[0]==='@'?mouseSVG(k.slice(1)):`<kbd>${esc(k)}</kbd>`).join('<i>+</i>')}</span><span>${esc(t)}</span></div>`).join('')).join('');
 }
-const APP_VERSION='0.9.0', APP_CODENAME='Calderón';
+const APP_VERSION='0.9.1', APP_CODENAME='Calderón';
 function showSplash(){
   if(S.splash===false) return;
   const d=document.createElement('div'); d.className='splash'; d.setAttribute('role','dialog'); d.setAttribute('aria-label','Bienvenida');
