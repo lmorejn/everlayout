@@ -2,6 +2,8 @@
 
 ## Sin publicar
 
+- Nodos de flujo en Maquetación: donde un párrafo pasa de una página a otra hay un nodo de salida (al pie, a la derecha de la mancha) y uno de entrada donde continúa. Arrastrar la salida a otra página hace que el texto siga allí (deja páginas en blanco en medio) o lo vuelve a unir; con un clic se abre un menú (seguir en la página siguiente, dejar una página en blanco, ir a donde sigue). El nodo se pinta naranja si el párrafo salta páginas o se corta antes de llenar la suya.
+- La barra de paso de página de Previsualización ya no flota sobre la hoja: va fija debajo de la barra de herramientas.
 - Saltos de flujo: si se añade una página entre dos páginas por las que corre un mismo párrafo, el texto que se escriba en ella es suyo y el párrafo sigue después de esa página. Unas flechas («Sigue en la pág. N» / «Viene de la pág. N») marcan el salto y llevan a la otra página con un clic.
 - Cubierta: más materiales y acabados (cartulina sin estucar, barniz brillante, estampado metálico en oro, plata o cobre, estampado bajo laminado mate, relieve, holográfico, textura de lino); cada acabado explica cómo se ve y cómo envejece. El papel sin estucar suaviza los colores de la carátula.
 - Lomo visible con el libro cerrado, con su ancho real y el texto de abajo arriba, de arriba abajo u horizontal; los lomos de menos de 6 mm no llevan texto. Cantos impresos de color.
