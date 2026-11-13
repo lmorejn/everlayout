@@ -24,3 +24,7 @@
 ## Sonido de máquina de escribir
 - Se usa la primera parte de «Typewriter Sound Effect» (kave_msri, Pixabay) recortada en un sprite: 10 teclas, espacio, retroceso, campanilla y retorno. Si el audio no se puede decodificar, se vuelve al sonido sintetizado.
 
+## Menús y atajos
+- Los menús se limitan a lo que se busca en un menú; los comandos de edición del texto (duplicar, limpiar, copiar ajustes…) siguen en la barra lateral y con sus atajos.
+- Los atajos del usuario (`S.userKeys`, combinación → comando de `MENUS`) tienen prioridad sobre los predefinidos y exigen Ctrl, Alt/⌥, Win/⌘ o una tecla F, para no chocar con la escritura.
+

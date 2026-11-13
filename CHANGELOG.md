@@ -2,6 +2,12 @@
 
 ## Sin publicar
 
+- Menús reorganizados. Editar: Deshacer, Rehacer, Seleccionar todo el texto y Preferencias. Ver: «Calderón» pasa a «Marcas de edición» (calderón y saltos de página); Ajustar página actual a la vista, Ajustar ancho a la vista, Zoom a tamaño real; y Ver barra de estado. Ayuda: Atajos de teclado, Manual de usuario (en preparación) y Acerca de.
+- Atajos de teclado personalizados: cualquier comando de los menús puede tener su propio atajo (Ayuda › Atajos de teclado, o Preferencias).
+- Restaurar ajustes pasa al final de Preferencias y pide escribir RESTAURAR para confirmar.
+- El aviso del modo corrección sale cada vez que entras en corrección; cerrarlo lo quita solo hasta la próxima vez.
+- Las reglas de silabeo están ahora en Preferencias › Silabeo.
+
 ## 0.9.1 «Calderón»
 
 - El cursor ya no salta al principio del párrafo siguiente al escribir al final de un párrafo (ni con espacios al final).

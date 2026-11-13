@@ -447,6 +447,18 @@ figure.pg figcaption{margin:0 0 var(--spacing-2);color:var(--color-text-secondar
 .tx{position:absolute;left:0;top:0;width:100%;height:100%}
 .ln span.w{position:absolute;top:0;white-space:pre;z-index:1}
 .pilc{position:absolute;top:0;color:#b9b4a8;z-index:1}
+.pbmark{position:absolute;left:0;right:0;height:0;border-top:1px dashed #b9b4a8;margin-top:6px;z-index:1;pointer-events:none}
+.pbmark span{position:absolute;right:0;top:2px;font:500 9px/1 var(--font-family-sans,system-ui);letter-spacing:.06em;text-transform:uppercase;color:#a29d90}
+.statusbar[hidden]{display:none}
+.uklist{display:grid;gap:2px;max-height:min(46vh,420px);overflow:auto;margin-bottom:var(--spacing-4)}
+.ukrow{display:grid;grid-template-columns:1fr auto 9.5rem 1.6rem;align-items:center;gap:var(--spacing-2);padding:3px 0;border-bottom:var(--border-width) solid var(--color-border-subtle)}
+.ukname small{display:block;color:var(--color-text-secondary);font-size:.72rem}
+.ukdef kbd{font-size:.72rem;color:var(--color-text-secondary)}
+.ukset{justify-self:stretch;font-variant-numeric:tabular-nums}.ukset.cap{outline:2px solid var(--color-accent)}
+.ukx{border:0;background:none;color:var(--color-text-secondary);cursor:pointer;font-size:1rem;border-radius:var(--radius-full)}.ukx:hover{color:var(--color-text-primary);background:var(--color-background-muted)}
+.prules{margin-top:var(--spacing-3)}.prules summary{cursor:pointer;font-weight:500}.prules ul{margin:var(--spacing-2) 0 0;padding-left:1.2em}
+.ukh{font-size:.85rem;margin:0 0 var(--spacing-2)}
+.tbtn.danger{border-color:var(--color-danger,#c0392b);color:var(--color-danger,#c0392b)}.tbtn.prim.danger{background:var(--color-danger,#c0392b);color:#fff}.tbtn:disabled{opacity:.45;cursor:not-allowed}
 .blurred .tx{filter:blur(var(--bl,3px))}
 .dot{position:absolute;left:-16px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:var(--radius-full);background:var(--ok)}
 .dot.lo{background:var(--calle)}.dot.mid{background:var(--rio)}.dot.tt{background:var(--tight)}.dot.last{background:var(--color-data-neutral)}
@@ -749,7 +761,7 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
     <div class="grp" id="grpSel" role="group" aria-label="Modo de selección" hidden></div>
     <div class="grp alg" id="algHost" role="group" aria-label="Alineación" hidden></div>
     <div class="grp" id="grpPil" hidden><button class="ico" id="btnPil" type="button" title="Insertar marca de fin de párrafo (calderón)" aria-label="Insertar calderón"></button></div>
-    <div class="grp"><label class="bchk" title="Mostrar el calderón al final de cada párrafo en la página"><input type="checkbox" id="tPilc"><i></i><span>Calderón</span></label></div>
+    <div class="grp"><label class="bchk" title="Mostrar el calderón al final de cada párrafo y los saltos de página"><input type="checkbox" id="tPilc"><i></i><span>Marcas de edición</span></label></div>
     <div class="sep"></div>
     <div class="grp"><label class="bchk" title="Puntos de tensión, etiquetas V/H/C, espacios, calles y ríos"><input type="checkbox" id="tMarks"><i></i><span>Marcadores</span></label></div>
     <div class="grp"><label class="bchk" title="Difumina el texto para evaluar el gris tipográfico del bloque"><input type="checkbox" id="tBlurOn"><i></i><span>Desenfoque</span></label><div id="bHost"></div></div>
@@ -763,7 +775,7 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
     <span id="revIco"></span>
     <div><b>Modo corrección</b><p id="revTxt">Selecciona palabras o frases sobre la hoja y añade un comentario.</p></div>
     <button class="close" id="revBack" type="button">Pasar a maquetación</button>
-    <button class="revx" id="revX" type="button" aria-label="Cerrar este aviso" title="Cerrar este aviso (Ver › Aviso del modo corrección lo vuelve a mostrar)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+    <button class="revx" id="revX" type="button" aria-label="Cerrar este aviso" title="Cerrar este aviso (vuelve a salir la próxima vez que entres en corrección)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
   </div>
   <div class="work">
     <aside class="side left" id="sideL" aria-label="Controles"><div class="sidein">
@@ -2111,6 +2123,8 @@ function pageHTML(pg,pn,total,g0,fam,cls){
   h+=`<div class="sheet${pgCls}${FLASHPG.has(pn)?' pflash':''}" style="width:${(g.pw-cut).toFixed(2)}px;height:${g.ph}px">${pageStyleOf(pn)==='pdef'?traceSVG(g,inner,cut):''}${decorHTML(pn,g,inner,cut)}<div class="box" style="position:absolute;left:${boxL.toFixed(2)}px;top:${(g.mt+voff).toFixed(2)}px;width:${g.W}px;height:${pav.toFixed(2)}px;font-family:${fam}">`;
   h+=overlay(pg,g.W,pav);
   pg.slots.forEach(sl=>{ h+=lineHTML(sl,g.W); });
+  if(S.pilc&&!pg.blank&&pg.slots.length&&S.pbreaks&&S.pbreaks.length&&CUR_RES&&CUR_RES.pages[pn+1]){ const nx=CUR_RES.pages[pn+1].slots[0], last=pg.slots[pg.slots.length-1];
+    if(nx&&S.pbreaks.includes(nx.line.s)) h+=`<div class="pbmark" style="top:${(last.y+last.line.lh).toFixed(1)}px" aria-hidden="true"><span>Salto de página</span></div>`; }
   if(pg.blank) h+='</div>';
   if(pg.blank){
     if(S.mode==='edit') h+=`<div class="blankph" style="left:${(inner==='gl'?g.lomo-cut:g.corte).toFixed(1)}px;width:${g.W.toFixed(1)}px;right:auto;top:${(g.mt).toFixed(1)}px" data-anchor="${pg.anchor}" role="button" tabindex="0" title="Empezar a escribir aquí"><span>Haz clic para escribir un párrafo nuevo en esta página</span></div>`;
@@ -2127,7 +2141,8 @@ function msPageHTML(pg,pn,g,fam){
   pg.slots.forEach(sl=>{ h+=lineHTML(sl,g.W); });
   return h+'</div></div></figure>';
 }
-function renderPanel(host,res,g){
+let CUR_RES=null;
+function renderPanel(host,res,g){ CUR_RES=res;
   const fam=`'${S.font}', ${FONTS[S.font]}`, n=res.pages.length;
   let h='';
   if(MSRUN) h='';
@@ -3514,7 +3529,7 @@ function unitMenu(){
 }
 
 /* ---- documentos guardados en este navegador ---- */
-const VIEW_KEYS=['theme','sysFonts','typeSound','typeVol','typeBellLine','exSim','exSheet','exMarks','pageSound','turn','pinL','pinR','stFold','prefOpen','splash','exFmt','exDpi','exQ','exRaster','pgSel','showKeys','screenDiag','ppiAdj','revBarOff','stSel','zoom','tx','ty','left','right','tabL','tabR','mode','selmode','sel','coin','coinX','coinY','coinSet','coinDoc','coinType','rulers','grid','runit','markers','blurOn','blur','view','layout','pair2','openFit','showTrace','showBind','pilc','noteSel','docId','docSavedSig','docOpen','askDel','noteId'];
+const VIEW_KEYS=['theme','sysFonts','sbOff','userKeys','typeSound','typeVol','typeBellLine','exSim','exSheet','exMarks','pageSound','turn','pinL','pinR','stFold','prefOpen','splash','exFmt','exDpi','exQ','exRaster','pgSel','showKeys','screenDiag','ppiAdj','revBarOff','stSel','zoom','tx','ty','left','right','tabL','tabR','mode','selmode','sel','coin','coinX','coinY','coinSet','coinDoc','coinType','rulers','grid','runit','markers','blurOn','blur','view','layout','pair2','openFit','showTrace','showBind','pilc','noteSel','docId','docSavedSig','docOpen','askDel','noteId'];
 const DKEY='justify-lab-docs';
 function dstore(){ try{ const o=JSON.parse(localStorage.getItem(DKEY)||'{}'); o.docs=o.docs||{}; o.recent=(o.recent||[]).filter(id=>o.docs[id]); return o; }catch(e){ return null; } }
 function dstoreSave(o){ try{ localStorage.setItem(DKEY,JSON.stringify(o)); return true; }catch(e){ return false; } }
@@ -4247,6 +4262,7 @@ function syncLeftTabs(){
   if(want!==S.tabL||!document.querySelector('#bodyL .tabpane.active')) selectTab('L',want,true);
   LTAB_MEM[S.mode]=want;
 }
+let REV_HIDE=false, REV_LAST='';
 function syncMode(){
   const ed=S.mode==='edit', md=MODES.find(x=>x[0]===S.mode)||MODES[0];
   $('view').classList.toggle('editing',ed||S.mode==='draft');
@@ -4254,7 +4270,8 @@ function syncMode(){
   $('view').classList.toggle('ms',isMS()); $('tb').classList.toggle('ms',isMS());
   ['tPilc','tMarks','tBlurOn','tView','tLayout'].forEach(id=>{ const g=$(id)&&$(id).closest('.grp'); if(g) g.hidden=isMS(); });
   const gr=$('grpRole'); if(gr) gr.hidden=!isMS(); syncRole();
-  const rb=$('revBar'); if(rb) rb.hidden=(S.mode!=='review')||!!S.revBarOff;
+  if(S.mode==='review'&&REV_LAST!=='review') REV_HIDE=false; REV_LAST=S.mode;
+  const rb=$('revBar'); if(rb) rb.hidden=(S.mode!=='review')||REV_HIDE;
   const ta=TA(); ta.readOnly=!writable();
   if(canSelect()) ta.focus({preventScroll:true}); else { ta.blur(); hideBubble(); }
   if(S.mode!=='review') hideBubble();
@@ -4338,7 +4355,7 @@ function initToolbar(){
   $('zWidth').addEventListener('click',()=>fitWidth(true)); $('zPage').addEventListener('click',()=>fitPage(true));
   $('revBack').addEventListener('click',()=>setMode('edit'));
   $('fixDone').addEventListener('click',()=>endFix(false));
-  $('revX').addEventListener('click',()=>{ S.revBarOff=true; persist(); $('revBar').hidden=true; toast('Aviso oculto · Ver › Aviso del modo corrección lo vuelve a mostrar'); });
+  $('revX').addEventListener('click',()=>{ REV_HIDE=true; $('revBar').hidden=true; });
   $('revIco').innerHTML=svg('review',18);
   setT('revTxt','Lee la prueba sobre el manuscrito: corrige el texto, selecciona palabras o frases para comentarlas y marca capítulos y secciones (Alt + 1, 2, 3).');
   $('tMarks').addEventListener('input',e=>{ S.markers=e.target.checked; changed(); });
@@ -4634,6 +4651,7 @@ function resetAll(){
   REFRESH.forEach(f=>f()); setSide('L',innerWidth>=900); setSide('R',innerWidth>=900);
   selectTab('L',S.tabL,true); selectTab('R',S.tabR,true);
   $('tMarks').checked=S.markers; $('tBlurOn').checked=S.blurOn; $('tView').value=S.view; $('tLayout').value=S.layout; $('tPilc').checked=S.pilc;
+  S.sbOff=false; S.theme='auto'; applyTheme(); applyStatusBar(); REV_HIDE=false;
   AUTOFIT=true; syncMode(); applyView(); changed(); toast('Ajustes restaurados');
 }
 /* ---- exportar (PNG, JPG, PDF) e imprimir ---- */
@@ -5120,12 +5138,13 @@ function showSplash(){
   d.addEventListener('pointerdown',close); addEventListener('keydown',close,{once:true});
   setTimeout(close,1900);
 }
+const RULES_HTML='<ul><li>Los dígrafos <b>ch</b>, <b>ll</b> y <b>rr</b> no se separan.</li><li>Los grupos <b>pr, pl, br, bl, fr, fl, tr, dr, cr, cl, gr, gl</b> pasan juntos a la sílaba siguiente.</li><li>Dos vocales fuertes forman hiato y se pueden separar. Una vocal débil con vocal fuerte forma diptongo.</li><li>Una <b>í</b> o <b>ú</b> con acento junto a una vocal fuerte forma hiato.</li><li>No se deja una sola letra al inicio o al final de la línea. Los mínimos son configurables.</li><li>La lista de excepciones tiene prioridad sobre las reglas.</li></ul>';
 function prefsDialog(){
   const SEC=(k,t,body)=>`<section class="psec" data-k="${k}"><button type="button" class="psh" aria-expanded="true"><span class="pchev" aria-hidden="true"></span>${t}</button><div class="psb">${body}</div></section>`;
   const m=modal('Preferencias',`<div class="ptools"><button type="button" class="tbtn" id="pExpand">Desplegar todo</button><button type="button" class="tbtn" id="pCollapse">Contraer todo</button></div>`+
     SEC('sil','Silabeo',`<p>Excepciones de silabeo: una por línea, con guiones donde se permita el corte. Sin guiones, la palabra no se separa nunca.</p>
     <textarea class="bta" id="prefExc" rows="9" spellcheck="false" placeholder="Mo-re-jón&#10;Luis" aria-label="Excepciones de silabeo"></textarea>
-    <p class="bhint" style="color:var(--mut)">Las excepciones tienen prioridad sobre las reglas del silabeador.</p>`)+
+    <p class="bhint" style="color:var(--mut)">Las excepciones tienen prioridad sobre las reglas del silabeador.</p><details class="prules"><summary>Reglas de silabeo</summary>${RULES_HTML}</details>`)+
     SEC('vis','Vista',`<div class="dgrid">
       <label for="prefTheme">Tema</label><select id="prefTheme"><option value="auto">Automático (el del sistema)</option><option value="light">Claro</option><option value="dark">Oscuro</option></select>
       <label for="prefView">Al abrir</label><select id="prefView"><option value="fit">Ajustar la página a la vista</option><option value="keep">Conservar el último zoom</option></select>
@@ -5143,7 +5162,9 @@ function prefsDialog(){
       <label for="prefTwBell">Campanilla de margen</label><label class="bchk"><input type="checkbox" id="prefTwBell"><i></i><span>Avisar con la campanilla cuando falten pocos caracteres para el final del renglón, como en una máquina real</span></label>
       <label>Volumen</label><div id="prefTwVol"></div>
       <span></span><div class="btns" style="margin:0"><button type="button" class="tbtn" id="prefTwTry">Probar</button></div>
-    </div>`)+SEC('keys','Atajos de teclado y ratón',`<div class="hklist">${hotkeysHTML()}</div>`));
+    </div>`)+SEC('keys','Atajos de teclado y ratón',`<p class="bhint" style="margin-top:0"><button type="button" class="tbtn" id="prefUK">Personalizar atajos…</button></p><div class="hklist">${hotkeysHTML()}</div>`)+
+    SEC('reset','Restaurar ajustes',`<p>Devuelve todos los ajustes a sus valores de fábrica. El texto del documento no se toca.</p><p><button type="button" class="tbtn danger" id="prefReset">Restaurar ajustes…</button></p>`));
+  m.querySelector('#prefReset').addEventListener('click',confirmReset); m.querySelector('#prefUK').addEventListener('click',keysDialog);
   S.prefOpen=S.prefOpen||{};
   const secs=[...m.querySelectorAll('.psec')];
   const setOpen=(sec,on)=>{ sec.classList.toggle('closed',!on); sec.querySelector('.psh').setAttribute('aria-expanded',String(on)); S.prefOpen[sec.dataset.k]=on; };
@@ -5276,7 +5297,11 @@ const ACTIONS={
   selpane(){ if(S.mode!=='edit') setMode('edit'); openSideTab('L','seleccion'); },
   togL(){ toggleSide('L'); }, togR(){ toggleSide('R'); },
   vDark(){ S.theme=isDark()?'light':'dark'; persist(); applyTheme(); toast(isDark()?'Tema oscuro':'Tema claro'); },
-  vRule(){ $('tRule').click(); }, vRevBar(){ S.revBarOff=!S.revBarOff; persist(); syncMode(); }, vGrid(){ $('tGrid').click(); },
+  vRule(){ $('tRule').click(); },
+  undo(){ editHist('undo'); }, redo(){ editHist('redo'); },
+  vReal(){ $('z100').click(); },
+  vStatus(){ S.sbOff=!S.sbOff; persist(); applyStatusBar(); },
+  manual(){ modal('Manual de usuario','<p>El manual de usuario está en preparación.</p><p class="dnote">Mientras tanto, en Ayuda › Atajos de teclado tienes la lista de atajos, y casi todos los controles explican lo que hacen al pasar el ratón por encima.</p>'); }, vGrid(){ $('tGrid').click(); },
   vMarks(){ S.markers=!S.markers; $('tMarks').checked=S.markers; changed(); },
   vPilc(){ S.pilc=!S.pilc; $('tPilc').checked=S.pilc; changed(); },
   vBind(){ S.showBind=!S.showBind; changed(); },
@@ -5285,20 +5310,57 @@ const ACTIONS={
   vFitP(){ fitPage(true); }, vFitW(){ fitWidth(true); },
   pil(){ insertPilcrow(); },
   about(){ modal('Acerca de Skoxa\'s',`<p>Prueba de composición de texto justificado en español, con silabeo propio. Compara un método línea a línea, parecido al de Writer, con otro que evalúa el párrafo completo.</p><p>Detecta calles, ríos, viudas, huérfanas, últimas líneas cortas y guiones seguidos. Cada control sirve para afinar la regla que después llevaremos a la extensión de LibreOffice Writer.</p><p><b>Skoxa\'s</b> ${APP_VERSION} · © Luis Morejón. Software libre bajo la <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Licencia Apache 2.0</a>. Incluye Harper (Apache 2.0) y las fuentes Archivo, Lora, EB Garamond, Libre Baskerville, Courier Prime y Figtree (SIL Open Font License 1.1).</p><p>Sonido de máquina de escribir: <a href="https://pixabay.com/sound-effects/film-special-effects-typewriter-sound-effect-312919/" target="_blank" rel="noopener">«Typewriter Sound Effect», de kave_msri</a>, en Pixabay (licencia de contenido de Pixabay).</p><p>Código fuente: <a href="https://github.com/lmorejn/everlayout" target="_blank" rel="noopener">github.com/lmorejn/everlayout</a></p>`); },
-  keys(){ const m=modal('Atajos de teclado y ratón',`<div class="hklist">${hotkeysHTML()}</div>`); return; modal('Atajos de teclado','<ul><li><kbd>T</kbd> muestra u oculta la barra de controles.</li><li><kbd>N</kbd> muestra u oculta la barra de estadísticas.</li><li>Doble clic sobre el texto: entra en modo edición y pone el cursor ahí.</li><li>Doble clic fuera de la mancha: vuelve a previsualización.</li><li>Rueda sobre la vista: zoom donde está el puntero. Con <kbd>Mayús</kbd>, desplaza.</li><li>Botón central del ratón, o <kbd>Espacio</kbd> o <kbd>Alt</kbd> con el botón izquierdo: mover la hoja.</li><li>Flechas sobre la vista: mover la hoja.</li><li>Doble clic sobre un control deslizante: escribir el valor.</li><li><kbd>←</kbd> <kbd>→</kbd> en un control deslizante: ajuste fino. Con <kbd>Mayús</kbd>, de a diez pasos.</li><li><kbd>Esc</kbd> cierra menús y diálogos.</li></ul>'); },
-  rules(){ modal('Reglas de silabeo','<ul><li>Los dígrafos <b>ch</b>, <b>ll</b> y <b>rr</b> no se separan.</li><li>Los grupos <b>pr, pl, br, bl, fr, fl, tr, dr, cr, cl, gr, gl</b> pasan juntos a la sílaba siguiente.</li><li>Dos vocales fuertes forman hiato y se pueden separar. Una vocal débil con vocal fuerte forma diptongo.</li><li>Una <b>í</b> o <b>ú</b> con acento junto a una vocal fuerte forma hiato.</li><li>No se deja una sola letra al inicio o al final de la línea. Los mínimos son configurables.</li><li>La lista de excepciones tiene prioridad sobre las reglas.</li></ul>'); }
+  keys(){ keysDialog(); return; modal('Atajos de teclado','<ul><li><kbd>T</kbd> muestra u oculta la barra de controles.</li><li><kbd>N</kbd> muestra u oculta la barra de estadísticas.</li><li>Doble clic sobre el texto: entra en modo edición y pone el cursor ahí.</li><li>Doble clic fuera de la mancha: vuelve a previsualización.</li><li>Rueda sobre la vista: zoom donde está el puntero. Con <kbd>Mayús</kbd>, desplaza.</li><li>Botón central del ratón, o <kbd>Espacio</kbd> o <kbd>Alt</kbd> con el botón izquierdo: mover la hoja.</li><li>Flechas sobre la vista: mover la hoja.</li><li>Doble clic sobre un control deslizante: escribir el valor.</li><li><kbd>←</kbd> <kbd>→</kbd> en un control deslizante: ajuste fino. Con <kbd>Mayús</kbd>, de a diez pasos.</li><li><kbd>Esc</kbd> cierra menús y diálogos.</li></ul>'); },
+  rules(){ modal('Reglas de silabeo',RULES_HTML); }
 };
 const MENUS={
   file:[['Nuevo','fNew'],['Abrir…','fOpen','Ctrl+O'],['Abrir reciente','fRecent','',null,'sub'],'-',['Guardar','fSave','Ctrl+S'],['Guardar como…','fSaveAs','Ctrl+Mayús+S'],'-',['Exportar…','fExport','Ctrl+E'],['Imprimir…','fPrint','Ctrl+P'],'-',['Propiedades del documento…','fProps'],['Ajustes del documento…','docset'],'-',['Cerrar documento','fClose'],['Cerrar aplicación','fQuit']],
-  edit:[['Seleccionar todo el texto','selall'],['Borrar la selección','fDel','Supr'],['Duplicar texto','dup'],['Limpiar texto','clear'],'-',['Insertar calderón','pil','¶'],['Panel de selección','selpane'],'-',['Cargar texto de muestra','sample'],['Copiar texto','copytxt'],['Copiar ajustes','copyset'],['Pegar ajustes…','pasteset'],['Restaurar ajustes','reset'],'-',['Preferencias…','prefs','Ctrl+,']],
-  view:[['Tema oscuro','vDark','',()=>isDark()],'-',['Regla','vRule','',()=>S.rulers],['Aviso del modo corrección','vRevBar','',()=>!S.revBarOff],['Cuadrícula','vGrid','',()=>S.grid],['Marcadores','vMarks','',()=>S.markers],['Calderón','vPilc','',()=>S.pilc],['Simular encuadernación','vBind','',()=>S.showBind],['Trazado de la plantilla','vTrace','',()=>S.showTrace],['Moneda de referencia (25 ¢)','vCoin','',()=>S.coin],'-',['Ajustar página','vFitP'],['Ajustar ancho','vFitW'],'-',['Barra de controles','togL','T',()=>S.left],['Barra de estadísticas','togR','N',()=>S.right]],
-  help:[['Acerca de Skoxa\'s','about'],['Atajos de teclado','keys'],['Reglas de silabeo','rules']]
+  edit:[['Deshacer','undo','Ctrl+Z'],['Rehacer','redo','Ctrl+Mayús+Z'],'-',['Seleccionar todo el texto','selall','Ctrl+A'],'-',['Preferencias…','prefs','Ctrl+,']],
+  view:[['Tema oscuro','vDark','',()=>isDark()],'-',['Regla','vRule','',()=>S.rulers],['Cuadrícula','vGrid','',()=>S.grid],['Marcadores','vMarks','',()=>S.markers],['Marcas de edición','vPilc','',()=>S.pilc],['Simular encuadernación','vBind','',()=>S.showBind],['Trazado de la plantilla','vTrace','',()=>S.showTrace],['Moneda de referencia (25 ¢)','vCoin','',()=>S.coin],'-',['Ajustar página actual a la vista','vFitP'],['Ajustar ancho a la vista','vFitW'],['Zoom a tamaño real','vReal'],'-',['Barra de controles','togL','T',()=>S.left],['Barra de estadísticas','togR','N',()=>S.right],'-',['Ver barra de estado','vStatus','',()=>!S.sbOff]],
+  help:[['Atajos de teclado…','keys'],['Manual de usuario','manual'],'-',['Acerca de Skoxa\'s','about']]
 };
+function editHist(kind){ const ta=TA();
+  if(!ta||ta.readOnly){ toast(kind==='undo'?'No hay nada que deshacer en este modo':'No hay nada que rehacer en este modo'); return; }
+  ta.focus(); const before=ta.value; let ok=false; try{ ok=document.execCommand(kind); }catch(e){}
+  if(!ok||ta.value===before) toast(kind==='undo'?'No hay nada que deshacer':'No hay nada que rehacer'); else ta.dispatchEvent(new Event('input',{bubbles:true})); }
+function applyStatusBar(){ const sb=$('sb'); if(!sb) return; const was=sb.hidden; sb.hidden=!!S.sbOff; if(was!==sb.hidden) dispatchEvent(new Event('resize')); }
+/* atajos definidos por el usuario: combinación → comando de los menús */
+const comboKey=ks=>ks.join('+');
+function menuCommands(){ const out=[], seen=new Set(), names={file:'Archivo',edit:'Editar',view:'Ver',help:'Ayuda'};
+  Object.entries(MENUS).forEach(([m,list])=>list.forEach(it=>{ if(it==='-'||it[4]==='sub'||seen.has(it[1])) return; seen.add(it[1]); out.push({id:it[1],label:it[0].replace(/…$/,''),menu:names[m],def:it[2]||''}); })); return out; }
+const userKeyOf=id=>Object.keys(S.userKeys||{}).find(k=>S.userKeys[k]===id)||'';
+function userKeyDown(e){ if(!S.userKeys||e.repeat) return false; const ks=comboOf(e); if(ks.length<2&&!/^F\d+$/.test(ks[0]||'')) return false;
+  const id=S.userKeys[comboKey(ks)]; if(!id||!ACTIONS[id]) return false; if(document.querySelector('.modal')) return false;
+  e.preventDefault(); e.stopPropagation(); closeMenus(); const c=menuCommands().find(x=>x.id===id); keycast(ks,c?c.label:id); ACTIONS[id](); return true; }
+function keysDialog(){
+  const rows=()=>menuCommands().map(c=>{ const u=userKeyOf(c.id);
+    return `<div class="ukrow" data-id="${c.id}"><span class="ukname">${esc(c.label)}<small>${c.menu}</small></span><span class="ukdef">${c.def?`<kbd>${esc(c.def)}</kbd>`:''}</span><button type="button" class="tbtn ukset" title="Pulsa y después la combinación de teclas">${u?esc(u.split('+').join(' + ')):'Asignar'}</button>${u?`<button type="button" class="ukx" title="Quitar el atajo" aria-label="Quitar el atajo de ${esc(c.label)}">×</button>`:'<span></span>'}</div>`; }).join('');
+  const m=modal('Atajos de teclado',`<p class="dnote" style="margin:0 0 var(--spacing-3)">Asigna tus propios atajos a cualquier comando de los menús: pulsa el botón y después la combinación (con Ctrl, Alt o ${esc(KEYNAME.Meta)}, o una tecla F1–F12). Esc cancela.</p>
+    <div class="uklist" id="ukList">${rows()}</div><h3 class="ukh">Predefinidos</h3><div class="hklist">${hotkeysHTML()}</div>`);
+  const L=m.querySelector('#ukList'); let cap=null;
+  const redraw=()=>{ L.innerHTML=rows(); refreshMenuKbd(); };
+  L.addEventListener('click',e=>{ const r=e.target.closest('.ukrow'); if(!r) return;
+    if(e.target.closest('.ukx')){ const u=userKeyOf(r.dataset.id); if(u){ delete S.userKeys[u]; persist(); redraw(); } return; }
+    if(e.target.closest('.ukset')){ cap&&cap.btn.classList.remove('cap'); const btn=e.target.closest('.ukset'); cap={id:r.dataset.id,btn}; btn.classList.add('cap'); btn.textContent='Pulsa la combinación…'; } });
+  m.addEventListener('keydown',e=>{ if(!cap) return; e.preventDefault(); e.stopPropagation();
+    if(e.key==='Escape'){ cap=null; redraw(); return; } if(['Control','Meta','Alt','Shift'].includes(e.key)) return;
+    const ks=comboOf(e), fk=/^F\d+$/.test(e.key); if(!(e.ctrlKey||e.metaKey||e.altKey||fk)){ cap.btn.textContent='Usa Ctrl, Alt o una tecla F'; return; }
+    const k=comboKey(ks), prev=S.userKeys[k], c=menuCommands(), clash=c.find(x=>x.def&&x.def.replace(/\s/g,'')===k);
+    S.userKeys=Object.assign({},S.userKeys); const old=userKeyOf(cap.id); if(old) delete S.userKeys[old]; S.userKeys[k]=cap.id; persist(); cap=null; redraw();
+    if(prev&&prev!==S.userKeys[k]){ const p=c.find(x=>x.id===prev); toast(`${ks.join(' + ')} ya no abre «${p?p.label:prev}»`); }
+    else if(clash&&clash.id!==S.userKeys[k]) toast(`${ks.join(' + ')} sustituye al atajo predefinido de «${clash.label}»`); },true); }
+function refreshMenuKbd(){ document.querySelectorAll('#menubar .mdrop > button[data-id]').forEach(x=>{ const it=x._it, u=userKeyOf(it[1]); x.querySelector('kbd').textContent=u?u.split('+').join('+'):(it[2]||''); }); }
+function confirmReset(){
+  const m=modal('Restaurar ajustes',`<p>Todos los ajustes de la aplicación vuelven a sus valores de fábrica: estilos, márgenes, tipografía, vista y preferencias. El texto del documento no se toca.</p>
+    <p>Para confirmar, escribe <b>RESTAURAR</b>:</p><div class="dgrid" style="grid-template-columns:1fr"><input id="rsIn" type="text" autocomplete="off" spellcheck="false" aria-label="Escribe RESTAURAR para confirmar" placeholder="RESTAURAR"></div>`,
+    [{label:'Cancelar'},{label:'Restaurar ajustes',primary:true,fn:mm=>{ if(mm.querySelector('#rsIn').value.trim()!=='RESTAURAR') return false; setTimeout(resetAll,0); }}]);
+  const inp=m.querySelector('#rsIn'), ok=m.querySelector('.mfoot .prim'); ok.disabled=true; ok.classList.add('danger');
+  inp.addEventListener('input',()=>{ ok.disabled=inp.value.trim()!=='RESTAURAR'; }); inp.addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter'&&!ok.disabled) ok.click(); }); setTimeout(()=>inp.focus(),30); }
 function closeMenus(){ document.querySelectorAll('.mdrop .flyout').forEach(f=>f.remove()); document.querySelectorAll('.menu.open').forEach(m=>{ m.classList.remove('open'); m.firstChild.setAttribute('aria-expanded','false'); });
   const mp=document.getElementById('modePick'); if(mp&&mp.classList.contains('open')){ mp.classList.remove('open'); document.getElementById('modeBtn').setAttribute('aria-expanded','false'); } }
 function openMenu(m){
   m.querySelectorAll('button[role=menuitemcheckbox]').forEach(x=>{ const on=!!x._chk(); x.setAttribute('aria-checked',String(on)); x.querySelector('.mk').textContent=on?'\u2713':''; });
-  m.classList.add('open'); m.firstChild.setAttribute('aria-expanded','true');
+  refreshMenuKbd(); m.classList.add('open'); m.firstChild.setAttribute('aria-expanded','true');
 }
 function buildMenubar(){
   const nb=$('menubar');
@@ -5329,7 +5391,7 @@ function buildMenubar(){
         w.addEventListener('mouseleave',()=>{ const f=w.querySelector('.flyout'); if(f&&!f.contains(document.activeElement)) f.remove(); });
         w.appendChild(x); d.appendChild(w); return;
       }
-      const x=document.createElement('button'); x.type='button';
+      const x=document.createElement('button'); x.type='button'; x.dataset.id=it[1]; x._it=it;
       if(it[3]){ x.setAttribute('role','menuitemcheckbox'); x._chk=it[3]; x.innerHTML=`<span><i class="mk"></i>${it[0]}</span><kbd>${it[2]||''}</kbd>`; }
       else { x.setAttribute('role','menuitem'); x.innerHTML=`<span>${id==='view'?'<i class="mk"></i>':''}${it[0]}</span><kbd>${it[2]||''}</kbd>`; }
       x.addEventListener('click',()=>{ closeMenus(); keycast(it[2]?String(it[2]).split('+'):[],it[0].replace(/…$/,'')); ACTIONS[it[1]](); }); d.appendChild(x);
@@ -5441,7 +5503,7 @@ function updateTester(){
 }
 function isTyping(t){ return t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable); }
 function init(){
-  applyTheme(); registerSysFonts();
+  applyTheme(); registerSysFonts(); if(!S.userKeys||typeof S.userKeys!=='object') S.userKeys={}; applyStatusBar();
   buildMenubar();
   $('searchIcon').innerHTML=svg('search',13);
   buildSide('L',[TABS_L[0],buildTplPane(),buildPageStylePane(),buildStylesPane(),...TABS_L.slice(1)].concat(buildSelPane(),buildCorrPane(),buildStructPane()),$('stripL'),$('bodyL'),'pagina');
@@ -5468,6 +5530,7 @@ function init(){
   $('fileIn').addEventListener('change',e=>{ const f=e.target.files&&e.target.files[0]; if(!f) return; const r=new FileReader();
     r.onload=()=>{ confirmDiscard(()=>{ resetDocKeys(); TA().value=String(r.result||''); S.docId=''; S.docName=f.name.replace(/\.[^.]+$/,'')||'Sin título'; S.notes=[]; S.pov={}; S.docSavedSig=''; openDocument(); toast('Texto importado: '+f.name+' · aún sin guardar'); }); };
     r.readAsText(f); });
+  document.addEventListener('keydown',userKeyDown,true);
   // comandos en pantalla para atajos que no anuncian nada por sí mismos
   document.addEventListener('keydown',e=>{
     if(!S.showKeys||e.repeat) return;
