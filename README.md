@@ -13,12 +13,12 @@ Versión 0.9.0 «Calderón». Programa de maquetación para libros en español: 
 
 ## Descargar el programa
 
-Cada cambio en `main` compila los instaladores en **Actions › Compilar Skoxa's › (última ejecución) › Artifacts › Skoxas-windows**:
+Todas las versiones, con sus instaladores, están en **[Releases](https://github.com/lmorejn/everlayout/releases)**. Cada versión trae dos archivos:
 
 - `Skoxas-<versión>-win-x64.exe`: instalador.
 - `Skoxas-<versión>-portable.exe`: se ejecuta sin instalar.
 
-Las versiones marcadas con una etiqueta `v*` (por ejemplo `v0.9.1`) se publican también en **Releases**.
+Cómo se generan: cada cambio subido a `main` compila Windows en GitHub Actions y deja los instaladores en la entrada de Releases de la versión indicada en `desktop/package.json`. Mientras no cambie ese número, la entrada se actualiza con la última compilación; al subir el número (por ejemplo a 0.9.1) se crea una entrada nueva y la anterior queda guardada.
 
 Los binarios no están firmados: Windows SmartScreen mostrará un aviso la primera vez (*Más información › Ejecutar de todas formas*).
 

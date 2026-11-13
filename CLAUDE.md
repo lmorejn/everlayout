@@ -6,4 +6,4 @@
 - Antes de subir cambios de la app: prueba en un navegador sin cabeza (Playwright) sirviendo `web/` con `python3 -m http.server`, y si tocas `desktop/`, prueba con `xvfb-run` + Electron.
 - La versión web también se publica como artefacto de Claude (Banco de justificado); mantenlos en sincronía.
 - Registra decisiones nuevas en `docs/DECISIONES.md` y cambios visibles en `CHANGELOG.md`.
-- Cada push a `main` compila los instaladores de Windows en Actions; para publicar una versión, etiqueta `vX.Y.Z`.
+- Cada push a `main` compila los instaladores de Windows y los publica en Releases bajo `v<versión de desktop/package.json>`. Para abrir una versión nueva, sube ese número (y `APP_VERSION` en `web/index.html`) y pasa las notas de «Sin publicar» del CHANGELOG a la nueva versión.
