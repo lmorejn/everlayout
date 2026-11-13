@@ -8,6 +8,7 @@
 - El aviso del modo corrección sale cada vez que entras en corrección; cerrarlo lo quita solo hasta la próxima vez.
 - Preferencias reorganizadas en Interfaz (idioma y tema), Zoom (al abrir y calibración del tamaño real con tarjeta y moneda), Atajos de teclado, Efectos de sonido (máquina de escribir y paso de página) y Restaurar ajustes. Se comporta como los demás diálogos: los cambios se ven al momento, Aplicar los fija y Cerrar pregunta si quedan cambios sin aplicar.
 - Las excepciones y las reglas de silabeo pasan a la barra lateral (Separación silábica › Excepciones).
+- Pestañas de la barra lateral según el modo. Borrador: Metadatos del texto (los mismos de Propiedades del documento) y Estructura del manuscrito. Corrección: Estructura del manuscrito, Marcas de corrección (comentarios) y Revisión de gramática y ortografía (Harper). Maquetación: Valores por defecto (página y columna, mancha y márgenes, tipografía y separación silábica), Estilo de página, Espaciado, Estilos de párrafo, Errores de mancha y Selección. Previsualización: Parámetros de encuadernación (los mismos de Ajustes del documento y de la barra de paso de página).
 
 ## 0.9.1 «Calderón»
 
