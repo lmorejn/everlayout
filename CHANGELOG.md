@@ -2,6 +2,8 @@
 
 ## Sin publicar
 
+- Las subsecciones de las barras laterales aparecen plegadas; cada pestaña tiene dos botones para desplegarlas o plegarlas todas, y se recuerda cuáles abriste.
+- Arreglado: la barra de estado oculta, los atajos personalizados y el idioma no se recordaban al recargar.
 - Menús reorganizados. Editar: Deshacer, Rehacer, Seleccionar todo el texto y Preferencias. Ver: «Calderón» pasa a «Marcas de edición» (calderón y saltos de página); Ajustar página actual a la vista, Ajustar ancho a la vista, Zoom a tamaño real; y Ver barra de estado. Ayuda: Atajos de teclado, Manual de usuario (en preparación) y Acerca de.
 - Atajos de teclado personalizados: cualquier comando de los menús puede tener su propio atajo (Ayuda › Atajos de teclado, o Preferencias).
 - Restaurar ajustes pasa al final de Preferencias y pide escribir RESTAURAR para confirmar.
