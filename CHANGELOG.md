@@ -1,7 +1,8 @@
 # Cambios
 
-## Sin publicar
+## 0.9.0 «Calderón» — primera versión publicada
 
+- Licencia Apache 2.0: se muestra en el instalador y en Ayuda › Acerca de, con las licencias de Harper y de las fuentes incluidas.
 - Preferencias › Sonido: sonido de máquina de escribir en Borrador y Corrección (teclas, espacio, retroceso; campanilla y retorno de carro con Enter; campanilla de margen opcional; volumen).
 
 ## 0.9.0 «Calderón» — escritorio, primera compilación

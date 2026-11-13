@@ -21,4 +21,6 @@ html = html.replace(/<link rel="preconnect"[^>]*>\s*/g, '').replace(/<link href=
 if (html.length === before) console.warn('Aviso: no se encontró el enlace a Google Fonts');
 html = html.replace('<style>\n', '<style>\n/* fuentes incluidas en la app de escritorio */\n' + css);
 fs.writeFileSync(f, html);
+fs.mkdirSync(path.join(__dirname, 'build'), { recursive: true });
+fs.copyFileSync(path.join(__dirname, '..', 'LICENSE'), path.join(__dirname, 'build', 'license.txt')); // página de licencia del instalador
 console.log('App web preparada en', DST);

@@ -21,13 +21,41 @@
     "appId": "com.lmorejn.skoxas",
     "productName": "Skoxa's",
     "copyright": "© Luis Morejón",
-    "directories": { "output": "dist", "buildResources": "build" },
-    "files": ["main.js", "preload.js", "app/**/*"],
-    "asarUnpack": ["app/harper/**"],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "app/**/*"
+    ],
+    "asarUnpack": [
+      "app/harper/**"
+    ],
     "artifactName": "Skoxas-${version}-${os}-${arch}.${ext}",
-    "win": { "target": ["nsis", "portable"] },
-    "portable": { "artifactName": "Skoxas-${version}-portable.${ext}" },
-    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "shortcutName": "Skoxa's", "createDesktopShortcut": true },
-    "linux": { "target": ["AppImage"], "category": "Office" }
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "legalTrademarks": "Skoxa's"
+    },
+    "portable": {
+      "artifactName": "Skoxas-${version}-portable.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "Skoxa's",
+      "createDesktopShortcut": true,
+      "license": "build/license.txt"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Office"
+    }
   }
 }
