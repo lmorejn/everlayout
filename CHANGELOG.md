@@ -2,6 +2,8 @@
 
 ## Sin publicar
 
+- El rol también se elige en Preferencias › Interfaz.
+- Al entrar en Borrador o Corrección la vista pasa a tamaño real (1:1) y el renglón del cursor queda en el centro de la pantalla; al escribir o moverse con el teclado, la hoja se desplaza como en una máquina de escribir para que el cursor siga en el centro.
 - Las páginas insertadas en Maquetación (y los saltos de flujo) se ven también en Borrador y Corrección: la hoja del manuscrito se corta donde se insertó la página, aparece una hoja marcada «Página insertada en Maquetación» y las flechas del salto.
 - Roles en la pantalla de bienvenida: Escritor (Borrador, Corrección, Previsualización), Editor (Corrección, Maquetación, Previsualización), Encuadernador (Maquetación, Previsualización) o Generalista (todos). El selector de modos muestra solo los del rol. Ayuda › Mostrar pantalla de bienvenida la vuelve a abrir.
 - Tapa dura: el laminado brillante refleja la luz con la ondulación típica del cartón forrado y el mate queda satinado; la cubierta lleva la ranura de la bisagra junto al lomo y el lomo se ve redondeado.

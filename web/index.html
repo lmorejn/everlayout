@@ -1433,7 +1433,7 @@ if(!(saved.s&&'left' in saved.s)&&innerWidth<900){ S.left=false; S.right=false; 
 if(S.paper!=='__custom'&&!PAPER_MAP[S.paper]) S.paper='Carta (Letter)';
 function persist(){ try{ localStorage.setItem(KEY,JSON.stringify({s:S,txt:$('txt').value,exc:S.excText})); }catch(e){} }
 let PRIMARY=null, LAST_SIG='', EDIT_FROM=-1;
-let LAST=null, LASTG=null, AUTOFIT=(S.openFit!==false)||!(saved.s&&'zoom' in saved.s);
+let PTR_DOWN=false, CC_RAF=0, AUTOFIT_MS=false, LAST=null, LASTG=null, AUTOFIT=(S.openFit!==false)||!(saved.s&&'zoom' in saved.s);
 function widthPx(ctx){ return S.wunit==='ch'?S.width*ctx.avgCh:S.width*UNITS[S.wunit]; }
 const REFRESH=[];
 let timer=0;
@@ -2486,6 +2486,7 @@ function placeInput(el){
   ta.style.left=clamp(b.left-vb.left,0,Math.max(0,vb.width-4))+'px'; ta.style.top=clamp(b.top-vb.top,0,Math.max(0,vb.height-16))+'px'; ta.style.height=Math.max(12,Math.min(b.height,vb.height))+'px';
 }
 function caretIntoView(){
+  if(isMS()&&(S.mode==='draft'||S.mode==='review')){ centerCaret(!typingNow()); return; }
   const c=document.querySelector('.caret'); if(!c) return;
   const v=$('view'), vb=v.getBoundingClientRect(), b=c.getBoundingClientRect(), m=48;
   let dx=0,dy=0;
@@ -4326,6 +4327,7 @@ function applyTransform(){
 function clampPan(){
   const v=VP(), {w,h}=contentSize(), z=S.zoom/100, sw=w*z, sh=h*z, m=70;
   const vw=v.clientWidth, vh=v.clientHeight;
+  if(isMS()&&(S.mode==='draft'||S.mode==='review')){ S.tx=clamp(S.tx,vw/2-sw,vw/2); S.ty=clamp(S.ty,vh/2-sh,vh/2); return; } // máquina de escribir: el renglón activo puede quedar en el centro aunque sea el primero o el último
   // el margen libre crece de forma continua desde cero cuando la hoja empieza a sobrepasar la vista: sin saltos al hacer zoom
   const mx=Math.min(m,(sw-vw)/2), my=Math.min(m,(sh-vh)/2);
   // si cabe en la vista, la hoja se puede mover libremente dentro de ella
@@ -4733,7 +4735,8 @@ const canSelect=()=>S.mode==='edit'||S.mode==='review'||S.mode==='draft';
 const writable=()=>S.mode!=='preview';
 const isMS=()=>S.mode==='draft'||S.mode==='review'; // manuscrito: borrador y corrección comparten la hoja de máquina de escribir
 const SELMODES=[['par','Por párrafo','selpar'],['line','Por línea','selline'],['page','Por página','selpage'],['all','Todo el texto','selall']];
-function setMode(m){ if(!roleModes().includes(m)){ toast(`El rol «${(ROLES[S.role]||ROLES.generalista)[0]}» no usa ese modo · cámbialo en Ayuda › Mostrar pantalla de bienvenida`); return; } const was=isMS(); MSC.clear(); S.mode=m; S.sel=-1; SELX=[]; if(was!==isMS()) AUTOFIT=true; syncMode(); changed(); }
+function setMode(m){ if((m==='draft'||m==='review')&&m!==S.mode) AUTOFIT_MS=true;
+  if(!roleModes().includes(m)){ toast(`El rol «${(ROLES[S.role]||ROLES.generalista)[0]}» no usa ese modo · cámbialo en Preferencias › Interfaz`); return; } const was=isMS(); MSC.clear(); S.mode=m; S.sel=-1; SELX=[]; if(was!==isMS()) AUTOFIT=true; syncMode(); changed(); }
 function setSelMode(m){ S.selmode=m; S.sel=-1; SELX=[]; LSEL=[]; S.selLine=-1; syncMode(); changed(); }
 /* cada pestaña izquierda pertenece a ciertos modos; cada modo recuerda su última pestaña */
 const LTAB_MODES={meta:['draft'],estructura:['draft','review'],marcas:['review'],correccion:['review'],defaults:['edit'],pestilo:['edit'],espacio:['edit'],estilos:['edit'],deteccion:['edit'],seleccion:['edit'],encuad:['preview']};
@@ -4982,8 +4985,11 @@ function initToolbar(){
   });
   let olRaf=0;
   document.addEventListener('selectionchange',()=>{
-    if(document.activeElement===ta){ drawCaret(); updateStatus(); if(isMS()&&!olRaf) olRaf=requestAnimationFrame(()=>{ olRaf=0; syncRole(); renderOutline(); }); }
+    if(document.activeElement===ta){ drawCaret(); updateStatus(); if(isMS()&&!olRaf) olRaf=requestAnimationFrame(()=>{ olRaf=0; syncRole(); renderOutline(); });
+      if(isMS()&&(S.mode==='draft'||S.mode==='review')&&!PTR_DOWN&&!typingNow()){ cancelAnimationFrame(CC_RAF); CC_RAF=requestAnimationFrame(()=>centerCaret(true)); } }
   });
+  addEventListener('pointerdown',()=>{ PTR_DOWN=true; },true);
+  addEventListener('pointerup',()=>{ if(!PTR_DOWN) return; PTR_DOWN=false; if(isMS()&&(S.mode==='draft'||S.mode==='review')&&document.activeElement===TA()) setTimeout(()=>centerCaret(true),60); },true);
   fillRoleSelect();
   $('tRole').addEventListener('input',e=>{ setLevel(+e.target.value); TA().focus({preventScroll:true}); });
   addEventListener('keydown',e=>{
@@ -5652,10 +5658,10 @@ function showSplash(force){
   if(!hold) setTimeout(()=>{ if(!hold) close(); },2600);
 }
 const RULES_HTML='<ul><li>Los dígrafos <b>ch</b>, <b>ll</b> y <b>rr</b> no se separan.</li><li>Los grupos <b>pr, pl, br, bl, fr, fl, tr, dr, cr, cl, gr, gl</b> pasan juntos a la sílaba siguiente.</li><li>Dos vocales fuertes forman hiato y se pueden separar. Una vocal débil con vocal fuerte forma diptongo.</li><li>Una <b>í</b> o <b>ú</b> con acento junto a una vocal fuerte forma hiato.</li><li>No se deja una sola letra al inicio o al final de la línea. Los mínimos son configurables.</li><li>La lista de excepciones tiene prioridad sobre las reglas.</li></ul>';
-const PREF_KEYS=['uiLang','theme','showKeys','splash','openFit','screenDiag','ppiAdj','coinType','typeSound','typeBellLine','typeVol','pageSound'];
+const PREF_KEYS=['role','uiLang','theme','showKeys','splash','openFit','screenDiag','ppiAdj','coinType','typeSound','typeBellLine','typeVol','pageSound'];
 const prefState=()=>JSON.stringify(PREF_KEYS.map(k=>S[k]));
 let PF_SNAP=null;
-function prefRevert(json){ const v=JSON.parse(json); PREF_KEYS.forEach((k,i)=>{ if(v[i]===undefined) delete S[k]; else S[k]=v[i]; }); applyTheme(); try{ syncCoinFace(); placeCoin(); }catch(e){} persist(); }
+function prefRevert(json){ const v=JSON.parse(json); PREF_KEYS.forEach((k,i)=>{ if(v[i]===undefined) delete S[k]; else S[k]=v[i]; }); applyTheme(); try{ applyRole(); syncMode(); }catch(e){} try{ syncCoinFace(); placeCoin(); }catch(e){} persist(); }
 function askClosePrefs(){
   modal('¿Cerrar sin aplicar los cambios?','<p>Cambiaste preferencias que no aplicaste. Si cierras, se descartan y todo vuelve a como estaba.</p>',
     [{label:'Seguir editando',fn:()=>{ setTimeout(()=>prefsDialog(true),0); }},{label:'Aplicar y cerrar',fn:()=>{ PF_SNAP=null; persist(); toast('Preferencias aplicadas'); }},{label:'Descartar cambios',primary:true,fn:()=>{ const sn=PF_SNAP; PF_SNAP=null; if(sn) prefRevert(sn); toast('Cambios descartados'); }}]); }
@@ -5664,6 +5670,7 @@ function prefsDialog(keep){
   const m=modal('Preferencias',`<div class="ptools"><button type="button" class="tbtn" id="pExpand">Desplegar todo</button><button type="button" class="tbtn" id="pCollapse">Contraer todo</button></div>`+
     SEC('ui','Interfaz',`<div class="dgrid">
       <label for="prefLang">Idioma</label><select id="prefLang"><option value="es">Español</option></select>
+      <label for="prefRole">Rol</label><select id="prefRole">${Object.keys(ROLES).map(k=>`<option value="${k}">${ROLES[k][0]} · ${ROLES[k][1]}</option>`).join('')}</select>
       <label for="prefTheme">Tema</label><select id="prefTheme"><option value="auto">El del sistema</option><option value="light">Claro</option><option value="dark">Oscuro</option></select>
       <label for="prefKeys">Comandos en pantalla</label><label class="bchk"><input type="checkbox" id="prefKeys"><i></i><span>Mostrar en una esquina los atajos y comandos que uses</span></label>
       <label for="prefSplash">Al iniciar</label><label class="bchk"><input type="checkbox" id="prefSplash"><i></i><span>Mostrar la pantalla de bienvenida</span></label></div>`)+
@@ -5698,6 +5705,7 @@ function prefsDialog(keep){
   secs.forEach(sec=>{ setOpen(sec,S.prefOpen[sec.dataset.k]!==false); sec.querySelector('.psh').addEventListener('click',()=>{ setOpen(sec,sec.classList.contains('closed')); persist(); if(m._secUpd) m._secUpd(); }); });
   m.querySelector('#pExpand').addEventListener('click',()=>{ secs.forEach(x=>setOpen(x,true)); persist(); });
   m.querySelector('#pCollapse').addEventListener('click',()=>{ secs.forEach(x=>setOpen(x,false)); persist(); });
+  { const pr=m.querySelector('#prefRole'); pr.value=S.role||'generalista'; pr.addEventListener('input',()=>{ S.role=pr.value; applyRole(); syncMode(); }); }
   const pl=m.querySelector('#prefLang'); pl.value='es'; pl.addEventListener('input',()=>{ S.uiLang=pl.value; });
   const sp=m.querySelector('#prefSplash'); sp.checked=S.splash!==false; sp.addEventListener('input',()=>{ S.splash=sp.checked; });
   { const tw=m.querySelector('#prefTw'), tb=m.querySelector('#prefTwBell'); tw.checked=!!S.typeSound; tb.checked=S.typeBellLine!==false;
@@ -6033,8 +6041,17 @@ async function run(){
   updateTester();
   if(BOOK) requestAnimationFrame(()=>{ if(BOOK&&!BOOK.busy) bookRender(); });
   if(S.mode==='preview') syncSigCtl();
-  if(AUTOFIT){ AUTOFIT=false; requestAnimationFrame(()=>fitPage(false)); }
+  if(isMS()&&(AUTOFIT||AUTOFIT_MS)){ AUTOFIT=false; AUTOFIT_MS=false; requestAnimationFrame(msRealView); }
+  else if(AUTOFIT){ AUTOFIT=false; requestAnimationFrame(()=>fitPage(false)); }
 }
+/* al entrar en Borrador o Corrección: tamaño real (1:1) y el cursor en el centro de la vista */
+function msRealView(){ const r=realZoomInfo(); S.zoom=clamp(r.zoom,10,600); applyTransform(); const ta=TA(); if(writable()&&document.activeElement!==ta) try{ ta.focus({preventScroll:true}); }catch(e){} drawCaret(); centerCaret(false); persist(); }
+function centerCaret(glide){ const v=$('view'), vb=v.getBoundingClientRect(); let c=document.querySelector('#view .panel:not([hidden]) .caret')||document.querySelector('.caret');
+  let r=c&&c.getBoundingClientRect(); if(!r||!r.height){ const ln=document.querySelector('#view .panel:not([hidden]) .ln'); if(!ln) return; r=ln.getBoundingClientRect(); c=ln; }
+  const shs=c.closest('.sheet'), shb=c.closest('.box'), sr0=shs?shs.getBoundingClientRect():null, sr=(sr0&&sr0.width<=vb.width-40)?sr0:(shb?shb.getBoundingClientRect():r), cx=vb.left+vb.width/2, cy=vb.top+vb.height/2;
+  let dx=sr.width<=vb.width-40?cx-(sr.left+sr.width/2):cx-(r.left+r.width/2), dy=cy-(r.top+r.height/2);
+  if(Math.abs(dx)<.5&&Math.abs(dy)<.5) return;
+  if(glide){ glideTo(S.zoom,S.tx+dx,S.ty+dy,160); return; } S.tx+=dx; S.ty+=dy; clampPan(); applyTransform(); }
 function updateTester(){
   const w=$('tw').value.trim(); if(!w){ setT('twSyl','—'); setT('twCut','—'); return; }
   const cfg=getCfg(), letters=(w.match(/\p{L}+/u)||[w])[0];
