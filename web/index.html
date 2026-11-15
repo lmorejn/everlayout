@@ -623,6 +623,7 @@ figure.pg figcaption{margin:0 0 var(--spacing-2);color:var(--color-text-secondar
 .sptx b{font:700 1.75rem/1.1 var(--font-body);letter-spacing:-.01em}
 .sptx span{font:500 1rem/1.3 var(--font-body);color:var(--color-text-primary)}
 .sptx small{font:400 .8125rem/1.3 var(--font-body);color:var(--color-text-secondary)}
+.mrolenote{display:block;width:100%;margin-top:4px;padding:6px 10px 2px;border:0;border-top:var(--border-width) solid var(--color-border-subtle);background:none;text-align:left;font:400 .6875rem/1.35 var(--font-body);color:var(--color-text-secondary);cursor:pointer}.mrolenote:hover{color:var(--color-text-primary)}.mrolenote[hidden]{display:none}
 .sprole{display:grid;gap:4px;justify-items:stretch;width:min(320px,70vw)}
 .sprole label{font:500 .75rem/1.3 var(--font-body);color:var(--color-text-secondary);text-align:center}
 .sprole select{height:var(--size-element-md,36px);padding:0 var(--spacing-3);border-radius:var(--radius-element);border:var(--border-width) solid var(--color-border);background:var(--color-background-surface);color:var(--color-text-primary);font:500 .875rem/1 var(--font-body)}
@@ -644,6 +645,7 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
 .sheet,.sheet *{-webkit-user-select:none;user-select:none}
 #modeDrop .mflow{margin:var(--spacing-1) var(--spacing-2) var(--spacing-1-5);color:var(--color-text-secondary);font:600 .6875rem/1.6 var(--font-body);text-transform:uppercase;letter-spacing:.04em}
 #modeDrop .mstepb{justify-content:flex-start;gap:var(--spacing-3)}
+#modeDrop .mstepb[hidden],#modeDrop hr[hidden]{display:none!important}
 #modeDrop .mstep{flex:none;width:20px;height:20px;display:grid;place-items:center;border-radius:var(--radius-full);background:var(--color-neutral);font:600 .6875rem/1 var(--font-body);color:var(--color-text-secondary)}
 #modeDrop .mstepb[aria-checked="true"] .mstep{background:var(--color-accent);color:var(--color-on-accent)}
 #modeDrop .mtx{display:flex;flex-direction:column;align-items:flex-start;gap:0}
@@ -5634,7 +5636,9 @@ function hotkeysHTML(){
   return HOTKEYS.map(([g,list])=>`<h3>${g}</h3>`+list.map(([ks,t])=>`<div class="hkrow"><span class="hkk">${ks.map(k=>k[0]==='@'?mouseSVG(k.slice(1)):`<kbd>${esc(k)}</kbd>`).join('<i>+</i>')}</span><span>${esc(t)}</span></div>`).join('')).join('');
 }
 const APP_VERSION='0.9.1', APP_CODENAME='Calderón';
-function applyRole(quiet){ const ok=roleModes(); document.querySelectorAll('#modeDrop .mstepb').forEach(b=>{ b.hidden=!ok.includes(b.dataset.m); });
+function applyRole(quiet){ const ok=roleModes();
+  { const dr=$('modeDrop'); if(dr){ let n=dr.querySelector('.mrolenote'); if(!n){ n=document.createElement('button'); n.type='button'; n.className='mrolenote'; n.addEventListener('click',()=>{ $('modePick').classList.remove('open'); $('modeBtn').setAttribute('aria-expanded','false'); prefsDialog(); }); dr.appendChild(n); }
+    const g=!S.role||S.role==='generalista'; n.hidden=g; n.textContent=`Rol: ${(ROLES[S.role]||ROLES.generalista)[0]}. Selecciona otro rol para ver todas las vistas`; n.title='Abre Preferencias › Interfaz'; } } document.querySelectorAll('#modeDrop .mstepb').forEach(b=>{ b.hidden=!ok.includes(b.dataset.m); });
   let k=0; document.querySelectorAll('#modeDrop .mstepb').forEach(b=>{ if(!b.hidden) b.querySelector('.mstep').textContent=++k; });
   document.querySelectorAll('#modeDrop hr').forEach(h=>{ h.hidden=!(ok.includes('draft')||ok.includes('review'))||!(ok.includes('edit')||ok.includes('preview')); });
   if(!ok.includes(S.mode)){ const was=isMS(); S.mode=ok.includes('edit')?'edit':ok[0]; S.sel=-1; SELX=[]; if(was!==isMS()){ MSC.clear(); AUTOFIT=true; } if(!quiet){ syncMode(); changed(); } } }
