@@ -1217,7 +1217,7 @@ function paginate(paras,availIn,control){
   const BRK=new Set(S.pbreaks||[]);
   paras.forEach(p=>{
     const k=p.lines.length, gap=p.gap||0;
-    if(k&&BRK.has(p.lines[0].s)&&pages[pages.length-1].slots.length) addPage();
+    if(k&&BRK.has(pbOf(p.lines[0]))&&pages[pages.length-1].slots.length) addPage();
     let rest=p.lines.map((line,li)=>({line,pi:p.pi,li,k}));
     let guard=0;
     while(rest.length&&guard++<4000){
@@ -2087,12 +2087,14 @@ function ctxFor(size,font,weight,caps,ital,fwid){
 }
 function makeCtx(){ CTXC=new Map(); return ctxFor(S.size,S.font,S.weight); }
 function splitParas(t){ return t.split(/\n+|¶/).map(x=>x.trim()).filter(Boolean); }
+function pbOf(l){ return l?(l.pb!=null?l.pb:l.s):-1; }
+function isPbLine(l){ return !!l&&(S.pbreaks||[]).includes(pbOf(l)); }
 function splitParasIdx(t){
   const out=[], re=/[^\n¶]+/g, keep=S.mode==='draft'||S.mode==='review'; let m;
   while((m=re.exec(t))){
     const raw=m[0], lead=raw.length-raw.replace(/^\s+/,'').length; let txt=raw.trim(), st=m.index+lead, hl=0;
     const h=/^(#{1,6})[ \t]+(?=\S)/.exec(txt); if(h){ hl=h[1].length; if(!keep){ st+=h[0].length; txt=txt.slice(h[0].length); } }
-    if(txt) out.push({text:txt,start:st,hl});
+    if(txt) out.push({text:txt,start:st,hl,b:m.index+lead});
   }
   return out;
 }
@@ -2126,7 +2128,7 @@ function imgParItem(P,i,W){ const L=imgOfPar(P); if(!L) return null; const v=par
   const IM=S.images||{}, first=IM[L[0].id], fr=first?clamp(first.fr||1,.12,1):1, gap=L.length>1?Math.max(6,px*.6):0, ars=L.map(x=>{ const im=IM[x.id]; return im&&im.pw?im.ph/im.pw:.66; });
   let rowW=W*fr, ih=(rowW-gap*(L.length-1))/ars.reduce((a,r)=>a+1/r,0); const maxH=Math.min(lb*22,W*1.05); if(ih>maxH) ih=maxH;
   const ws=ars.map(r=>ih/r), iw=ws.reduce((a,b)=>a+b,0)+gap*(L.length-1); let x=0; const imgs=L.map((o,k)=>{ const r={id:o.id,alt:o.alt,x,w:ws[k]}; x+=ws[k]+gap; return r; });
-  const H=Math.ceil((ih+lb*1.15)/lb)*lb, line={img:L[0].id,imgs,alt:L.map(o=>o.alt).join(' '),iw,ih,capH:lb,words:[],gaps:[],flags:[],s:P.start,e:P.start+P.text.length,lh:H,px,pi:i,sw:ctx.spaceW,m:ctx.measure,font:v.font,lang:v.lang,last:true,endX:0,r:0,W};
+  const H=Math.ceil((ih+lb*1.15)/lb)*lb, line={pb:P.b,img:L[0].id,imgs,alt:L.map(o=>o.alt).join(' '),iw,ih,capH:lb,words:[],gaps:[],flags:[],s:P.start,e:P.start+P.text.length,lh:H,px,pi:i,sw:ctx.spaceW,m:ctx.measure,font:v.font,lang:v.lang,last:true,endX:0,r:0,W};
   return {lines:[line],pi:i,cfg:getCfg(v),ctx,lh:lb,px,align:'center',v}; }
 function composeOne(mode,P,i,W,from){
   { const ii=imgParItem(P,i,W); if(ii) return from?null:ii; }
@@ -2151,6 +2153,7 @@ function composeOne0(mode,P,i,W,from){
     l.s=real.length?real[0].o:base;
     l.e=real.length?real[real.length-1].o+real[real.length-1].src.length:l.s;
   });
+  if(!from&&lines[0]) lines[0].pb=P.b;
   applyLov(lines,cfg,ctx);
   return {lines,pi:i,cfg,ctx,lh,px,align:v.align,v};
 }
@@ -2171,7 +2174,7 @@ function flowCompose(mode,paras,spec,control){
   const lay=(P,i)=>{
     let from=0, first=true, guard=0; const jp=J.find(j=>!j.done&&!inJ.has(i)&&j.a>P.start&&j.a<P.start+P.text.length);
     const msCh=MSRUN&&hPage(levelOf(i));
-    if((BRK.has(P.start)||msCh)&&cur.slots.length) cur=newPage();
+    if((BRK.has(P.b!=null?P.b:P.start)||msCh)&&cur.slots.length) cur=newPage();
     if(msCh&&!cur.slots.length) cur.used=Math.floor(cur.avail/3/MS_LH)*MS_LH;
     while(guard++<400){
       const it=composeOne(mode,P,i,cur.W,from); if(!it) break;
@@ -2225,6 +2228,7 @@ function composeAll(mode,paras,W){
       l.s=real.length?real[0].o:base;
       l.e=real.length?real[real.length-1].o+real[real.length-1].src.length:l.s;
     });
+    if(lines[0]) lines[0].pb=P.b;
     applyLov(lines,cfg,ctx);
     const sid=styleOf(i), pt=96/72;
     const gap=prev?((v.ctxSp&&stylesRelated(sid,prev.sid))?0:(prev.sa+v.spBefore*pt)):0;
@@ -2319,7 +2323,7 @@ function lineHTML(sl,W){
 function textShift(pg,pn,gp,inner,res){ const pav=pg.avail||gp.avail, out={dx:0,dy:gp.valign==='bottom'?Math.max(0,gp.availT-pav):0};
   if(!pg.slots||!pg.slots.length) return out; const v=pageStyleVals(pageStyleOf(pn)); if(v.posX==='canon'&&v.posY==='canon') return out;
   res=res||CUR_RES||PRIMARY; const nx=res&&res.pages[pn+1], lh=pg.slots[0].line.lh, free=pav-pg.used;
-  const short=!nx||(nx.slots&&nx.slots[0]&&(S.pbreaks||[]).includes(nx.slots[0].line.s))||nx.blank||free>=Math.max(3*lh,pav*.25);
+  const short=!nx||(nx.slots&&nx.slots[0]&&isPbLine(nx.slots[0].line))||nx.blank||free>=Math.max(3*lh,pav*.25);
   if(!short) return out;
   const ky={top:0,center:.5,bottom:1}[v.posY]; if(ky!=null&&free>0) out.dy+=free*ky;
   let kx={center:.5}[v.posX]; if(v.posX==='in') kx=inner==='gl'?0:1; else if(v.posX==='out') kx=inner==='gl'?1:0;
@@ -2376,7 +2380,7 @@ function pageHTML(pg,pn,total,g0,fam,cls){
   const selPg=(S.mode==='edit'&&S.sel>=0)&&((S.selmode==='page'&&(S.sel===pn||SELX.includes(pn)))||S.selmode==='all');
   const pgCls=selPg?(S.selmode==='all'?' selall':' selpg'):'';
   const pst=pageStyleOf(pn), pstN=(pageStyleById(pst)||{}).name||'';
-  const pbk=!cls&&pn>0&&!pg.blank&&pg.slots.length&&(S.pbreaks||[]).includes(pg.slots[0].line.s);
+  const pbk=!cls&&pn>0&&!pg.blank&&pg.slots.length&&isPbLine(pg.slots[0].line);
   let h=`<figure class="pg${cls?' '+cls:''}${pg.blank?' blankpg':''}${pbk?' pbfig':''}" data-pg="${pn}"${pg.blank?` data-anchor="${pg.anchor}"`:''}>${pbk?'<div class="pbgap" aria-hidden="true"><span>Salto de página</span></div>':''}<figcaption>Página ${pn+1} · ${paperName()}${pst!=='pdef'?` · ${esc(pstN)}`:''}${missing>0&&pn<total-1?` · termina ${missing} línea${missing>1?'s':''} antes`:''}</figcaption>`;
   const inner=cls==='l'?'gr':(cls==='r'?'gl':(pn%2===0?'gl':'gr'));
   const cut0=S.showBind?g.bindPx+sigPage(pn).extra*96/25.4:0, cut=cut0>0.5?cut0:0; // la franja del lomo crece en los pliegos exteriores de cuadernillos gruesos
@@ -2390,7 +2394,7 @@ function pageHTML(pg,pn,total,g0,fam,cls){
     if(pg.jumpTo&&ix(pg.jumpTo)>=0){ const last=pg.slots[pg.slots.length-1]; h+=`<button type="button" class="jmp to" style="top:${(last.y+last.line.lh+2).toFixed(1)}px" data-go="${ix(pg.jumpTo)}" title="El párrafo sigue después de la página insertada">\u21B7 Sigue en la pág. ${ix(pg.jumpTo)+1}</button>`; }
     if(pg.jumpFrom&&ix(pg.jumpFrom)>=0) h+=`<button type="button" class="jmp from" data-go="${ix(pg.jumpFrom)}" title="Este texto continúa el párrafo de antes de la página insertada">\u21B6 Viene de la pág. ${ix(pg.jumpFrom)+1}</button>`; }
   if(!pg.blank&&pg.slots.length&&S.pbreaks&&S.pbreaks.length&&CUR_RES&&CUR_RES.pages[pn+1]){ const nx=CUR_RES.pages[pn+1].slots[0], last=pg.slots[pg.slots.length-1];
-    if(nx&&S.pbreaks.includes(nx.line.s)) h+=`<div class="pbmark" style="top:${(last.y+last.line.lh).toFixed(1)}px" aria-hidden="true"><span>Salto de página</span></div>`; }
+    if(nx&&isPbLine(nx.line)) h+=`<div class="pbmark" style="top:${(last.y+last.line.lh).toFixed(1)}px" aria-hidden="true"><span>Salto de página</span></div>`; }
   if(pg.blank) h+='</div>';
   if(pg.blank){
     if(S.mode==='edit') h+=`<div class="blankph" style="left:${(inner==='gl'?g.lomo-cut:g.corte).toFixed(1)}px;width:${g.W.toFixed(1)}px;right:auto;top:${(g.mt).toFixed(1)}px" data-anchor="${pg.anchor}" role="button" tabindex="0" title="Empezar a escribir aquí"><span>Haz clic para escribir un párrafo nuevo en esta página</span></div>`;
@@ -2402,7 +2406,7 @@ function msHeader(pn){ const au=((S.docMeta&&S.docMeta.author)||'').trim(), sur=
 function msPageHTML(pg,pn,g,fam){
   const px=12*96/72;
   if(pg.blank) return `<figure class="pg" data-pg="${pn}"><figcaption>Hoja ${pn+1} · página insertada en Maquetación</figcaption><div class="sheet msblank" style="width:${g.pw}px;height:${g.ph}px"><div class="msins">Página insertada en Maquetación<small>El texto de antes sigue en la hoja ${pn+2}</small></div></div></figure>`;
-  const pbk=pn>0&&pg.slots.length&&(S.pbreaks||[]).includes(pg.slots[0].line.s);
+  const pbk=pn>0&&pg.slots.length&&isPbLine(pg.slots[0].line);
   let h=`<figure class="pg${pbk?' pbfig':''}" data-pg="${pn}">${pbk?'<div class="pbgap" aria-hidden="true"><span>Salto de página</span></div>':''}<figcaption>Hoja ${pn+1} · manuscrito${pg.jumpFrom?' · continúa el párrafo de la hoja '+((CUR_RES?CUR_RES.pages.indexOf(pg.jumpFrom):-2)+1):''}</figcaption>`;
   h+=`<div class="sheet" style="width:${g.pw}px;height:${g.ph}px"><div class="msh" data-pn="${pn}" style="left:${g.corte}px;width:${g.W}px;text-align:right;top:${(48-px*.8).toFixed(1)}px;font-size:${px}px;line-height:${px}px">${esc(msHeader(pn))}</div>`;
   h+=`<div class="box" style="position:absolute;left:${g.corte}px;top:${g.mt}px;width:${g.W}px;height:${g.avail}px;font-family:${fam}">`;
