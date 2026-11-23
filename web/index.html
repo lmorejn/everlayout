@@ -333,6 +333,9 @@ table.stbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums
 .pages{display:flex;flex-direction:column;align-items:center;gap:var(--spacing-6)}
 .pages>.spread,.pages>figure.pg{flex:0 0 auto}
 figure.pg{margin:0}
+figure.pg.pbfig{position:relative}
+.pbgap{position:absolute;left:-24px;right:-24px;top:calc(var(--spacing-6) / -2);height:0;border-top:2px dashed color-mix(in srgb,var(--color-accent) 70%,transparent);pointer-events:none}
+.pbgap span{position:absolute;left:50%;top:-10px;transform:translateX(-50%);padding:1px 10px;border-radius:999px;background:var(--color-background-muted,#eee);color:var(--color-accent);font:600 10px/1.6 var(--font-body,system-ui);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
 figure.pg figcaption{margin:0 0 var(--spacing-2);color:var(--color-text-secondary);font-size:.75rem;line-height:1.6667}
 .spread{display:flex;align-items:flex-start;gap:0}
 .spread.solo{margin-left:var(--pw,0)}
@@ -896,7 +899,7 @@ figure.blankpg .sheet{background-image:repeating-linear-gradient(45deg,transpare
     <div class="grp"><button class="ico" id="tbLeft" type="button" aria-pressed="true" title="Barra de controles (T)" aria-label="Barra de controles"></button></div>
     <div class="grp"><div class="modepick" id="modePick"><button class="mpbtn" id="modeBtn" type="button" aria-haspopup="menu" aria-expanded="false"><span class="ic" id="modeIco"></span><span id="modeLbl">Previsualización</span><i class="cv"></i></button><div class="mdrop" id="modeDrop" role="menu"></div></div></div>
     <div class="sep"></div>
-    <div class="grp" id="grpRole" hidden><span class="tlabel">Párrafo</span><div class="bsel"><select id="tRole" aria-label="Nivel de título del párrafo" title="Nivel de título del párrafo, como en Obsidian (Alt + 1 a 6; Alt + 0 vuelve a texto)"></select></div><button type="button" class="tbtn" id="tImg" title="Insertar fotos: también puedes arrastrarlas sobre la hoja">Foto…</button></div>
+    <div class="grp" id="grpRole" hidden><span class="tlabel">Párrafo</span><div class="bsel"><select id="tRole" aria-label="Nivel de título del párrafo" title="Nivel de título del párrafo, como en Obsidian (Alt + 1 a 6; Alt + 0 vuelve a texto)"></select></div><button type="button" class="tbtn" id="tImg" title="Insertar fotos: también puedes arrastrarlas sobre la hoja">Foto…</button><button type="button" class="tbtn" id="tPbrk" title="Salto de página: lo que sigue al cursor empieza en una hoja nueva (Ctrl + Intro)">Salto de página</button></div>
     <input type="file" id="imgFile" accept="image/*" multiple hidden><input type="file" id="fontFile" accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2" multiple hidden>
     <div class="grp" id="grpSel" role="group" aria-label="Modo de selección" hidden></div>
     <div class="grp alg" id="algHost" role="group" aria-label="Alineación" hidden></div>
@@ -2398,7 +2401,8 @@ function msHeader(pn){ const au=((S.docMeta&&S.docMeta.author)||'').trim(), sur=
 function msPageHTML(pg,pn,g,fam){
   const px=12*96/72;
   if(pg.blank) return `<figure class="pg" data-pg="${pn}"><figcaption>Hoja ${pn+1} · página insertada en Maquetación</figcaption><div class="sheet msblank" style="width:${g.pw}px;height:${g.ph}px"><div class="msins">Página insertada en Maquetación<small>El texto de antes sigue en la hoja ${pn+2}</small></div></div></figure>`;
-  let h=`<figure class="pg" data-pg="${pn}"><figcaption>Hoja ${pn+1} · manuscrito${pg.jumpFrom?' · continúa el párrafo de la hoja '+((CUR_RES?CUR_RES.pages.indexOf(pg.jumpFrom):-2)+1):''}</figcaption>`;
+  const pbk=pn>0&&pg.slots.length&&(S.pbreaks||[]).includes(pg.slots[0].line.s);
+  let h=`<figure class="pg${pbk?' pbfig':''}" data-pg="${pn}">${pbk?'<div class="pbgap" aria-hidden="true"><span>Salto de página</span></div>':''}<figcaption>Hoja ${pn+1} · manuscrito${pg.jumpFrom?' · continúa el párrafo de la hoja '+((CUR_RES?CUR_RES.pages.indexOf(pg.jumpFrom):-2)+1):''}</figcaption>`;
   h+=`<div class="sheet" style="width:${g.pw}px;height:${g.ph}px"><div class="msh" data-pn="${pn}" style="left:${g.corte}px;width:${g.W}px;text-align:right;top:${(48-px*.8).toFixed(1)}px;font-size:${px}px;line-height:${px}px">${esc(msHeader(pn))}</div>`;
   h+=`<div class="box" style="position:absolute;left:${g.corte}px;top:${g.mt}px;width:${g.W}px;height:${g.avail}px;font-family:${fam}">`;
   pg.slots.forEach(sl=>{ h+=lineHTML(sl,g.W); });
@@ -4285,7 +4289,7 @@ function onTextEdit(){
   const oEnd=old.length-q, nEnd=nw.length-q, delta=nEnd-oEnd;
   EDIT_FROM=EDIT_FROM<0?p:Math.min(EDIT_FROM,p);
   if(S.lov&&Object.keys(S.lov).length){ const nl={}; Object.keys(S.lov).forEach(k=>{ const a=+k; if(a<=p) nl[a]=S.lov[k]; else if(a>=oEnd) nl[a+delta]=S.lov[k]; }); S.lov=nl; }
-  if(Array.isArray(S.pbreaks)&&S.pbreaks.length){ S.pbreaks=[...new Set(S.pbreaks.map(a=>a>=oEnd?a+delta:(a>p?-1:a)).filter(a=>a>=0))]; }
+  if(Array.isArray(S.pbreaks)&&S.pbreaks.length){ const insNLb=oEnd===p&&nEnd>p&&nw[nEnd-1]==='\n'; S.pbreaks=[...new Set(S.pbreaks.map(a=>(a===p&&oEnd===p)?(insNLb?a+delta:a):(a>=oEnd?a+delta:(a>p?-1:a))).filter(a=>a>=0))]; }
   if(S.gaps&&Object.keys(S.gaps).length){ const ng={}; Object.keys(S.gaps).forEach(k=>{ const a=+k, na=a>=oEnd?a+delta:(a>p?p:a); ng[na]=(ng[na]||0)+S.gaps[k]; }); S.gaps=ng; }
   if(Array.isArray(S.jumps)&&S.jumps.length){
     const insNL=nEnd>p&&nw[nEnd-1]==='\n';
@@ -6223,6 +6227,17 @@ function deleteSelImg(){ const sel=SELIMG; if(!sel) return false; const ta=TA(),
   if(L.length===1){ let a=P.start, b=P.start+P.text.length; if(t[b]==='\n') b++; else if(a>0&&t[a-1]==='\n') a--; ta.setRangeText('',a,b,'end'); ta.setSelectionRange(Math.min(a,ta.value.length),Math.min(a,ta.value.length)); }
   else { const o=L[sel.k]; let a=P.start+o.a, b=P.start+o.b; if(sel.k<L.length-1){ while(/[ \t]/.test(t[b]||'')) b++; } else { while(a>P.start&&/[ \t]/.test(t[a-1])) a--; } ta.setRangeText('',a,b,'preserve'); }
   ta.readOnly=ro; SELIMG=null; onTextEdit(); changed(); toast(L.length===1?'Foto borrada · Ctrl+Z la recupera':'Foto quitada de la fila · Ctrl+Z la recupera'); return true; }
+/* salto de página desde la barra (Borrador y Corrección): lo que sigue al cursor empieza en una hoja nueva */
+function insertPageBreak(){ const ta=TA(); if(!S.docOpen) return; const t=ta.value, a=ta.selectionStart, ps=splitParasIdx(t), ro=ta.readOnly;
+  let P=ps.find(P=>a>=P.start&&a<=P.start+P.text.length), at=-1;
+  if(P&&a>P.start&&a<P.start+P.text.length){ // en medio de un párrafo: se parte en dos
+    let x=a; while(x>P.start&&t[x-1]===' ') x--; let y=a; while(y<P.start+P.text.length&&t[y]===' ') y++;
+    ta.readOnly=false; ta.setRangeText('\n',x,y,'end'); onTextEdit(); ta.readOnly=ro; at=x+1; }
+  else if(P&&a<=P.start) at=P.start;
+  else { const nx=ps.find(Q=>Q.start>a); if(nx) at=nx.start; else { ta.readOnly=false; const L=t.length; ta.setRangeText('\n',L,L,'end'); onTextEdit(); ta.readOnly=ro; at=L+1; } }
+  if(at<=0||(ps[0]&&at<=ps[0].start&&!(P&&a>P.start))){ toast('El texto ya empieza en la primera hoja'); return; }
+  const had=(S.pbreaks||[]).includes(at); S.pbreaks=had?S.pbreaks.filter(x=>x!==at):[...new Set([...(S.pbreaks||[]),at])];
+  ta.focus({preventScroll:true}); ta.setSelectionRange(at,at); changed(); toast(had?'Salto de página quitado':'Salto de página: el texto sigue en una hoja nueva'); }
 function imgParAt(t,a){ const ps=splitParasIdx(t); for(const P of ps){ const e=P.start+P.text.length; if(a>=P.start&&a<=e&&IMG_RE.test(P.text)) return {P,e}; } return null; }
 function editImgCaption(pi,k){ k=k||0; const P=splitParasIdx(docText())[pi]; if(!P) return; const L=imgOfPar(P); if(!L||!L[k]) return; const m=L[k];
   const cap=[...document.querySelectorAll(`#view .imgcap[data-p="${pi}"][data-k="${k}"]`)].find(x=>x.getClientRects().length); if(!cap) return;
@@ -6289,6 +6304,8 @@ function init(){
   document.addEventListener('keydown',e=>{ if(!SELIMG) return; const t=e.target; if(t!==TA()&&t&&t.matches&&t.matches('input,textarea,select,[contenteditable]')) return;
     if(e.key==='Delete'||e.key==='Backspace'){ e.preventDefault(); e.stopPropagation(); deleteSelImg(); } else if(e.key==='Escape'){ selectImg(null); } },true);
   $('tImg').addEventListener('click',()=>$('imgFile').click());
+  $('tPbrk').addEventListener('click',insertPageBreak);
+  TA().addEventListener('keydown',e=>{ if(isMS()&&(e.ctrlKey||e.metaKey)&&!e.shiftKey&&!e.altKey&&e.key==='Enter'&&writable()){ e.preventDefault(); e.stopPropagation(); insertPageBreak(); } },true);
   $('imgFile').addEventListener('change',e=>{ const f=e.target.files, row=IMG_ROW; IMG_ROW=null; if(f&&f.length) importImages([...f],null,row); e.target.value=''; });
   $('tImg').addEventListener('pointerdown',()=>{ IMG_ROW=null; });
   $('fontFile').addEventListener('change',e=>{ const f=e.target.files; if(f&&f.length) importFontFiles([...f]); e.target.value=''; });

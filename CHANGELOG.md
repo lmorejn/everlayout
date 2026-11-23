@@ -2,6 +2,8 @@
 
 ## Sin publicar
 
+- Botón «Salto de página» en la barra de Borrador y Corrección (también Ctrl + Intro): lo que sigue al cursor empieza en una hoja nueva; si el cursor está en medio de un párrafo, lo parte. Entre las dos hojas aparece una línea discontinua con «Salto de página». Pulsarlo al principio de un párrafo que ya empieza hoja quita el salto.
+- Arreglado: escribir al principio de un párrafo con salto de página movía el salto detrás de lo escrito.
 - Arreglado: al cambiar el tamaño en el estilo de párrafo (sobre todo en Cuerpo de texto), la escala de tamaños sugeridos se desplazaba con cada cambio. Ahora se fija al abrir la ventana (o al empezar a mover el control) y la nota avisa cuando la base ya cambió.
 - Fotos: un clic selecciona una foto (marco del color de acento) y Supr o Retroceso la borra; en una fila solo se quita esa foto. Esc quita la selección y Ctrl+Z la recupera.
 - Fotos SVG: se guardan como vector (nítidas a cualquier tamaño) y con su transparencia; las PNG, GIF o WebP con transparencia la conservan; en el PDF llevan su canal alfa. Las fotos ya no tienen fondo gris ni se recortan.
