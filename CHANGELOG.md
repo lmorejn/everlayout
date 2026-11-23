@@ -2,6 +2,7 @@
 
 ## Sin publicar
 
+- Arreglado: con el cursor en una línea vacía, cambiar el formato en la lista «Párrafo» de la barra de herramientas cambiaba el párrafo de arriba. Ahora el formato es solo de esa línea y lo que se escriba en ella lo toma; la lista muestra «Texto» en una línea vacía.
 - Fuentes del sistema: si el entorno no deja listar las fuentes (como el artefacto web), la app busca entre unas 250 familias habituales de Windows, macOS, Linux, Office, Adobe y Google cuáles están instaladas, las pone en el grupo «Fuentes del sistema» y abre la lista para elegir. «Añadir una fuente por su nombre…» sirve para las que no estén.
 - El menú de modos muestra solo las vistas del rol elegido, con una nota al pie: «Selecciona otro rol para ver todas las vistas» (abre Preferencias › Interfaz). Arreglado: los modos ocultos por el rol seguían viéndose en el menú.
 - El rol también se elige en Preferencias › Interfaz.

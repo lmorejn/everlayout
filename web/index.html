@@ -1978,7 +1978,13 @@ function caretParas(){ const ta=TA(), a=Math.min(ta.selectionStart,ta.selectionE
   ps.forEach((P,i)=>{ const e=P.start+P.text.length; if((b>a&&P.start<b&&e>a)||(b===a&&a>=P.start&&a<=e)) out.push(i); });
   if(!out.length&&ps.length){ let k=ps.findIndex(P=>P.start>a); k=k<0?ps.length-1:Math.max(0,k-1); out.push(k); } return out; }
 function rawParStart(t,pos){ let ls=pos; while(ls>0&&t[ls-1]!=='\n'&&t[ls-1]!=='¶') ls--; while(ls<t.length&&/[ \t]/.test(t[ls])) ls++; return ls; }
-function setLevel(n,quiet){ const ix=caretParas(); if(!ix.length) return; const ta=TA(), t0=ta.value, ps=splitParasIdx(t0);
+// el cursor está en una línea vacía (entre párrafos o al final): el formato es solo de esa línea
+function caretOnEmptyLine(){ const ta=TA(), a=ta.selectionStart; if(a!==ta.selectionEnd) return false; const t=ta.value, ls=a===0||t[a-1]==='\n'||t[a-1]==='¶', le=a===t.length||t[a]==='\n'||t[a]==='¶'; return ls&&le; }
+function setLevel(n,quiet){
+  if(caretOnEmptyLine()){ if(!n){ syncRole(); return; } const ta=TA(), ro=ta.readOnly; ta.readOnly=false; ta.focus({preventScroll:true}); const a=ta.selectionStart, put='#'.repeat(n)+' ';
+    let ok=false; try{ ok=document.execCommand('insertText',false,put); }catch(e){} if(!ok){ ta.setRangeText(put,a,a,'end'); onTextEdit(); }
+    ta.setSelectionRange(a+put.length,a+put.length); ta.readOnly=ro; changed(); syncRole(); if(!quiet) toast(`Línea nueva → ${hName(n).toLowerCase()} (${'#'.repeat(n)})`); return; }
+  const ix=caretParas(); if(!ix.length) return; const ta=TA(), t0=ta.value, ps=splitParasIdx(t0);
   const ro=ta.readOnly; ta.readOnly=false; ta.focus({preventScroll:true});
   let a=ta.selectionStart, b=ta.selectionEnd; const dir=ta.selectionDirection;
   ix.slice().reverse().forEach(i=>{ const t=ta.value, st=rawParStart(t,ps[i].start), m=MDH.exec(t.slice(st)), old=m?m[0].length:0, put=n?'#'.repeat(n)+' ':'';
@@ -1988,7 +1994,7 @@ function setLevel(n,quiet){ const ix=caretParas(); if(!ix.length) return; const 
   ta.setSelectionRange(a,b,dir); ta.readOnly=ro; changed(); syncRole();
   if(!quiet) toast(`${ix.length>1?ix.length+' párrafos':'Párrafo'} → ${hName(n).toLowerCase()}${n?' ('+'#'.repeat(n)+')':''}`); }
 function fillRoleSelect(){ const sel=$('tRole'); if(!sel) return; sel.innerHTML=[0,1,2,3,4,5,6].map(n=>`<option value="${n}">${n?'#'.repeat(n)+' ':''}${esc(hName(n))}</option>`).join(''); }
-function syncRole(){ const ix=caretParas(), n=ix.length?levelOf(ix[0]):0; const sel=$('tRole'); if(sel&&document.activeElement!==sel) sel.value=String(n);
+function syncRole(){ const ix=caretParas(), n=caretOnEmptyLine()?0:(ix.length?levelOf(ix[0]):0); const sel=$('tRole'); if(sel&&document.activeElement!==sel) sel.value=String(n);
   document.querySelectorAll('.rolebtns button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.r===n))); }
 function outlineItems(){ const ps=splitParasIdx(docText()); const out=[]; let cur=null;
   ps.forEach((P,i)=>{ const n=levelOf(i), w=P.text.replace(MDH,'').split(/\s+/).filter(Boolean).length; if(n){ cur={i,n,t:P.text.replace(MDH,''),start:P.start,w:0}; out.push(cur); } else if(cur) cur.w+=w; else { if(!out.length||out[0].i!==-1) out.unshift({i:-1,n:0,t:'Antes del primer título',start:0,w:0}); out[0].w+=w; } });
