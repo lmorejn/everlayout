@@ -1642,7 +1642,10 @@ function curStyleVals(){ // el estilo del párrafo donde está el cursor o la se
     if(i>=0) return Object.assign({},parVals(i),{_name:(styleById(styleOf(i))||{}).name||''});
   }catch(e){}
   const id=styleById(S.stSel)?S.stSel:(styleById('body')?'body':'base'); return Object.assign({},styleVals(id),{_name:(styleById(id)||{}).name||''}); }
-function sugShow(el,o){ const f=SUG[o.k]; if(!f) return; let list=[], c=null; try{ c=o.ctx?o.ctx():curStyleVals(); list=f(c); }catch(e){ return; }
+function sugShow(el,o){ const f=SUG[o.k]; if(!f) return; let list=[], c=null; try{ c=o.ctx?o.ctx():curStyleVals();
+    // la escala de tamaños se calcula desde el tamaño que había al empezar a mover el control: así no se desplaza mientras se elige
+    if(o.k==='size'){ if(el._sugBase==null) el._sugBase=c.base||c.size; c=Object.assign({},c,{base:el._sugBase}); }
+    list=f(c); }catch(e){ return; }
   const seen=new Set(); list=list.filter(([v])=>isFinite(v)&&v>=o.min-1e-9&&v<=o.max+1e-9&&!seen.has(+(+v).toFixed(3))&&seen.add(+(+v).toFixed(3))); if(!list.length) return;
   if(!SUGP){ SUGP=document.createElement('div'); SUGP.className='sugpop'; SUGP.setAttribute('role','group'); document.body.appendChild(SUGP);
     SUGP.addEventListener('pointerdown',e=>e.preventDefault()); }
@@ -1654,7 +1657,7 @@ function sugShow(el,o){ const f=SUG[o.k]; if(!f) return; let list=[], c=null; tr
   const r=el.getBoundingClientRect(); SUGP.style.left=Math.max(8,Math.min(innerWidth-310,r.left))+'px';
   const below=r.bottom+6+64<innerHeight; SUGP.style.top=(below?r.bottom+6:r.top-6-SUGP.offsetHeight)+'px';
   requestAnimationFrame(()=>SUGP&&SUGP.classList.add('on')); }
-function sugHide(el){ if(SUGO&&SUGO.el!==el) return; SUGO=null; if(SUGP) SUGP.classList.remove('on'); }
+function sugHide(el){ if(SUGO&&SUGO.el!==el) return; if(el) el._sugBase=null; SUGO=null; if(SUGP) SUGP.classList.remove('on'); }
 function makeSlider(o){
   const el=document.createElement('div'); el.className='bslider'+(o.cls?' '+o.cls:''); el.tabIndex=0; el.setAttribute('role','slider');
   el.setAttribute('aria-valuemin',o.min); el.setAttribute('aria-valuemax',o.max); if(o.label) el.setAttribute('aria-label',o.label);
@@ -3334,9 +3337,9 @@ function styleDialog(id,tab,keep){
     const ju=v.align==='just'; q('#sdJust').hidden=!ju;
     q('#sdJustNote').textContent=ju?'El renglón reparte la holgura entre palabras, letras y escala de los glifos, entre el mínimo y el máximo; el ideal es el punto de partida. Con Mayús se ajusta fino.':'Estos valores solo se usan con «Justificado a ambos lados». Se recuerdan durante la sesión aunque cambies la alineación; al guardar o cerrar el documento se descartan si el estilo no queda justificado.';
     // sugerencias de tamaño
-    const sc=S.sizeScale||'phi', bodySz=styleVals(styleById('body')?'body':'base').size, sug=sizeSuggestions(sc,bodySz), chips=q('#sdChips'); chips.innerHTML='';
+    const sc=S.sizeScale||'phi', bodyNow=styleVals(styleById('body')?'body':'base').size; if(m._szb==null||m._szsc!==sc) { m._szb=bodyNow; m._szsc=sc; } const bodySz=m._szb, sug=sizeSuggestions(sc,bodySz), chips=q('#sdChips'); chips.innerHTML=''; // la escala se fija al abrir: cambiar el tamaño no la desplaza
     sug.forEach(n=>{ const b=document.createElement('button'); b.type='button'; b.className='chip'+(Math.abs(n-v.size)<.01?' on':''); b.textContent=String(n).replace('.',','); b.title=`Usar ${String(n).replace('.',',')} pt`; b.addEventListener('click',()=>setProp('size',n)); chips.appendChild(b); });
-    q('#sdScaleNote').textContent=(SCALES.find(x=>x[0]===sc)||[])[2]+` Base: ${String(bodySz).replace('.',',')} pt (Cuerpo de texto).`;
+    q('#sdScaleNote').textContent=(SCALES.find(x=>x[0]===sc)||[])[2]+` Base: ${String(bodySz).replace('.',',')} pt (Cuerpo de texto${Math.abs(bodyNow-bodySz)>.01?`, al abrir esta ventana; ahora mide ${String(bodyNow).replace('.',',')} pt y la escala se recalcula al volver a abrirla`:''}).`;
     q('#sdFluNote').textContent=/^es/.test(v.lang)?'Reglas de corte de palabras para los párrafos con este estilo. Las excepciones de Preferencias se aplican siempre.':'El idioma de este estilo no es español: estos ajustes se guardan, pero por ahora sus párrafos no se separan con guion.';
     const es=/^es/.test(v.lang);
     q('#sdLangNote').textContent=es?(v.lang==='es-MX'?'Silabeo en español; el grupo «tl» va unido (a-tle-ta), como se usa en México.':(v.lang==='es-ES'?'Silabeo en español; el grupo «tl» se separa (at-le-ta), como en España.':'Silabeo en español; el grupo «tl» sigue la casilla de Separación silábica.')):'El banco aún no tiene reglas de silabeo para este idioma: los párrafos con este estilo no se separan con guion.';

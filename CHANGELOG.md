@@ -2,6 +2,7 @@
 
 ## Sin publicar
 
+- Arreglado: al cambiar el tamaño en el estilo de párrafo (sobre todo en Cuerpo de texto), la escala de tamaños sugeridos se desplazaba con cada cambio. Ahora se fija al abrir la ventana (o al empezar a mover el control) y la nota avisa cuando la base ya cambió.
 - Fotos: un clic selecciona una foto (marco del color de acento) y Supr o Retroceso la borra; en una fila solo se quita esa foto. Esc quita la selección y Ctrl+Z la recupera.
 - Fotos SVG: se guardan como vector (nítidas a cualquier tamaño) y con su transparencia; las PNG, GIF o WebP con transparencia la conservan; en el PDF llevan su canal alfa. Las fotos ya no tienen fondo gris ni se recortan.
 - Filas de fotos: con el ratón sobre una foto aparecen botones + a los lados para añadir otra a la izquierda o a la derecha (también soltándola sobre la mitad izquierda o derecha de una foto). Las fotos de una fila comparten altura, cada una con su pie, y el tirador ajusta la fila entera.
