@@ -43,3 +43,10 @@
 ## Cubierta
 - Materiales y acabados según la encuadernación, con lo que cuentan Floris Books y Xinyi Print sobre acabados y Friesens sobre papeles (estucado frente a no estucado) y lomos (sin texto en lomos muy estrechos; dirección del texto coherente en una colección).
 
+## Fotos en el texto
+- Una foto es un párrafo propio con la sintaxis de imagen de Markdown y un identificador: `![descripción](img:id)`. La imagen (JPEG, máx. 1800 px) va en `S.images` con su tamaño (`fr`, fracción del ancho de la columna). La composición la trata como un único renglón tan alto como la foto más su pie, redondeado a la rejilla de líneas.
+- El área de texto protege el marcador: escribir junto a él abre un renglón nuevo, y borrar primero selecciona la foto entera.
+
+## Fuentes importadas
+- Se guardan en IndexedDB (`skoxas` › `fonts`) y se registran con `FontFace`. Las WOFF se convierten a SFNT para leer su nombre y métricas e incrustarlas; las WOFF2 (Brotli) solo se ven en pantalla.
+

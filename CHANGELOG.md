@@ -2,6 +2,9 @@
 
 ## Sin publicar
 
+- Fotos en Borrador y Corrección: botón «Foto…» en la barra o arrastrarlas sobre la hoja. Cada foto ocupa su propio renglón y empuja el texto; se ajusta a la rejilla de líneas. El tirador de la esquina cambia su tamaño; con el ratón encima aparece «Doble clic para añadir una descripción» debajo, y la descripción queda como pie. Se guardan en el texto como `![descripción](img:id)` (sintaxis de Markdown) y salen también en Maquetación, Previsualización y el PDF vectorial. Al escribir junto a una foto, el texto va a un renglón propio; Retroceso o Supr primero la seleccionan.
+- Fuentes importadas: «Importar archivos de fuente…» en la lista de fuentes, o arrastrar archivos TTF, OTF, WOFF o WOFF2 sobre la ventana. Se guardan en el navegador (o en la app de escritorio) y aparecen en el grupo «Fuentes importadas»; las TTF, OTF y WOFF se incrustan en el PDF.
+- Las fuentes del sistema se buscan de nuevo al volver a la ventana, para encontrar las que se instalen con la app abierta.
 - Arreglado: con el cursor en una línea vacía, cambiar el formato en la lista «Párrafo» de la barra de herramientas cambiaba el párrafo de arriba. Ahora el formato es solo de esa línea y lo que se escriba en ella lo toma; la lista muestra «Texto» en una línea vacía.
 - Fuentes del sistema: si el entorno no deja listar las fuentes (como el artefacto web), la app busca entre unas 250 familias habituales de Windows, macOS, Linux, Office, Adobe y Google cuáles están instaladas, las pone en el grupo «Fuentes del sistema» y abre la lista para elegir. «Añadir una fuente por su nombre…» sirve para las que no estén.
 - El menú de modos muestra solo las vistas del rol elegido, con una nota al pie: «Selecciona otro rol para ver todas las vistas» (abre Preferencias › Interfaz). Arreglado: los modos ocultos por el rol seguían viéndose en el menú.
