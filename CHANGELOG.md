@@ -2,6 +2,7 @@
 
 ## Sin publicar
 
+- Fuentes del sistema: si el entorno no deja listar las fuentes (como el artefacto web), la app busca entre unas 250 familias habituales de Windows, macOS, Linux, Office, Adobe y Google cuáles están instaladas, las pone en el grupo «Fuentes del sistema» y abre la lista para elegir. «Añadir una fuente por su nombre…» sirve para las que no estén.
 - El menú de modos muestra solo las vistas del rol elegido, con una nota al pie: «Selecciona otro rol para ver todas las vistas» (abre Preferencias › Interfaz). Arreglado: los modos ocultos por el rol seguían viéndose en el menú.
 - El rol también se elige en Preferencias › Interfaz.
 - Al entrar en Borrador o Corrección la vista pasa a tamaño real (1:1) y el renglón del cursor queda en el centro de la pantalla; al escribir o moverse con el teclado, la hoja se desplaza como en una máquina de escribir para que el cursor siga en el centro.
