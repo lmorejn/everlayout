@@ -2,6 +2,9 @@
 
 ## Sin publicar
 
+- Fotos SVG: se guardan como vector (nítidas a cualquier tamaño) y con su transparencia; las PNG, GIF o WebP con transparencia la conservan; en el PDF llevan su canal alfa. Las fotos ya no tienen fondo gris ni se recortan.
+- Filas de fotos: con el ratón sobre una foto aparecen botones + a los lados para añadir otra a la izquierda o a la derecha (también soltándola sobre la mitad izquierda o derecha de una foto). Las fotos de una fila comparten altura, cada una con su pie, y el tirador ajusta la fila entera.
+- Fuentes variables importadas: se leen sus ejes (peso y ancho), así que el peso se puede mover en todo su rango en los estilos de párrafo y el ancho ofrece los valores que admite la fuente. En el PDF se usa su instancia por defecto con la negrita simulada.
 - Fotos en Borrador y Corrección: botón «Foto…» en la barra o arrastrarlas sobre la hoja. Cada foto ocupa su propio renglón y empuja el texto; se ajusta a la rejilla de líneas. El tirador de la esquina cambia su tamaño; con el ratón encima aparece «Doble clic para añadir una descripción» debajo, y la descripción queda como pie. Se guardan en el texto como `![descripción](img:id)` (sintaxis de Markdown) y salen también en Maquetación, Previsualización y el PDF vectorial. Al escribir junto a una foto, el texto va a un renglón propio; Retroceso o Supr primero la seleccionan.
 - Fuentes importadas: «Importar archivos de fuente…» en la lista de fuentes, o arrastrar archivos TTF, OTF, WOFF o WOFF2 sobre la ventana. Se guardan en el navegador (o en la app de escritorio) y aparecen en el grupo «Fuentes importadas»; las TTF, OTF y WOFF se incrustan en el PDF.
 - Las fuentes del sistema se buscan de nuevo al volver a la ventana, para encontrar las que se instalen con la app abierta.
