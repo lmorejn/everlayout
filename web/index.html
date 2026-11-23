@@ -2380,7 +2380,7 @@ function pageHTML(pg,pn,total,g0,fam,cls){
   const selPg=(S.mode==='edit'&&S.sel>=0)&&((S.selmode==='page'&&(S.sel===pn||SELX.includes(pn)))||S.selmode==='all');
   const pgCls=selPg?(S.selmode==='all'?' selall':' selpg'):'';
   const pst=pageStyleOf(pn), pstN=(pageStyleById(pst)||{}).name||'';
-  const pbk=!cls&&pn>0&&!pg.blank&&pg.slots.length&&isPbLine(pg.slots[0].line);
+  const pbk=S.pilc&&!cls&&pn>0&&!pg.blank&&pg.slots.length&&isPbLine(pg.slots[0].line);
   let h=`<figure class="pg${cls?' '+cls:''}${pg.blank?' blankpg':''}${pbk?' pbfig':''}" data-pg="${pn}"${pg.blank?` data-anchor="${pg.anchor}"`:''}>${pbk?'<div class="pbgap" aria-hidden="true"><span>Salto de página</span></div>':''}<figcaption>Página ${pn+1} · ${paperName()}${pst!=='pdef'?` · ${esc(pstN)}`:''}${missing>0&&pn<total-1?` · termina ${missing} línea${missing>1?'s':''} antes`:''}</figcaption>`;
   const inner=cls==='l'?'gr':(cls==='r'?'gl':(pn%2===0?'gl':'gr'));
   const cut0=S.showBind?g.bindPx+sigPage(pn).extra*96/25.4:0, cut=cut0>0.5?cut0:0; // la franja del lomo crece en los pliegos exteriores de cuadernillos gruesos
@@ -2393,7 +2393,7 @@ function pageHTML(pg,pn,total,g0,fam,cls){
   if(S.mode!=='preview'&&!MSRUN&&CUR_RES){ const ix=o=>CUR_RES.pages.indexOf(o);
     if(pg.jumpTo&&ix(pg.jumpTo)>=0){ const last=pg.slots[pg.slots.length-1]; h+=`<button type="button" class="jmp to" style="top:${(last.y+last.line.lh+2).toFixed(1)}px" data-go="${ix(pg.jumpTo)}" title="El párrafo sigue después de la página insertada">\u21B7 Sigue en la pág. ${ix(pg.jumpTo)+1}</button>`; }
     if(pg.jumpFrom&&ix(pg.jumpFrom)>=0) h+=`<button type="button" class="jmp from" data-go="${ix(pg.jumpFrom)}" title="Este texto continúa el párrafo de antes de la página insertada">\u21B6 Viene de la pág. ${ix(pg.jumpFrom)+1}</button>`; }
-  if(!pg.blank&&pg.slots.length&&S.pbreaks&&S.pbreaks.length&&CUR_RES&&CUR_RES.pages[pn+1]){ const nx=CUR_RES.pages[pn+1].slots[0], last=pg.slots[pg.slots.length-1];
+  if(S.pilc&&!pg.blank&&pg.slots.length&&S.pbreaks&&S.pbreaks.length&&CUR_RES&&CUR_RES.pages[pn+1]){ const nx=CUR_RES.pages[pn+1].slots[0], last=pg.slots[pg.slots.length-1];
     if(nx&&isPbLine(nx.line)) h+=`<div class="pbmark" style="top:${(last.y+last.line.lh).toFixed(1)}px" aria-hidden="true"><span>Salto de página</span></div>`; }
   if(pg.blank) h+='</div>';
   if(pg.blank){
