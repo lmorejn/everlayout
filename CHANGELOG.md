@@ -2,6 +2,7 @@
 
 ## Sin publicar
 
+- Fotos: un clic selecciona una foto (marco del color de acento) y Supr o Retroceso la borra; en una fila solo se quita esa foto. Esc quita la selección y Ctrl+Z la recupera.
 - Fotos SVG: se guardan como vector (nítidas a cualquier tamaño) y con su transparencia; las PNG, GIF o WebP con transparencia la conservan; en el PDF llevan su canal alfa. Las fotos ya no tienen fondo gris ni se recortan.
 - Filas de fotos: con el ratón sobre una foto aparecen botones + a los lados para añadir otra a la izquierda o a la derecha (también soltándola sobre la mitad izquierda o derecha de una foto). Las fotos de una fila comparten altura, cada una con su pie, y el tirador ajusta la fila entera.
 - Fuentes variables importadas: se leen sus ejes (peso y ancho), así que el peso se puede mover en todo su rango en los estilos de párrafo y el ancho ofrece los valores que admite la fuente. En el PDF se usa su instancia por defecto con la negrita simulada.
