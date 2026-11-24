@@ -6251,8 +6251,14 @@ function imgMenu(pi,k,x,y){ closeLintMenu(); const P=splitParasIdx(TA().value)[p
   add('Restablecer espacio y margen',()=>{ const o=Object.assign({},cur()); delete o.gp; delete o.mg; S.images=Object.assign({},S.images,{[id0]:o}); changed(); toast('Espacio y margen como al principio'); });
   if(S.mode!=='preview'){ add('Añadir foto a la izquierda',()=>{ IMG_ROW={pi,k}; $('imgFile').click(); }); add('Añadir foto a la derecha',()=>{ IMG_ROW={pi,k:k+1}; $('imgFile').click(); }); }
   add(n>1?'Quitar esta foto de la fila':'Borrar la foto',()=>{ selectImg({pi,k}); deleteSelImg(); });
-  document.body.appendChild(m); const r=m.getBoundingClientRect(); m.style.left=Math.max(8,Math.min(x,innerWidth-r.width-8))+'px'; m.style.top=Math.max(8,Math.min(y,innerHeight-r.height-8))+'px';
-  (rg||rm).focus();
+  document.body.appendChild(m); const r=m.getBoundingClientRect();
+  // el menú se abre junto a la fila, sin taparla, para ver los cambios en vivo
+  const figs=[...document.querySelectorAll(`#view .panel:not([hidden]) .imgfig[data-p="${pi}"]`)].map(f=>f.getBoundingClientRect()).filter(b=>b.width);
+  let mL=x, T=y; if(figs.length){ const B={l:Math.min(...figs.map(b=>b.left)),t:Math.min(...figs.map(b=>b.top)),r:Math.max(...figs.map(b=>b.right)),b:Math.max(...figs.map(b=>b.bottom))}, G=12, fitsV=t=>Math.max(8,Math.min(t,innerHeight-r.height-8));
+    if(B.r+G+r.width<=innerWidth-8){ mL=B.r+G; T=fitsV(y-24); } else if(B.l-G-r.width>=8){ mL=B.l-G-r.width; T=fitsV(y-24); }
+    else if(B.b+G+r.height<=innerHeight-8){ T=B.b+G; mL=x; } else if(B.t-G-r.height>=8){ T=B.t-G-r.height; mL=x; } }
+  m.style.left=Math.max(8,Math.min(mL,innerWidth-r.width-8))+'px'; m.style.top=Math.max(8,Math.min(T,innerHeight-r.height-8))+'px';
+  (rg||rm).focus({preventScroll:true});
   m.addEventListener('keydown',e=>{ if(e.key==='Escape'){ e.preventDefault(); closeLintMenu(); } });
   setTimeout(()=>{ addEventListener('pointerdown',function f(ev){ if(!m.contains(ev.target)){ closeLintMenu(); removeEventListener('pointerdown',f,true); } },true); },0); }
 function selectImg(sel){ SELIMG=sel; document.querySelectorAll('#view .imgfig.sel').forEach(x=>x.classList.remove('sel'));
