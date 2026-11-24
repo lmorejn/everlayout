@@ -2,6 +2,8 @@
 
 ## Sin publicar
 
+- Clic derecho sobre una foto abre su menú: «Espacio entre fotos» de la fila y «Margen de la foto» (aire arriba, abajo y a los lados), en milímetros y con cambio en vivo; también «Restablecer», añadir una foto a la izquierda o a la derecha y quitarla. El espacio y el margen se respetan en el PDF.
+- Arreglado: el «+» a los lados de una foto no cargaba la foto nueva en Maquetación (avisaba de que solo se importa en Borrador). En Previsualización ya no aparecen el «+» ni el tirador.
 - Arreglado: un salto de página justo antes de un título (`#`, `##`…) solo se respetaba en Borrador y Corrección; en Maquetación y Previsualización el texto seguía en la misma página. El salto se ancla ahora al inicio del párrafo con su marca de título incluida, igual en todos los modos.
 - Con «Marcas de edición» activada, los saltos de página se ven en Maquetación y Previsualización: una línea discontinua «Salto de página» entre las hojas (en hojas sueltas) y otra bajo el último renglón de la página que termina antes de tiempo (también en pliegos y en el libro). Sin la casilla no se muestran; en Borrador y Corrección se ven siempre.
 - Botón «Salto de página» en la barra de Borrador y Corrección (también Ctrl + Intro): lo que sigue al cursor empieza en una hoja nueva; si el cursor está en medio de un párrafo, lo parte. Entre las dos hojas aparece una línea discontinua con «Salto de página». Pulsarlo al principio de un párrafo que ya empieza hoja quita el salto.
